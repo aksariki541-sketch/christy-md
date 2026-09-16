@@ -23,8 +23,9 @@ dijadikan command. Semua kode memakai ES Modules (`"type": "module"`).
 - **Sistem hak akses** berlapis: Creator, Owner, Premium (data di `database/*.json`).
 - **Mode bot** `public` / `self`, bisa diganti dari chat.
 - **Tema tampilan terpusat** (`lib/ui.js`): banner, menu, dan semua kartu balasan memakai satu bahasa visual.
-- **Status AFK** (`.afk <alasan>`): orang yang menandai/membalas pesanmu otomatis diberi tahu alasan + durasinya,
-  dan status dicabut sendiri begitu kamu mengirim pesan lagi.
+- **Status AFK** (`.afk <alasan>`): orang yang menandai/membalas pesanmu otomatis diberi tahu alasan + durasinya.
+  Begitu kamu mengirim pesan lagi — teks, stiker, foto, atau voice note — status dicabut dan bot
+  menyapamu balik memakai pesan yang kamu ketik (`hai` → "hai juga, …").
 
 ### Kategori Fitur
 
@@ -430,8 +431,10 @@ Parameter handler: `conn` (socket Baileys), `args`, `text`, `prefix`, `command` 
 Helper siap pakai: `lib/ui.js` (tampilan), `lib/media.js` (gambar/audio), `lib/store.js` (penyimpanan),
 `lib/myfunc.js` (runtime, tanggal, parse mention, admin grup).
 
-Catatan soal `handler.onMessage`: handler memanggilnya untuk setiap pesan yang masuk (sebelum command
-dijalankan), satu plugin satu pemanggilan per pesan. Pesan mention ada di
+Catatan soal `handler.onMessage`: handler memanggilnya untuk setiap pesan yang masuk — termasuk pesan
+tanpa teks (stiker/foto/voice note) — sebelum command dijalankan, satu plugin satu pemanggilan per pesan.
+Karena dipanggil paling awal, konteks yang diberikan masih ringan (`conn`, `plugins`, `args`, `text`,
+`command`, `prefix`); data hak akses (`isOwner`/`isPremium`) baru tersedia di dalam command. Pesan mention ada di
 `m.msg.contextInfo.mentionedJid` dan pesan yang dibalas di `m.quoted` — waktu membaca database sebaiknya
 di-cache (lihat `plugins/tools/afk.js`) supaya tidak membaca file di setiap pesan.
 

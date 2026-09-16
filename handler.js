@@ -170,9 +170,33 @@ function extractCommandFromMessage(m) {
 export default async function handleMessage(conn, m) {
     try {
         const { body, isButtonResponse } = extractCommandFromMessage(m)
-        if (!body) return
         m.text = body
         m.isButtonResponse = isButtonResponse
+
+        // Hook opsional: plugin boleh mendeklarasikan `handler.onMessage` untuk ikut memproses
+        // SETIAP pesan — termasuk yang tanpa teks (stiker, foto, voice note) — bukan hanya saat
+        // command-nya dipanggil. Dipakai fitur AFK: mencabut status saat user kembali dan memberi
+        // tahu orang yang menandai user AFK. Dijalankan sebelum dispatch command, sekali per
+        // plugin per pesan, dan error di dalamnya tidak menghentikan bot.
+        const pluginHook = new Set()
+        for (const plugin of plugins.values()) {
+            if (plugin?.onMessage) pluginHook.add(plugin)
+        }
+        if (pluginHook.size) {
+            // konteks ringan: hook jalan sebelum config/hak akses dibaca (pesan tanpa teks pun
+            // ikut terproses), jadi yang tersedia baru conn, registry, dan isi pesannya.
+            const hookCtx = { conn, plugins, args: [], text: m.text || '', command: '', prefix: '' }
+            for (const plugin of pluginHook) {
+                try {
+                    await plugin.onMessage(m, hookCtx)
+                } catch (e) {
+                    const nama = plugin.__file ? path.relative(pluginDir, plugin.__file) : 'plugin'
+                    console.error(`[onMessage] ${nama}:`, e?.message || e)
+                }
+            }
+        }
+
+        if (!body) return
 
         const config = readJSON(configPath)
         const owner = readJSON(ownerPath)
@@ -258,22 +282,6 @@ export default async function handleMessage(conn, m) {
             }
 
             return false
-        }
-
-        // Hook opsional: plugin boleh mendeklarasikan `handler.onMessage` untuk ikut
-        // memproses SETIAP pesan, bukan hanya saat command-nya dipanggil (dipakai fitur AFK).
-        // Dijalankan sebelum dispatch command, error di dalamnya tidak menghentikan bot.
-        const hookPlugin = new Set()
-        for (const plugin of plugins.values()) {
-            if (plugin?.onMessage) hookPlugin.add(plugin)
-        }
-        for (const plugin of hookPlugin) {
-            try {
-                await plugin.onMessage(m, context({ args: [], text: m.text, command: '', prefix: '' }))
-            } catch (e) {
-                const nama = plugin.__file ? path.relative(pluginDir, plugin.__file) : 'plugin'
-                console.error(`[onMessage] ${nama}:`, e?.message || e)
-            }
         }
 
         if (isButtonResponse) {

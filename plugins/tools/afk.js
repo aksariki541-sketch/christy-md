@@ -93,8 +93,20 @@ async function onMessage(m, { conn }) {
         delete data[sender]
         save(data)
 
+        const teks = String(m.text || '').trim()
+        const sapaan = teks.match(/^(hai+|hi+|hey+|hello+|halo+|hallo+|pagi|siang|sore|malam|assalamualaikum|permisi|oi+)\b/i)
+        const nama = catatan.name || jidNum(sender)
+
+        // balasan disesuaikan: sapaan pendek dibalas sapaan juga, teks panjang dirangkum
+        const perintah = /^[.#!/]/.test(teks)   // jangan echo command mentah (.ping, .menu, ...)
+        const pembuka = sapaan
+            ? `👋 ${sapaan[0]} juga, *${nama}*!`
+            : teks && !perintah && teks.length <= 40
+                ? `👋 *${teks}* — siap, *${nama}* sudah aktif lagi!`
+                : `👋 Selamat datang kembali, *${nama}*!`
+
         await conn.sendMessage(m.chat, {
-            text: `👋 Selamat datang kembali, *${catatan.name || jidNum(sender)}*!\n\n` +
+            text: pembuka + '\n\n' +
                 `Status AFK dicabut.\n` +
                 `Alasan tadi : ${catatan.reason}\n` +
                 `Durasi AFK  : ${durasi(Date.now() - catatan.since)}`
