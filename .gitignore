@@ -16,10 +16,11 @@ tmp/
 .env.local
 .DS_Store
 
-# Artefak desain & data runtime & data runtime
+# Artefak desain & data runtime
 media/thumb.png
 media/thumb-legacy.jpg
 database/notes.json
+database/afk.json
 database/todo.json
 database/games.json
 plugins/*/tmp/

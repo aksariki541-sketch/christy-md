@@ -23,6 +23,8 @@ dijadikan command. Semua kode memakai ES Modules (`"type": "module"`).
 - **Sistem hak akses** berlapis: Creator, Owner, Premium (data di `database/*.json`).
 - **Mode bot** `public` / `self`, bisa diganti dari chat.
 - **Tema tampilan terpusat** (`lib/ui.js`): banner, menu, dan semua kartu balasan memakai satu bahasa visual.
+- **Status AFK** (`.afk <alasan>`): orang yang menandai/membalas pesanmu otomatis diberi tahu alasan + durasinya,
+  dan status dicabut sendiri begitu kamu mengirim pesan lagi.
 
 ### Kategori Fitur
 
@@ -411,6 +413,14 @@ handler.usage = '<nama>'              // opsional, tampil di menu
 // handler.owner = true               // opsional: hanya owner (atau .creator/.premium)
 // handler.hidden = true              // opsional: sembunyikan dari menu
 
+// opsional: ikut memproses SETIAP pesan, bukan hanya saat command dipanggil
+// (dipakai fitur AFK untuk mencabut status & memberi tahu orang yang menandai)
+handler.onMessage = async (m, { conn }) => {
+    // jangan balas pesannya sendiri
+    if (m.fromMe) return
+    // ...
+}
+
 export default handler
 ```
 
@@ -419,6 +429,11 @@ Parameter handler: `conn` (socket Baileys), `args`, `text`, `prefix`, `command` 
 
 Helper siap pakai: `lib/ui.js` (tampilan), `lib/media.js` (gambar/audio), `lib/store.js` (penyimpanan),
 `lib/myfunc.js` (runtime, tanggal, parse mention, admin grup).
+
+Catatan soal `handler.onMessage`: handler memanggilnya untuk setiap pesan yang masuk (sebelum command
+dijalankan), satu plugin satu pemanggilan per pesan. Pesan mention ada di
+`m.msg.contextInfo.mentionedJid` dan pesan yang dibalas di `m.quoted` — waktu membaca database sebaiknya
+di-cache (lihat `plugins/tools/afk.js`) supaya tidak membaca file di setiap pesan.
 
 ---
 

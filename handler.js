@@ -260,6 +260,22 @@ export default async function handleMessage(conn, m) {
             return false
         }
 
+        // Hook opsional: plugin boleh mendeklarasikan `handler.onMessage` untuk ikut
+        // memproses SETIAP pesan, bukan hanya saat command-nya dipanggil (dipakai fitur AFK).
+        // Dijalankan sebelum dispatch command, error di dalamnya tidak menghentikan bot.
+        const hookPlugin = new Set()
+        for (const plugin of plugins.values()) {
+            if (plugin?.onMessage) hookPlugin.add(plugin)
+        }
+        for (const plugin of hookPlugin) {
+            try {
+                await plugin.onMessage(m, context({ args: [], text: m.text, command: '', prefix: '' }))
+            } catch (e) {
+                const nama = plugin.__file ? path.relative(pluginDir, plugin.__file) : 'plugin'
+                console.error(`[onMessage] ${nama}:`, e?.message || e)
+            }
+        }
+
         if (isButtonResponse) {
             let bodyText = body
             const prefixes = config.prefix || ['.']
