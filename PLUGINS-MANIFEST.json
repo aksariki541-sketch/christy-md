@@ -1,0 +1,3803 @@
+{
+  "sumber": "paket plugin Nakano-Miku-MD (GPL-3.0)",
+  "jumlah": 300,
+  "files": [
+    {
+      "source": "plugins/audio/effect.js",
+      "folderAsal": "audio",
+      "target": "plugins/media/effect.js",
+      "commands": [
+        "bass",
+        "blown",
+        "deep",
+        "earrape",
+        "nightcore",
+        "robot"
+      ],
+      "category": "Media",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 3.2
+    },
+    {
+      "source": "plugins/downloader/play.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/play.js",
+      "commands": [
+        "play"
+      ],
+      "category": "Media",
+      "needsInternet": false,
+      "purgedBranding": 1,
+      "kb": 2
+    },
+    {
+      "source": "plugins/fun/alay.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/alay.js",
+      "commands": [
+        "alay"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/fun/apakah.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/apakah.js",
+      "commands": [
+        "apakah"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/fun/benarkah.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/benarkah.js",
+      "commands": [
+        "benarkah"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/fun/bisakah.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/bisakah.js",
+      "commands": [
+        "bisakah"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/fun/cekcantik.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/cekcantik.js",
+      "commands": [
+        "cantikcek",
+        "cekcantik"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/fun/cekhodam.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/cekhodam.js",
+      "commands": [
+        "cekkhodam"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/fun/cekjomok.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/cekjomok.js",
+      "commands": [
+        "jomok"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2
+    },
+    {
+      "source": "plugins/fun/cekkontol.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/cekkontol.js",
+      "commands": [
+        "cekkontol"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/fun/cekmemek.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/cekmemek.js",
+      "commands": [
+        "cekmemek",
+        "cekmmk"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/fun/cektt.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/cektt.js",
+      "commands": [
+        "cekpentil",
+        "cektt"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/fun/dimanakah.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/dimanakah.js",
+      "commands": [
+        "dimanakah"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/fun/fun-carabalikan.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/fun-carabalikan.js",
+      "commands": [
+        "carabalikan"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/fun/fun-cekkhodam.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/fun-cekkhodam.js",
+      "commands": [
+        "kodam",
+        "khodam"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 6.1
+    },
+    {
+      "source": "plugins/fun/fun-ceksifat.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/fun-ceksifat.js",
+      "commands": [
+        "ceksifat"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/fun/fun-gantengcek.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/fun-gantengcek.js",
+      "commands": [
+        "cekganteng",
+        "gantengcek"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/fun/kapankah.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/kapankah.js",
+      "commands": [
+        "kapankah"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/fun/kematian.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/kematian.js",
+      "commands": [
+        "kematian"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/fun/mimpi.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/mimpi.js",
+      "commands": [
+        "dreamworld",
+        "dream",
+        "mimpi"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 6.5
+    },
+    {
+      "source": "plugins/fun/ramalan.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/ramalan.js",
+      "commands": [
+        "ramal"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.3
+    },
+    {
+      "source": "plugins/fun/seberapagila.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/seberapagila.js",
+      "commands": [
+        "seberapagila"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/fun/sipaling2.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/sipaling2.js",
+      "commands": [
+        "sipaling"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/fun/suratcinta.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/suratcinta.js",
+      "commands": [
+        "suratcinta"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/fun/tebakumur.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/tebakumur.js",
+      "commands": [
+        "tebakumur"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/fun/top.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/top.js",
+      "commands": [
+        "top"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.7
+    },
+    {
+      "source": "plugins/game/catur.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/catur.js",
+      "commands": [
+        "catur",
+        "chess",
+        "gamecatur",
+        "catur2d"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 57.1
+    },
+    {
+      "source": "plugins/game/game-dino.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/game-dino.js",
+      "commands": [
+        "dino",
+        "dinogame",
+        "dinorunner"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 11.9
+    },
+    {
+      "source": "plugins/game/game-family100-hint.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/game-family100-hint.js",
+      "commands": [
+        "hint"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/game/game-flapfy.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/game-flapfy.js",
+      "commands": [
+        "flappy",
+        "flappybird"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 18
+    },
+    {
+      "source": "plugins/game/game-sonic.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/game-sonic.js",
+      "commands": [
+        "dash",
+        "sonic",
+        "speedy",
+        "speeddash"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 51.3
+    },
+    {
+      "source": "plugins/game/game-suitpvp.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/game-suitpvp.js",
+      "commands": [
+        "suitpvp"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/game/mahjong.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/mahjong.js",
+      "commands": [
+        "mahjong",
+        "mjong",
+        "mj",
+        "kyoko"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 1,
+      "kb": 29
+    },
+    {
+      "source": "plugins/game/perangsarung.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/perangsarung.js",
+      "commands": [
+        "perangsarung"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/game/stacktower.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/stacktower.js",
+      "commands": [
+        "stacktower",
+        "stack",
+        "stackgame"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 25.3
+    },
+    {
+      "source": "plugins/game/tebakgame.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/tebakgame.js",
+      "commands": [
+        "tebakgame"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/game/tetris.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/tetris.js",
+      "commands": [
+        "tetris",
+        "tetrisgame",
+        "gametetris"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 1,
+      "kb": 19
+    },
+    {
+      "source": "plugins/game/truthordare.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/truthordare.js",
+      "commands": [
+        "truthordare",
+        "tod"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 4.5
+    },
+    {
+      "source": "plugins/group/group-delete.js",
+      "folderAsal": "group",
+      "target": "plugins/group/group-delete.js",
+      "commands": [
+        "delete",
+        "del",
+        "hps",
+        "hapus",
+        "erase"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/group/group-manage.js",
+      "folderAsal": "group",
+      "target": "plugins/group/group-manage.js",
+      "commands": [
+        "add",
+        "mute",
+        "unmute",
+        "opengc",
+        "closegc"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 3
+    },
+    {
+      "source": "plugins/group/group-pinpesan.js",
+      "folderAsal": "group",
+      "target": "plugins/group/group-pinpesan.js",
+      "commands": [
+        "pinpesan"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/group/group-unipin.js",
+      "folderAsal": "group",
+      "target": "plugins/group/group-unipin.js",
+      "commands": [
+        "unpin"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/group/hidetag.js",
+      "folderAsal": "group",
+      "target": "plugins/group/hidetag.js",
+      "commands": [
+        "ht"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/group/opentime.js",
+      "folderAsal": "group",
+      "target": "plugins/group/opentime.js",
+      "commands": [
+        "opentime"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/group/polling.js",
+      "folderAsal": "group",
+      "target": "plugins/group/polling.js",
+      "commands": [
+        "poll",
+        "polling"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/group/settings.js",
+      "folderAsal": "group",
+      "target": "plugins/group/settings.js",
+      "commands": [
+        "group",
+        "gc"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/group/tagadmin.js",
+      "folderAsal": "group",
+      "target": "plugins/group/tagadmin.js",
+      "commands": [
+        "tagadmin"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/group/tagsw.js",
+      "folderAsal": "group",
+      "target": "plugins/group/tagsw.js",
+      "commands": [
+        "swgc",
+        "upswgc"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.1
+    },
+    {
+      "source": "plugins/group/totag.js",
+      "folderAsal": "group",
+      "target": "plugins/group/totag.js",
+      "commands": [
+        "totag",
+        "tag"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/group/totalchat.js",
+      "folderAsal": "group",
+      "target": "plugins/group/totalchat.js",
+      "commands": [
+        "totalchat"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.4
+    },
+    {
+      "source": "plugins/group/totalpesan.js",
+      "folderAsal": "group",
+      "target": "plugins/group/totalpesan.js",
+      "commands": [
+        "totalpesan"
+      ],
+      "category": "Group",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 3.3
+    },
+    {
+      "source": "plugins/info/exp-ceksn.js",
+      "folderAsal": "info",
+      "target": "plugins/info/exp-ceksn.js",
+      "commands": [
+        "ceksn"
+      ],
+      "category": "Main",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/info/info.js.js",
+      "folderAsal": "info",
+      "target": "plugins/info/info.js.js",
+      "commands": [
+        "cara",
+        "tutor"
+      ],
+      "category": "Main",
+      "needsInternet": false,
+      "purgedBranding": 3,
+      "kb": 6
+    },
+    {
+      "source": "plugins/info/lapor.js",
+      "folderAsal": "info",
+      "target": "plugins/info/lapor.js",
+      "commands": [
+        "lapor",
+        "report"
+      ],
+      "category": "Main",
+      "needsInternet": false,
+      "purgedBranding": 1,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/info/rpg-misi.js",
+      "folderAsal": "info",
+      "target": "plugins/info/rpg-misi.js",
+      "commands": [
+        "misirpg"
+      ],
+      "category": "Main",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/main/creator.js",
+      "folderAsal": "main",
+      "target": "plugins/info/creator.js",
+      "commands": [
+        "owner",
+        "infoowner",
+        "creator"
+      ],
+      "category": "Main",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/main/fun-jadian.js",
+      "folderAsal": "main",
+      "target": "plugins/info/fun-jadian.js",
+      "commands": [
+        "jadian"
+      ],
+      "category": "Main",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/main/order.js",
+      "folderAsal": "main",
+      "target": "plugins/info/order.js",
+      "commands": [
+        "sewa",
+        "premium"
+      ],
+      "category": "Main",
+      "needsInternet": false,
+      "purgedBranding": 2,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/owner/autotyping.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/autotyping.js",
+      "commands": [
+        "autotyping"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/owner/broadcast.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/broadcast.js",
+      "commands": [
+        "bcgc"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 1,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/owner/cariplugin.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/cariplugin.js",
+      "commands": [
+        "grepplugin",
+        "cariplugin",
+        "cari"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/owner/cekeror.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/cekeror.js",
+      "commands": [
+        "checkerror",
+        "cekeror"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.3
+    },
+    {
+      "source": "plugins/owner/exec2.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/exec2.js",
+      "commands": [
+        "eval"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.1
+    },
+    {
+      "source": "plugins/owner/leavegc.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/leavegc.js",
+      "commands": [
+        "out",
+        "leavegc"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.6
+    },
+    {
+      "source": "plugins/owner/listch.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/listch.js",
+      "commands": [
+        "listch"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/owner/listgc.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/listgc.js",
+      "commands": [
+        "listgc"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/owner/msgch.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/msgch.js",
+      "commands": [
+        "msgch"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.4
+    },
+    {
+      "source": "plugins/owner/owner-clearead.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-clearead.js",
+      "commands": [
+        "clearead"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/owner/owner-dfp.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-dfp.js",
+      "commands": [
+        "dfp"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/owner/owner-fakemsg.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-fakemsg.js",
+      "commands": [
+        "fakemsg"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/owner/owner-setlabel.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-setlabel.js",
+      "commands": [
+        "setlabel",
+        "label"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/owner/owner-sfp.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-sfp.js",
+      "commands": [
+        "sfp"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/owner/owner-sleepmode.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-sleepmode.js",
+      "commands": [
+        "sleepmode",
+        "sleep"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 3.5
+    },
+    {
+      "source": "plugins/owner/owner-swgc.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-swgc.js",
+      "commands": [
+        "swgroup"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 3
+    },
+    {
+      "source": "plugins/owner/promote.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/promote.js",
+      "commands": [
+        "opromote"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/owner/setaudio.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/setaudio.js",
+      "commands": [
+        "setaudio"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/owner/setbio.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/setbio.js",
+      "commands": [
+        "setbio"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/owner/setprefix.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/setprefix.js",
+      "commands": [
+        "setpref"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/owner/setthumb.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/setthumb.js",
+      "commands": [
+        "setthumb"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/owner/setwelcomebg.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/setwelcomebg.js",
+      "commands": [
+        "setwelcomebg",
+        "setbgwelcome"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/owner/sf.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/sf.js",
+      "commands": [
+        "sf",
+        "saveplugin"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.5
+    },
+    {
+      "source": "plugins/owner/simulate.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/simulate.js",
+      "commands": [
+        "simulate",
+        "simulasi"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/owner/tagall.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/tagall.js",
+      "commands": [
+        "o-tagall"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/owner/upch.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/upch.js",
+      "commands": [
+        "sendch"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 3.6
+    },
+    {
+      "source": "plugins/owner/upstik.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/upstik.js",
+      "commands": [
+        "upstik",
+        "stickch"
+      ],
+      "category": "Owner",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/rpg/rpg.js",
+      "folderAsal": "rpg",
+      "target": "plugins/fun/rpg.js",
+      "commands": [
+        "dungeon",
+        "dg"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 43
+    },
+    {
+      "source": "plugins/rpg/survival.js",
+      "folderAsal": "rpg",
+      "target": "plugins/fun/survival.js",
+      "commands": [
+        "survival",
+        "sv"
+      ],
+      "category": "Fun",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 58.3
+    },
+    {
+      "source": "plugins/sticker/toai.js",
+      "folderAsal": "sticker",
+      "target": "plugins/media/toai.js",
+      "commands": [
+        "aisticker",
+        "stickerai",
+        "sai"
+      ],
+      "category": "Media",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/tools/addai.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/addai.js",
+      "commands": [
+        "addai"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/tools/calc.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/calc.js",
+      "commands": [
+        "calculate"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/tools/cekswgc.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/cekswgc.js",
+      "commands": [
+        "cekswgc"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.6
+    },
+    {
+      "source": "plugins/tools/compressvid.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/compressvid.js",
+      "commands": [
+        "kompres"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.1
+    },
+    {
+      "source": "plugins/tools/dashlive.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/dashlive.js",
+      "commands": [
+        "dashlive",
+        "dashboardlive",
+        "statusbotlive"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 9.5
+    },
+    {
+      "source": "plugins/tools/ekspedisilist.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/ekspedisilist.js",
+      "commands": [
+        "ekspedisilist"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/tools/encjs.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/encjs.js",
+      "commands": [
+        "encjs"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/tools/game-caklontong_hint.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/game-caklontong_hint.js",
+      "commands": [
+        "calo"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/tools/game-minesweeper.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/game-minesweeper.js",
+      "commands": [
+        "minesweeper",
+        "sweeper",
+        "mine"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 17
+    },
+    {
+      "source": "plugins/tools/group-delsw.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/group-delsw.js",
+      "commands": [
+        "delswgc"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/tools/kalkulator-mbg.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/kalkulator-mbg.js",
+      "commands": [
+        "kalkulatormbg",
+        "kkmbg"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 3.4
+    },
+    {
+      "source": "plugins/tools/readmore.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/readmore.js",
+      "commands": [
+        "spoiler",
+        "hidetext",
+        "readmore",
+        "selengkapnya"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/tools/rvo.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/rvo.js",
+      "commands": [
+        "rvo"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/tools/tictactoe.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tictactoe.js",
+      "commands": [
+        "tictactoe",
+        "ttt"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 19.8
+    },
+    {
+      "source": "plugins/tools/tools-kodebahasa.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-kodebahasa.js",
+      "commands": [
+        "kodebahasa",
+        "kodebhs"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/tools/tools-sendquoted.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-sendquoted.js",
+      "commands": [
+        "quoted"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/tools/tools-toimg.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-toimg.js",
+      "commands": [
+        "sticker2img",
+        "stikertoimg"
+      ],
+      "category": "Tools",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/voice/voice-tempo.js",
+      "folderAsal": "voice",
+      "target": "plugins/media/voice-tempo.js",
+      "commands": [
+        "tempo"
+      ],
+      "category": "Media",
+      "needsInternet": false,
+      "purgedBranding": 0,
+      "kb": 2.2
+    },
+    {
+      "source": "plugins/ai/ai-createimg.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-createimg.js",
+      "commands": [
+        "createimg"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 5.4
+    },
+    {
+      "source": "plugins/ai/ai-deepseek.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-deepseek.js",
+      "commands": [
+        "deepseek",
+        "depseek",
+        "deepsek",
+        "dipsek"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/ai/ai-edithair.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-edithair.js",
+      "commands": [
+        "edithair",
+        "hairstyle"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 4.1
+    },
+    {
+      "source": "plugins/ai/ai-editimg.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-editimg.js",
+      "commands": [
+        "editimg"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.2
+    },
+    {
+      "source": "plugins/ai/ai-ghibli.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-ghibli.js",
+      "commands": [
+        "ghibli"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 5.5
+    },
+    {
+      "source": "plugins/ai/ai-kurumi.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-kurumi.js",
+      "commands": [
+        "kurumi"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/ai/ai-petimg.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-petimg.js",
+      "commands": [
+        "petimg",
+        "petvid"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 4.3
+    },
+    {
+      "source": "plugins/ai/ai-sonu3.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-sonu3.js",
+      "commands": [
+        "sonu3"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/ai/ai-toprompt.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ai-toprompt.js",
+      "commands": [
+        "imageprompt",
+        "imgprompt",
+        "toprompt"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/ai/alya.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/alya.js",
+      "commands": [
+        "alya"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3.1
+    },
+    {
+      "source": "plugins/ai/bocchi.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/bocchi.js",
+      "commands": [
+        "bocchi",
+        "bocchiai"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.6
+    },
+    {
+      "source": "plugins/ai/editimg2.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/editimg2.js",
+      "commands": [
+        "editimg2"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.3
+    },
+    {
+      "source": "plugins/ai/furina.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/furina.js",
+      "commands": [
+        "furina"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 3,
+      "kb": 2.8
+    },
+    {
+      "source": "plugins/ai/hoshino.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/hoshino.js",
+      "commands": [
+        "hoshino",
+        "hoshinoba"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/ai/hutao.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/hutao.js",
+      "commands": [
+        "hutao",
+        "hutaoai"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.6
+    },
+    {
+      "source": "plugins/ai/kita.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/kita.js",
+      "commands": [
+        "kita",
+        "kitaikuyo"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.4
+    },
+    {
+      "source": "plugins/ai/mahiru.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/mahiru.js",
+      "commands": [
+        "mahiru"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3
+    },
+    {
+      "source": "plugins/ai/makima.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/makima.js",
+      "commands": [
+        "makima"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 3,
+      "kb": 3.1
+    },
+    {
+      "source": "plugins/ai/megumin.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/megumin.js",
+      "commands": [
+        "meguminai",
+        "megu"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/ai/mikasa.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/mikasa.js",
+      "commands": [
+        "mikasa"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 3,
+      "kb": 3.1
+    },
+    {
+      "source": "plugins/ai/miku.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/miku.js",
+      "commands": [
+        "mikuai"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 3,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/ai/nano.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/nano.js",
+      "commands": [
+        "nanopro",
+        "nano"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 5.3
+    },
+    {
+      "source": "plugins/ai/nijika.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/nijika.js",
+      "commands": [
+        "nijika",
+        "nijikaai"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.5
+    },
+    {
+      "source": "plugins/ai/oguricap.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/oguricap.js",
+      "commands": [
+        "oguri",
+        "oguricap"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3.2
+    },
+    {
+      "source": "plugins/ai/openai.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/openai.js",
+      "commands": [
+        "openai"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/ai/perplexity.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/perplexity.js",
+      "commands": [
+        "perplexity",
+        "plx"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/ai/ryo.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/ryo.js",
+      "commands": [
+        "ryo",
+        "ryoyamada",
+        "ryoai"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 3,
+      "kb": 2.5
+    },
+    {
+      "source": "plugins/ai/text2img.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/text2img.js",
+      "commands": [
+        "text2img"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/ai/waguri.js",
+      "folderAsal": "ai",
+      "target": "plugins/tools/waguri.js",
+      "commands": [
+        "waguri"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.9
+    },
+    {
+      "source": "plugins/anime/anilist.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/anilist.js",
+      "commands": [
+        "anilist"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 8.5
+    },
+    {
+      "source": "plugins/anime/anime-otakudesu.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/anime-otakudesu.js",
+      "commands": [
+        "otakudesu"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 5.8
+    },
+    {
+      "source": "plugins/anime/anime-random.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/anime-random.js",
+      "commands": [
+        "animerandom"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/anime/animequotes.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/animequotes.js",
+      "commands": [
+        "animequotes"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/anime/bluearchive.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/bluearchive.js",
+      "commands": [
+        "bluearchive"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1
+    },
+    {
+      "source": "plugins/anime/info.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/info.js",
+      "commands": [
+        "animeinfo"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.3
+    },
+    {
+      "source": "plugins/anime/komikindo.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/komikindo.js",
+      "commands": [
+        "komikindo"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 4.6
+    },
+    {
+      "source": "plugins/anime/komiku.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/komiku.js",
+      "commands": [
+        "komiku"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 4
+    },
+    {
+      "source": "plugins/anime/kona.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/kona.js",
+      "commands": [
+        "kona"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/anime/latest.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/latest.js",
+      "commands": [
+        "animelatest",
+        "latestanime"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/anime/luvyaa.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/luvyaa.js",
+      "commands": [
+        "luvyaa"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 5.3
+    },
+    {
+      "source": "plugins/anime/manga.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/manga.js",
+      "commands": [
+        "manga"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/anime/oploverz.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/oploverz.js",
+      "commands": [
+        "oploverz"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 3.3
+    },
+    {
+      "source": "plugins/anime/story-anime.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/story-anime.js",
+      "commands": [
+        "stori"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.6
+    },
+    {
+      "source": "plugins/anime/topanime.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/topanime.js",
+      "commands": [
+        "topanime"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/anime/yande.js",
+      "folderAsal": "anime",
+      "target": "plugins/fun/yande.js",
+      "commands": [
+        "yande"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/audio/zeta.js",
+      "folderAsal": "audio",
+      "target": "plugins/media/zeta.js",
+      "commands": [
+        "zetavoice"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.8
+    },
+    {
+      "source": "plugins/downloader/blibili.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/blibili.js",
+      "commands": [
+        "bili",
+        "blibli",
+        "bilibili"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.6
+    },
+    {
+      "source": "plugins/downloader/douyin.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/douyin.js",
+      "commands": [
+        "douyin"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/downloader/down-dafont.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/down-dafont.js",
+      "commands": [
+        "dafont"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 3
+    },
+    {
+      "source": "plugins/downloader/down-instagram.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/down-instagram.js",
+      "commands": [
+        "igdl",
+        "instagdramdl"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/downloader/down-mediafire.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/down-mediafire.js",
+      "commands": [
+        "mediafire",
+        "mf"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/downloader/down-myinstants.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/down-myinstants.js",
+      "commands": [
+        "myinstants",
+        "sound",
+        "instants"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 8
+    },
+    {
+      "source": "plugins/downloader/down-sfile.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/down-sfile.js",
+      "commands": [
+        "sfile"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.6
+    },
+    {
+      "source": "plugins/downloader/down-soundcloud.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/down-soundcloud.js",
+      "commands": [
+        "soundcloud"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.4
+    },
+    {
+      "source": "plugins/downloader/downloader-terabox.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/downloader-terabox.js",
+      "commands": [
+        "terabox",
+        "tb",
+        "teradl"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 6
+    },
+    {
+      "source": "plugins/downloader/downloader-ytdlp.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/downloader-ytdlp.js",
+      "commands": [
+        "ytdlp"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 12.7
+    },
+    {
+      "source": "plugins/downloader/facebook.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/facebook.js",
+      "commands": [
+        "fb",
+        "facebook"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.5
+    },
+    {
+      "source": "plugins/downloader/gitclone.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/gitclone.js",
+      "commands": [
+        "gitclone"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/downloader/ig.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/ig.js",
+      "commands": [
+        "ig",
+        "instagram"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/downloader/ig3.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/ig3.js",
+      "commands": [
+        "ig3",
+        "igdl3",
+        "instagram3"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/downloader/instatiktok.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/instatiktok.js",
+      "commands": [
+        "dlit"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.4
+    },
+    {
+      "source": "plugins/downloader/pindl2.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/pindl2.js",
+      "commands": [
+        "pindl2"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2
+    },
+    {
+      "source": "plugins/downloader/spotifyplay.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/spotifyplay.js",
+      "commands": [
+        "spotify"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.7
+    },
+    {
+      "source": "plugins/downloader/tiktokdl2.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/tiktokdl2.js",
+      "commands": [
+        "tiktokdl2"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 3.1
+    },
+    {
+      "source": "plugins/downloader/tools-tiktokboost.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/tools-tiktokboost.js",
+      "commands": [
+        "tiktokboost",
+        "ttboost",
+        "boosttiktok"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 3.5
+    },
+    {
+      "source": "plugins/downloader/tt2.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/tt2.js",
+      "commands": [
+        "tiktok2",
+        "tt2"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.9
+    },
+    {
+      "source": "plugins/downloader/ttmusic.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/ttmusic.js",
+      "commands": [
+        "tiktokmusic",
+        "ttmusic",
+        "ttmp3"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.4
+    },
+    {
+      "source": "plugins/downloader/twitter.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/twitter.js",
+      "commands": [
+        "twitter",
+        "tw",
+        "xdl"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.6
+    },
+    {
+      "source": "plugins/downloader/videy.js",
+      "folderAsal": "downloader",
+      "target": "plugins/media/videy.js",
+      "commands": [
+        "videy"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/fun/fun-cekiq.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/fun-cekiq.js",
+      "commands": [
+        "cekiq"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3.4
+    },
+    {
+      "source": "plugins/fun/fun-pilih.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/fun-pilih.js",
+      "commands": [
+        "fakepilih"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/fun/lupakan.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/lupakan.js",
+      "commands": [
+        "lupakan"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2
+    },
+    {
+      "source": "plugins/fun/moveon.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/moveon.js",
+      "commands": [
+        "moveon"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.2
+    },
+    {
+      "source": "plugins/fun/simi.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/simi.js",
+      "commands": [
+        "simi",
+        "simisimi"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/fun/tool-morse.js",
+      "folderAsal": "fun",
+      "target": "plugins/fun/tool-morse.js",
+      "commands": [
+        "demorse"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/game/blockblast.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/blockblast.js",
+      "commands": [
+        "blockblast",
+        "blockgame",
+        "blockpuzzle",
+        "block"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 28.4
+    },
+    {
+      "source": "plugins/game/cerdascermat.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/cerdascermat.js",
+      "commands": [
+        "cerdascermat",
+        "cc"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 4
+    },
+    {
+      "source": "plugins/game/geometrydash.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/geometrydash.js",
+      "commands": [
+        "geometrydash",
+        "gdmini",
+        "gd",
+        "geometrygame"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 25.9
+    },
+    {
+      "source": "plugins/game/hillclimb.js",
+      "folderAsal": "game",
+      "target": "plugins/fun/hillclimb.js",
+      "commands": [
+        "hillclimb",
+        "hillclimbracing",
+        "hcr",
+        "hillclimbgame"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 61.8
+    },
+    {
+      "source": "plugins/group/link.js",
+      "folderAsal": "group",
+      "target": "plugins/group/link.js",
+      "commands": [
+        "linkgrup"
+      ],
+      "category": "Group",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/image/ai-flux.js",
+      "folderAsal": "image",
+      "target": "plugins/image/ai-flux.js",
+      "commands": [
+        "flux",
+        "fluximg",
+        "flux-image"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 3.2
+    },
+    {
+      "source": "plugins/image/picsart.js",
+      "folderAsal": "image",
+      "target": "plugins/image/picsart.js",
+      "commands": [
+        "picsart"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 6.4
+    },
+    {
+      "source": "plugins/image/tohitam.js",
+      "folderAsal": "image",
+      "target": "plugins/image/tohitam.js",
+      "commands": [
+        "tobotak",
+        "tochibi",
+        "tofunk",
+        "tofigura",
+        "tofigurav2",
+        "tofigurav3"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2
+    },
+    {
+      "source": "plugins/info/bmkggempa.js",
+      "folderAsal": "info",
+      "target": "plugins/info/bmkggempa.js",
+      "commands": [
+        "bmkggempa"
+      ],
+      "category": "Main",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.7
+    },
+    {
+      "source": "plugins/info/donasi.js",
+      "folderAsal": "info",
+      "target": "plugins/info/donasi.js",
+      "commands": [
+        "donasi"
+      ],
+      "category": "Main",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/info/jadwalsholat.js",
+      "folderAsal": "info",
+      "target": "plugins/info/jadwalsholat.js",
+      "commands": [
+        "jadwalsholat"
+      ],
+      "category": "Main",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.3
+    },
+    {
+      "source": "plugins/info/market.js",
+      "folderAsal": "info",
+      "target": "plugins/info/market.js",
+      "commands": [
+        "market"
+      ],
+      "category": "Main",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.8
+    },
+    {
+      "source": "plugins/info/tqto.js",
+      "folderAsal": "info",
+      "target": "plugins/info/tqto.js",
+      "commands": [
+        "tqto",
+        "thanks",
+        "credits"
+      ],
+      "category": "Main",
+      "needsInternet": true,
+      "purgedBranding": 4,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/internet/alkitab.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/alkitab.js",
+      "commands": [
+        "alkitab"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/internet/github-trend.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/github-trend.js",
+      "commands": [
+        "githubtrend"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/internet/infoloker.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/infoloker.js",
+      "commands": [
+        "infoloker"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/internet/internet-animein.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/internet-animein.js",
+      "commands": [
+        "animein"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 6.6
+    },
+    {
+      "source": "plugins/internet/internet-donghua.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/internet-donghua.js",
+      "commands": [
+        "donghua",
+        "donghuadetail"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 5.3
+    },
+    {
+      "source": "plugins/internet/internet-jadwalpuasa.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/internet-jadwalpuasa.js",
+      "commands": [
+        "jadwalpuasa"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/internet/internet-wikipedia.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/internet-wikipedia.js",
+      "commands": [
+        "wiki",
+        "wikipedia",
+        "wikiid"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/internet/lirik.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/lirik.js",
+      "commands": [
+        "lyrics",
+        "lirik"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/internet/novel-royalroad.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/novel-royalroad.js",
+      "commands": [
+        "rrsearch",
+        "detail",
+        "latest",
+        "profile"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 7.4
+    },
+    {
+      "source": "plugins/internet/pinvideo.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/pinvideo.js",
+      "commands": [
+        "pinterestvideo",
+        "pinvid"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 3.6
+    },
+    {
+      "source": "plugins/internet/roblox.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/roblox.js",
+      "commands": [
+        "toproblox"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 4
+    },
+    {
+      "source": "plugins/internet/search-spotify.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/search-spotify.js",
+      "commands": [
+        "sp"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 6.8
+    },
+    {
+      "source": "plugins/internet/surah.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/surah.js",
+      "commands": [
+        "surah"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.2
+    },
+    {
+      "source": "plugins/internet/tafsir.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/tafsir.js",
+      "commands": [
+        "tafsir"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2
+    },
+    {
+      "source": "plugins/internet/telegramch.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/telegramch.js",
+      "commands": [
+        "tgram"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3
+    },
+    {
+      "source": "plugins/internet/tools-cekweb.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/tools-cekweb.js",
+      "commands": [
+        "iplookup"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/internet/uhdpaper.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/uhdpaper.js",
+      "commands": [
+        "uhdpaper"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/internet/wallsearch.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/wallsearch.js",
+      "commands": [
+        "wallsearch",
+        "rating",
+        "cat"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.6
+    },
+    {
+      "source": "plugins/internet/wordltime.js",
+      "folderAsal": "internet",
+      "target": "plugins/tools/wordltime.js",
+      "commands": [
+        "worldtime",
+        "waktuglobal"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2
+    },
+    {
+      "source": "plugins/maker/fakeff.js",
+      "folderAsal": "maker",
+      "target": "plugins/media/fakeff.js",
+      "commands": [
+        "fakeff"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/maker/ffduo.js",
+      "folderAsal": "maker",
+      "target": "plugins/media/ffduo.js",
+      "commands": [
+        "ffduo"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/maker/iqcv2.js",
+      "folderAsal": "maker",
+      "target": "plugins/media/iqcv2.js",
+      "commands": [
+        "iqcv2"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2
+    },
+    {
+      "source": "plugins/maker/maker-berita.js",
+      "folderAsal": "maker",
+      "target": "plugins/media/maker-berita.js",
+      "commands": [
+        "berita",
+        "beritamaker"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/maker/tools-fotolive.js",
+      "folderAsal": "maker",
+      "target": "plugins/media/tools-fotolive.js",
+      "commands": [
+        "fotolive",
+        "livephoto",
+        "livepic"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 3.9
+    },
+    {
+      "source": "plugins/owner/listpc.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/listpc.js",
+      "commands": [
+        "listpc"
+      ],
+      "category": "Owner",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/owner/owner-joingc.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/owner-joingc.js",
+      "commands": [
+        "joingc"
+      ],
+      "category": "Owner",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/owner/playch.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/playch.js",
+      "commands": [
+        "playch"
+      ],
+      "category": "Owner",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.9
+    },
+    {
+      "source": "plugins/owner/rm.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/rm.js",
+      "commands": [
+        "rm"
+      ],
+      "category": "Owner",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/owner/tools-upch.js",
+      "folderAsal": "owner",
+      "target": "plugins/owner/tools-upch.js",
+      "commands": [
+        "upch",
+        "setchid",
+        "addchid",
+        "getchid"
+      ],
+      "category": "Owner",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.8
+    },
+    {
+      "source": "plugins/quotes/islam-murotal.js",
+      "folderAsal": "quotes",
+      "target": "plugins/fun/islam-murotal.js",
+      "commands": [
+        "murothal"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/quotes/pantun.js",
+      "folderAsal": "quotes",
+      "target": "plugins/fun/pantun.js",
+      "commands": [
+        "pantun"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.3
+    },
+    {
+      "source": "plugins/quotes/sadboy.js",
+      "folderAsal": "quotes",
+      "target": "plugins/fun/sadboy.js",
+      "commands": [
+        "sadboy"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/quran/ayat-kursi.js",
+      "folderAsal": "quran",
+      "target": "plugins/fun/ayat-kursi.js",
+      "commands": [
+        "ayatkursi"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.5
+    },
+    {
+      "source": "plugins/quran/islam-kisahnabi.js",
+      "folderAsal": "quran",
+      "target": "plugins/fun/islam-kisahnabi.js",
+      "commands": [
+        "kisahnabi"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/random/asupan.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/asupan.js",
+      "commands": [
+        "asupan"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 27
+    },
+    {
+      "source": "plugins/random/cecanchina.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/cecanchina.js",
+      "commands": [
+        "cecanchina"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/random/cecanindo.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/cecanindo.js",
+      "commands": [
+        "cecanindo"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/random/cecanjapan.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/cecanjapan.js",
+      "commands": [
+        "cecanjapan"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/random/cecankorea.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/cecankorea.js",
+      "commands": [
+        "cecankorea"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/random/cecanthailand.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/cecanthailand.js",
+      "commands": [
+        "cecanthai"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/random/cecanvietnam.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/cecanvietnam.js",
+      "commands": [
+        "cecanvietnam"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.7
+    },
+    {
+      "source": "plugins/random/memespongbob.js",
+      "folderAsal": "random",
+      "target": "plugins/fun/memespongbob.js",
+      "commands": [
+        "memespongbob",
+        "spongebob"
+      ],
+      "category": "Fun",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.3
+    },
+    {
+      "source": "plugins/search/carigrup.js",
+      "folderAsal": "search",
+      "target": "plugins/tools/carigrup.js",
+      "commands": [
+        "carigrup"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 3.1
+    },
+    {
+      "source": "plugins/search/npmjs.js",
+      "folderAsal": "search",
+      "target": "plugins/tools/npmjs.js",
+      "commands": [
+        "npmjs"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.7
+    },
+    {
+      "source": "plugins/search/resep.js",
+      "folderAsal": "search",
+      "target": "plugins/tools/resep.js",
+      "commands": [
+        "resep"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/search/search-bingimage.js",
+      "folderAsal": "search",
+      "target": "plugins/tools/search-bingimage.js",
+      "commands": [
+        "bingimage"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 4.5
+    },
+    {
+      "source": "plugins/search/search-pinterest.js",
+      "folderAsal": "search",
+      "target": "plugins/tools/search-pinterest.js",
+      "commands": [
+        "pinterest",
+        "pin"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 3.9
+    },
+    {
+      "source": "plugins/search/soundmeme.js",
+      "folderAsal": "search",
+      "target": "plugins/tools/soundmeme.js",
+      "commands": [
+        "soundmeme2"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 4.4
+    },
+    {
+      "source": "plugins/search/yts.js",
+      "folderAsal": "search",
+      "target": "plugins/tools/yts.js",
+      "commands": [
+        "yts",
+        "youtubesearch"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/sound/music.js",
+      "folderAsal": "sound",
+      "target": "plugins/media/music.js",
+      "commands": [
+        "music"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1
+    },
+    {
+      "source": "plugins/sound/playncs.js",
+      "folderAsal": "sound",
+      "target": "plugins/media/playncs.js",
+      "commands": [
+        "playncs",
+        "ncssearch",
+        "ncsplay"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 6
+    },
+    {
+      "source": "plugins/sound/sad.js",
+      "folderAsal": "sound",
+      "target": "plugins/media/sad.js",
+      "commands": [
+        "sad"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/stalk/cekdmganda.js",
+      "folderAsal": "stalk",
+      "target": "plugins/tools/cekdmganda.js",
+      "commands": [
+        "cekdmganda",
+        "cekdm",
+        "dmganda"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 3.4
+    },
+    {
+      "source": "plugins/stalk/github.js",
+      "folderAsal": "stalk",
+      "target": "plugins/tools/github.js",
+      "commands": [
+        "ghstalk"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 0.9
+    },
+    {
+      "source": "plugins/stalk/ml.js",
+      "folderAsal": "stalk",
+      "target": "plugins/tools/ml.js",
+      "commands": [
+        "mlstalk"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.5
+    },
+    {
+      "source": "plugins/stalk/roblox.js",
+      "folderAsal": "stalk",
+      "target": "plugins/tools/drive-roblox.js",
+      "commands": [
+        "robloxstalk"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 4.7
+    },
+    {
+      "source": "plugins/stalk/yt.js",
+      "folderAsal": "stalk",
+      "target": "plugins/tools/yt.js",
+      "commands": [
+        "ytstalk",
+        "youtubestalk"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/sticker/pack.js",
+      "folderAsal": "sticker",
+      "target": "plugins/media/pack.js",
+      "commands": [
+        "pack"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/sticker/search.js",
+      "folderAsal": "sticker",
+      "target": "plugins/media/search.js",
+      "commands": [
+        "stickersearch"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.9
+    },
+    {
+      "source": "plugins/sticker/sprem.js",
+      "folderAsal": "sticker",
+      "target": "plugins/media/sprem.js",
+      "commands": [
+        "sprem",
+        "stickerprem",
+        "spremium"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 4.9
+    },
+    {
+      "source": "plugins/sticker/sticker-brat.js",
+      "folderAsal": "sticker",
+      "target": "plugins/media/sticker-brat.js",
+      "commands": [
+        "brat"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/tools/amv2.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/amv2.js",
+      "commands": [
+        "amv2",
+        "ampremiumv2"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 7.5
+    },
+    {
+      "source": "plugins/tools/anticolong.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/anticolong.js",
+      "commands": [
+        "setattr",
+        "stattr",
+        "anticolong"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 5
+    },
+    {
+      "source": "plugins/tools/ascii.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/ascii.js",
+      "commands": [
+        "imagetoasci",
+        "imgascii",
+        "ascii"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 3,
+      "kb": 5.3
+    },
+    {
+      "source": "plugins/tools/breach.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/breach.js",
+      "commands": [
+        "breach"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.6
+    },
+    {
+      "source": "plugins/tools/bypass2.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/bypass2.js",
+      "commands": [
+        "bypass2",
+        "bypasslink2"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.3
+    },
+    {
+      "source": "plugins/tools/catbox.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/catbox.js",
+      "commands": [
+        "catbox"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.4
+    },
+    {
+      "source": "plugins/tools/ccgen.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/ccgen.js",
+      "commands": [
+        "ccgen"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/tools/cekhost.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/cekhost.js",
+      "commands": [
+        "checkhost",
+        "cekhost",
+        "check"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 8
+    },
+    {
+      "source": "plugins/tools/cekidch.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/cekidch.js",
+      "commands": [
+        "cekidgc",
+        "cekidgrup",
+        "cekidch",
+        "idch"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/tools/cekml.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/cekml.js",
+      "commands": [
+        "mlbb",
+        "cekml"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.1
+    },
+    {
+      "source": "plugins/tools/cekrek.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/cekrek.js",
+      "commands": [
+        "cekrek",
+        "cekrekening"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.3
+    },
+    {
+      "source": "plugins/tools/codepromt.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/codepromt.js",
+      "commands": [
+        "promptcode",
+        "detectbug",
+        "convertcode",
+        "explaincode",
+        "imagesolve"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 7.3
+    },
+    {
+      "source": "plugins/tools/deploy.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/deploy.js",
+      "commands": [
+        "deploy"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2
+    },
+    {
+      "source": "plugins/tools/encode.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/encode.js",
+      "commands": [
+        "encode",
+        "decode"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 2.2
+    },
+    {
+      "source": "plugins/tools/gh.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/gh.js",
+      "commands": [
+        "ghuser",
+        "ghsearch",
+        "ghgist"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/tools/gmaps.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/gmaps.js",
+      "commands": [
+        "jarak",
+        "gmaps"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.1
+    },
+    {
+      "source": "plugins/tools/gsmarena.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/gsmarena.js",
+      "commands": [
+        "gsmarena",
+        "gsmspek",
+        "hpspek"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 3.3
+    },
+    {
+      "source": "plugins/tools/hd2.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/hd2.js",
+      "commands": [
+        "hd2"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.7
+    },
+    {
+      "source": "plugins/tools/hdvid.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/hdvid.js",
+      "commands": [
+        "hdvideo",
+        "unblurvideo",
+        "vhd"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3
+    },
+    {
+      "source": "plugins/tools/jadwaltv.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/jadwaltv.js",
+      "commands": [
+        "jadwaltv"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 3
+    },
+    {
+      "source": "plugins/tools/nik.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/nik.js",
+      "commands": [
+        "nik"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 5.4
+    },
+    {
+      "source": "plugins/tools/npmshield.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/npmshield.js",
+      "commands": [
+        "npmshield"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.5
+    },
+    {
+      "source": "plugins/tools/numbgen.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/numbgen.js",
+      "commands": [
+        "numbgen"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 3,
+      "kb": 2.9
+    },
+    {
+      "source": "plugins/tools/prem-gachanokos.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/prem-gachanokos.js",
+      "commands": [
+        "gachanokos",
+        "getotp"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 5.5
+    },
+    {
+      "source": "plugins/tools/randomname.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/randomname.js",
+      "commands": [
+        "randomname"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 4.1
+    },
+    {
+      "source": "plugins/tools/readqr.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/readqr.js",
+      "commands": [
+        "readqr"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2
+    },
+    {
+      "source": "plugins/tools/removevocal.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/removevocal.js",
+      "commands": [
+        "vocalremover",
+        "aivocal"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3.2
+    },
+    {
+      "source": "plugins/tools/searchgist.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/searchgist.js",
+      "commands": [
+        "searchgist"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/tools/sharetext.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/sharetext.js",
+      "commands": [
+        "shareteks",
+        "bagiteks"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.2
+    },
+    {
+      "source": "plugins/tools/ssweb.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/ssweb.js",
+      "commands": [
+        "ssweb"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.7
+    },
+    {
+      "source": "plugins/tools/tembox.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tembox.js",
+      "commands": [
+        "copy"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.2
+    },
+    {
+      "source": "plugins/tools/tempmail.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tempmail.js",
+      "commands": [
+        "tempmail",
+        "cekmail",
+        "pesanmail"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 5
+    },
+    {
+      "source": "plugins/tools/tools-8upload.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-8upload.js",
+      "commands": [
+        "8upload"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 2,
+      "kb": 3.2
+    },
+    {
+      "source": "plugins/tools/tools-barcode.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-barcode.js",
+      "commands": [
+        "barcode"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 0.8
+    },
+    {
+      "source": "plugins/tools/tools-cap.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-cap.js",
+      "commands": [
+        "caption",
+        "cap"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.5
+    },
+    {
+      "source": "plugins/tools/tools-getpp.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-getpp.js",
+      "commands": [
+        "ppwa"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 1.8
+    },
+    {
+      "source": "plugins/tools/tools-togif.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-togif.js",
+      "commands": [
+        "webp2mp4",
+        "sticker2mp4",
+        "stickertomp4"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 5
+    },
+    {
+      "source": "plugins/tools/tools-upgh.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tools-upgh.js",
+      "commands": [
+        "uploadgh",
+        "tourlgh",
+        "ghupload"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 1,
+      "kb": 2.2
+    },
+    {
+      "source": "plugins/tools/tourl2.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/tourl2.js",
+      "commands": [
+        "upload"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.6
+    },
+    {
+      "source": "plugins/tools/translate.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/translate.js",
+      "commands": [
+        "translate"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.6
+    },
+    {
+      "source": "plugins/tools/vgist.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/vgist.js",
+      "commands": [
+        "vgist"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.2
+    },
+    {
+      "source": "plugins/tools/zelapi-nokos.js",
+      "folderAsal": "tools",
+      "target": "plugins/tools/zelapi-nokos.js",
+      "commands": [
+        "sms"
+      ],
+      "category": "Tools",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 12.2
+    },
+    {
+      "source": "plugins/voice/tts-ondoku.js",
+      "folderAsal": "voice",
+      "target": "plugins/media/tts-ondoku.js",
+      "commands": [
+        "ondoku",
+        "voiceondoku"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 3.1
+    },
+    {
+      "source": "plugins/voice/ttsai.js",
+      "folderAsal": "voice",
+      "target": "plugins/media/ttsai.js",
+      "commands": [
+        "ttsvoice"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 2.4
+    },
+    {
+      "source": "plugins/voice/vn.js",
+      "folderAsal": "voice",
+      "target": "plugins/media/vn.js",
+      "commands": [
+        "ara",
+        "lopyou",
+        "lopyu",
+        "loveyou",
+        "love",
+        "lope"
+      ],
+      "category": "Media",
+      "needsInternet": true,
+      "purgedBranding": 0,
+      "kb": 1.4
+    }
+  ]
+}

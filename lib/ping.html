@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; }
+body { background:transparent; color:#e2e8f0; }
+.wrap { max-width:420px; padding:6px; }
+
+/* ---------- identitas ---------- */
+.brand { position:relative; overflow:hidden; background:linear-gradient(135deg,#0b1120,#111827); border:1px solid rgba(56,189,248,0.25); border-radius:16px; padding:11px 13px; margin-bottom:7px; }
+.brand::before { content:''; position:absolute; top:-60%; right:-20%; width:180px; height:180px; background:radial-gradient(circle,rgba(167,139,250,0.35),rgba(0,0,0,0)); pointer-events:none; }
+.brand::after  { content:''; position:absolute; bottom:-70%; left:-10%; width:170px; height:170px; background:radial-gradient(circle,rgba(34,211,238,0.28),rgba(0,0,0,0)); pointer-events:none; }
+.brand .name { position:relative; z-index:2; font-size:16px; font-weight:800; letter-spacing:1.2px; background:linear-gradient(90deg,#22d3ee,#a78bfa); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.brand .sub  { position:relative; z-index:2; font-size:9px; font-weight:600; color:#94a3b8; letter-spacing:1.4px; margin-top:3px; text-transform:uppercase; }
+.brand .pill { position:relative; z-index:2; display:inline-flex; align-items:center; gap:5px; margin-top:7px; font-size:9px; font-weight:700; color:#34d399; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.3); border-radius:999px; padding:3px 9px; }
+.dot { width:5px; height:5px; border-radius:50%; background:#34d399; box-shadow:0 0 7px #34d399; animation:pulse 1.6s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* ---------- uptime ---------- */
+.uptime { background:linear-gradient(135deg,rgba(34,211,238,0.08),rgba(167,139,250,0.08)); border:1px solid rgba(148,163,184,0.16); border-radius:14px; padding:9px; text-align:center; margin-bottom:7px; }
+.uptime .l { font-size:8px; font-weight:700; color:#7dd3fc; letter-spacing:1.6px; }
+.uptime .v { font-size:19px; font-weight:800; color:#f1f5f9; font-variant-numeric:tabular-nums; margin:3px 0; letter-spacing:0.5px; }
+.uptime .s { font-size:8.5px; color:#94a3b8; font-family:monospace; }
+
+/* ---------- bar metrik ---------- */
+.bar { background:rgba(15,23,42,0.75); border:1px solid rgba(148,163,184,0.12); border-radius:12px; padding:8px 11px; margin-bottom:6px; }
+.bar .top { display:flex; justify-content:space-between; align-items:center; font-size:10px; margin-bottom:5px; }
+.bar .top .n { font-weight:700; color:#94a3b8; letter-spacing:0.8px; }
+.bar .top .p { font-weight:800; color:#e2e8f0; font-variant-numeric:tabular-nums; }
+.track { height:7px; background:#0b1120; border-radius:5px; overflow:hidden; position:relative; }
+.fill { height:100%; border-radius:5px; position:relative; overflow:hidden; }
+.fill::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.28),transparent); animation:shine 2.8s infinite; }
+@keyframes shine { 0%{left:-100%} 100%{left:100%} }
+.lv-cool { background:linear-gradient(90deg,#22d3ee,#60a5fa); }
+.lv-warm { background:linear-gradient(90deg,#818cf8,#a78bfa); }
+.lv-hot  { background:linear-gradient(90deg,#f472b6,#fb7185); }
+
+/* ---------- grid info ---------- */
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px; }
+.cell { background:rgba(15,23,42,0.75); border:1px solid rgba(148,163,184,0.12); border-radius:11px; padding:7px 9px; }
+.cell .k { font-size:7.5px; font-weight:700; color:#64748b; letter-spacing:1.1px; }
+.cell .v { font-size:10.5px; font-weight:700; color:#e2e8f0; font-family:monospace; margin-top:2px; word-break:break-word; }
+.span { grid-column:1/-1; }
+
+/* ---------- footer ---------- */
+.foot { font-size:8.5px; font-weight:600; color:#64748b; letter-spacing:0.5px; margin-top:7px; padding-left:3px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="brand">
+        <div class="name">%BOTNAME%</div>
+        <div class="sub">%TAGLINE%</div>
+        <div class="pill"><span class="dot"></span> SERVER MONITOR ONLINE · %LATENCY% ms</div>
+    </div>
+
+    <div class="uptime">
+        <div class="l">BOT UPTIME · REALTIME</div>
+        <div class="v" id="botUp">0s</div>
+        <div class="s">host %HOSTNAME% · %PLATFORM% up <span id="sysUp">0s</span></div>
+    </div>
+
+    <div class="bar">
+        <div class="top"><span class="n">CPU LOAD</span><span class="p" id="cpuTxt">0.0%</span></div>
+        <div class="track"><div class="fill lv-cool" id="cpuBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="bar">
+        <div class="top"><span class="n">RAM USED</span><span class="p" id="ramTxt">0.0%</span></div>
+        <div class="track"><div class="fill lv-warm" id="ramBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="bar">
+        <div class="top"><span class="n">DISK USED</span><span class="p" id="diskTxt">0.0%</span></div>
+        <div class="track"><div class="fill lv-hot" id="diskBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="grid">
+        <div class="cell"><div class="k">NODE</div><div class="v">%NODE_INFO%</div></div>
+        <div class="cell"><div class="k">CPU</div><div class="v">%CPU_CORES% core · %ARCH_INFO%</div></div>
+        <div class="cell span"><div class="k">OS</div><div class="v">%OS_INFO%</div></div>
+        <div class="cell"><div class="k">HEAP / RSS</div><div class="v">%HEAP_USED% / %RSS_MEM% MB</div></div>
+        <div class="cell"><div class="k">TOTAL RAM</div><div class="v">%TOTAL_RAM% GB</div></div>
+        <div class="cell"><div class="k">SWAP</div><div class="v">%SWAP_INFO%</div></div>
+        <div class="cell"><div class="k">IP LOKAL</div><div class="v">%IP_ADDR%</div></div>
+        <div class="cell span"><div class="k">BOT UPTIME RAW / SISTEM</div><div class="v">%BOTUPTIME%s / %SYSTEMUPTIME%s</div></div>
+    </div>
+
+    <div class="foot">© %YEAR% %BOTNAME% · v%VERSION% · Created by %OWNERNAME%</div>
+</div>
+
+<script>
+var botSec = Math.floor(parseFloat("%BOTUPTIME%") || 0);
+var sysSec = Math.floor(parseFloat("%SYSTEMUPTIME%") || 0);
+
+function fmt(sec) {
+    var d = Math.floor(sec / 86400), h = Math.floor((sec % 86400) / 3600);
+    var m = Math.floor((sec % 3600) / 60), s = Math.floor(sec % 60);
+    if (d > 0) return d + 'h ' + h + 'j ' + m + 'm';
+    if (h > 0) return h + 'j ' + m + 'm ' + s + 's';
+    return m + 'm ' + s + 's';
+}
+
+function level(value) {
+    var n = parseFloat(value);
+    if (n <= 40) return 'lv-cool';
+    if (n <= 75) return 'lv-warm';
+    return 'lv-hot';
+}
+
+function paint(barId, txtId, value) {
+    var bar = document.getElementById(barId), txt = document.getElementById(txtId);
+    var v = Math.min(100, Math.max(0, value)).toFixed(1);
+    bar.style.width = v + '%';
+    bar.className = 'fill ' + level(v);
+    txt.innerText = v + '%';
+}
+
+function tick() {
+    botSec++; sysSec++;
+    document.getElementById('botUp').innerText = fmt(botSec);
+    document.getElementById('sysUp').innerText = fmt(sysSec);
+}
+
+document.getElementById('botUp').innerText = fmt(botSec);
+document.getElementById('sysUp').innerText = fmt(sysSec);
+paint('cpuBar', 'cpuTxt', parseFloat("%CPU_LOAD%"));
+paint('ramBar', 'ramTxt', parseFloat("%RAM_LOAD%"));
+paint('diskBar', 'diskTxt', parseFloat("%DISK_LOAD%"));
+setInterval(tick, 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Jangan pernah commit kredensial WhatsApp
+session/
+*.session
+
+# Dependency & cache
+node_modules/
+.npm/
+.cache/
+
+# File temporer hasil konversi media
+tmp/
+
+# Log & file lokal
+*.log
+.env
+.env.local
+.DS_Store
+
+# Artefak desain & data runtime & data runtime
+media/thumb.png
+media/thumb-legacy.jpg
+database/notes.json
+database/todo.json
+database/games.json
+plugins/*/tmp/

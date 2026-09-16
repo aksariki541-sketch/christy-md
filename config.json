@@ -1,0 +1,23 @@
+{
+    "botName": "Christy MD",
+    "ownerName": "Riki Aksa",
+    "botVersion": "1.0.0",
+    "tagline": "Modern • Clean • Futuristic",
+    "timezone": "Asia/Makassar",
+    "creator": [
+        "6283134600805"
+    ],
+    "prefix": [
+        ".",
+        "#",
+        "!",
+        "/"
+    ],
+    "botMode": "public",
+    "pairingCode": "CHRISTY",
+    "accessDenied": {
+        "owner": "Fitur ini khusus Owner.",
+        "creator": "Fitur ini khusus Creator.",
+        "premium": "Fitur ini khusus Premium."
+    }
+}
