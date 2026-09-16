@@ -111,8 +111,8 @@ dijadikan command. Semua kode memakai ES Modules (`"type": "module"`).
 | Perintah | Yang ditampilkan |
 | --- | --- |
 | `.menu` | Kotak brand + sapaan + blok identitas & sistem + daftar kategori (**801 karakter / 32 baris**) |
-| `.menu tools` | Kotak direktori berisi seluruh fitur kategori itu, command & alias satu per baris |
-| `.menu all` | Semua command + alias sekaligus (satu per baris) |
+| `.menu tools` | Kotak direktori berisi seluruh fitur kategori itu; **satu plugin = satu blok**, command & aliasnya tepat di bawah judul plugin itu |
+| `.menu all` | Semua command + alias, semua plugin, satu per baris |
 | `.menu naga` | Kategori tidak ada → pesan rapi berisi daftar kategori yang valid |
 
 Tombolnya:

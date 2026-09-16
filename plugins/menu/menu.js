@@ -66,32 +66,57 @@ function clock(timeZone) {
 // Baca registry plugin → kategori → grup fitur → daftar command
 // --------------------------------------------------------------------------
 function collect(plugins = new Map(), prefix = '.') {
-    const categories = new Map()
-
+    // kumpulkan dulu per FILE plugin: satu plugin = satu blok, tidak digabung dengan plugin lain
+    const files = new Map()
     for (const handler of new Set(plugins.values())) {
         if (!handler || handler.hidden) continue
 
-        const raw = CATEGORY[handler.category] ? handler.category : 'Other'
-        const groups = categories.get(raw) || new Map()
-        const description = handler.description || 'Tanpa keterangan'
-        const entry = groups.get(description) || { commands: [], aliases: [], labels: [], restricted: false }
+        const file = handler.__file || handler.description || 'unknown'
+        if (!files.has(file)) {
+            files.set(file, {
+                file,
+                raw: CATEGORY[handler.category] ? handler.category : 'Other',
+                description: handler.description || 'Tanpa keterangan',
+                commands: [],
+                aliases: [],
+                labels: [],
+                restricted: false
+            })
+        }
+
+        const entry = files.get(file)
 
         if (handler.command) {
             const commands = Array.isArray(handler.command) ? handler.command : [handler.command]
-            entry.commands.push(commands[0])
-            entry.aliases.push(...commands.slice(1))
+            entry.commands.push(String(commands[0]))
+            entry.aliases.push(...commands.slice(1).map(String))
         }
         // label dipakai untuk pemicu yang sudah punya sintaks sendiri (mis. "=> eval", "$ shell")
         if (handler.label) entry.labels.push(handler.label)
 
         if (handler.owner || handler.creator || handler.premium) entry.restricted = true
-        groups.set(description, entry)
-        categories.set(raw, groups)
+    }
+
+    // judul blok: deskripsi plugin sendiri; kalau ada plugin lain dengan deskripsi sama, pakai nama file
+    const titleCount = new Map()
+    for (const entry of files.values()) {
+        titleCount.set(entry.description, (titleCount.get(entry.description) || 0) + 1)
+    }
+
+    const categories = new Map()
+    for (const entry of files.values()) {
+        const groups = categories.get(entry.raw) || new Map()
+        const title = titleCount.get(entry.description) > 1
+            ? `${entry.description} · ${path.basename(entry.file, '.js')}`
+            : entry.description
+        groups.set(entry.file, { ...entry, description: title })
+        categories.set(entry.raw, groups)
     }
 
     return ORDER.filter(raw => categories.has(raw)).map(raw => {
         const groups = [...categories.get(raw).entries()]
-            .map(([description, entry]) => {
+            .map(([key, entry]) => {
+                const description = entry.description || key
                 const commands = [...new Set(entry.commands)]
                 const aliases = [...new Set(entry.aliases)]
                 const labels = [...new Set(entry.labels)]
@@ -171,19 +196,6 @@ function renderHome({ categories, identity, config, pushname, m, total, prefix }
     return blocks.join('\n')
 }
 
-// grup "kaya" = punya deskripsi sendiri + alias/label; sisanya (1 command tanpa alias)
-// digabung jadi beberapa baris supaya tampilan tidak boros
-function splitGroups(groups) {
-    const rich = []
-    const plain = []
-    for (const group of groups) {
-        const simple = group.commands.length === 1 && !group.aliases.length && !group.labels.length
-        if (simple) plain.push(group)
-        else rich.push(group)
-    }
-    return { rich, plain }
-}
-
 function groupRows(group, prefix) {
     const rows = [`${GLASS.v} ${GLASS.mark} ${group.description}${group.restricted ? ' 🔒' : ''}`]
 
@@ -201,19 +213,11 @@ function groupRows(group, prefix) {
 }
 
 function buildCategoryRows(category, prefix) {
-    const { rich, plain } = splitGroups(category.groups)
     const rows = []
 
-    for (const group of rich) {
+    // satu plugin = satu blok; command-nya selalu ditulis di bawah judul plugin itu sendiri
+    for (const group of category.groups) {
         rows.push(...groupRows(group, prefix), `${GLASS.v}`)
-    }
-
-    if (plain.length) {
-        rows.push(`${GLASS.v} ${GLASS.mark} ${plain.length} perintah lainnya`)
-        for (const group of plain) {
-            for (const command of group.commands) rows.push(line(3, GLASS.pip, `${prefix}${command}`))
-        }
-        rows.push(`${GLASS.v}`)
     }
 
     if (rows[rows.length - 1] === `${GLASS.v}`) rows.pop()
