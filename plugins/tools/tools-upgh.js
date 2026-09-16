@@ -23,12 +23,28 @@ let handler = async (m, { usedPrefix, command }) => {
  let mimeFix = type?.mime || mime
  let ext = type?.ext || mime.split('/')[1] || 'bin'
 
+ // Kredensial TIDAK ditulis di dalam file ini. Isi lewat environment variable
+ // supaya token tidak ikut ter-commit / terlihat orang lain:
+ //   GH_UPLOAD_TOKEN  (wajib)  personal access token GitHub, scope "repo"
+ //   GH_UPLOAD_USER   (opsional, default: username pemilik token)
+ //   GH_UPLOAD_REPO   (wajib, contoh: my-uploads)
+ //   GH_UPLOAD_FOLDER (opsional, folder tujuan di dalam repo)
+ //   GH_UPLOAD_BRANCH (opsional, default: main)
  const config = {
- username: "hamm-r",
- repo: "uploader",
- folder: "",
- token: "TOKEN-DIHAPUS", // ⚠️ pake token baru
- branch: "main"
+ username: process.env.GH_UPLOAD_USER || "",
+ repo: process.env.GH_UPLOAD_REPO || "",
+ folder: process.env.GH_UPLOAD_FOLDER || "",
+ token: process.env.GH_UPLOAD_TOKEN || "",
+ branch: process.env.GH_UPLOAD_BRANCH || "main"
+ }
+
+ if (!config.token || !config.repo) {
+ throw `❌ *Upload GitHub belum dikonfigurasi.*\n\n` +
+ `Isi dulu di file .env / environment server:\n` +
+ `• GH_UPLOAD_TOKEN = token GitHub (scope repo)\n` +
+ `• GH_UPLOAD_REPO = nama repo tujuan\n` +
+ `• GH_UPLOAD_USER = username GitHub (opsional)\n\n` +
+ `Lalu restart bot.`
  }
 
  let filename = `${Date.now()}-${Math.floor(Math.random() * 1000)}.${ext}`
