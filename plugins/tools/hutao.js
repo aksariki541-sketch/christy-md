@@ -57,7 +57,7 @@ User adalah cowok yang Hu Tao anggap menarik untuk diajak ngobrol.
 
  if (!result) throw Error("Gagal mendapatkan respon dari Hu Tao.")
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = 'https://github.com/riki-md'
  const img = 'https://files.catbox.moe/72kpvd.jpg'

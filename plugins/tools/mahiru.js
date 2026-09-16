@@ -76,7 +76,7 @@ User adalah orang yang dekat denganmu.
  sessions[user].chat.push(`Mahiru: ${result}`)
  sessions[user].chat = sessions[user].chat.slice(-10)
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = "https://github.com/riki-md"
  const img = "https://cdn.nekohime.site/file/CzoG-UNW.jpeg"

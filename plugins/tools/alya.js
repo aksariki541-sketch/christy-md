@@ -76,7 +76,7 @@ User adalah seseorang yang menarik perhatianmu diam-diam.
  sessions[user].chat.push(`Alya: ${result}`)
  sessions[user].chat = sessions[user].chat.slice(-10)
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = "https://github.com/riki-md"
  const img = "https://cdn.nekohime.site/file/qYuhjNa2.jpeg"

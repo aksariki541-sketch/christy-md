@@ -76,7 +76,7 @@ Selalu balas sebagai Oguri Cap. Jangan keluar karakter.
  sessions[user].chat.push(`Oguri Cap: ${result}`)
  sessions[user].chat = sessions[user].chat.slice(-10)
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = "https://github.com/riki-md"
  const img = "https://cdn.nekohime.site/file/qygILH9m.jpeg"

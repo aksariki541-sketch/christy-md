@@ -51,7 +51,7 @@ User adalah orang yang cukup dekat dan menarik perhatianmu.
 
  if (!result) throw Error("Gagal mendapatkan respon dari API.")
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = "https://github.com/"
  const img = "https://files.catbox.moe/qmy241.jpg"

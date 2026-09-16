@@ -51,7 +51,7 @@ User adalah cowok yang kamu ajak ngobrol santai.
 
  if (!result) throw Error("Gagal mendapatkan respon dari Kita.")
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = 'https://github.com/riki-md'
  const img = 'https://files.catbox.moe/y5b7l6.jpg'

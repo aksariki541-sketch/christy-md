@@ -68,6 +68,22 @@ async function connectToWhatsApp() {
         sendFile(sock, chat, file, filename, caption, quoted, options)
     sock.reply = (chat, text, quoted) => replyText(sock, chat, text, quoted)
 
+    // conn.getName(jid) — dipakai plugin adaptasi dari base lain
+    sock.getName = async (jid) => {
+        try {
+            const cached = global.nameCache?.[jid]
+            if (cached) return cached
+            if (String(jid).endsWith('@g.us')) {
+                const meta = await sock.groupMetadata(jid)
+                if (meta?.subject) return meta.subject
+            }
+        } catch {}
+        return String(jid || '').split('@')[0]
+    }
+
+    // Sebagian plugin adaptasi membaca koneksi lewat variabel global
+    global.conn ??= sock
+
     sock.decodeJid = (jid) => {
         if (!jid) return jid
         if (/:\d+@/gi.test(jid)) {

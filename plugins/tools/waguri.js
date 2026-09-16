@@ -69,7 +69,7 @@ User adalah orang yang cukup dekat dan bikin kamu penasaran.
  sessions[user].chat.push(`Waguri: ${result}`)
  sessions[user].chat = sessions[user].chat.slice(-10)
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = "https://github.com/riki-md"
  const img = "https://files.catbox.moe/urhewo.jpg"

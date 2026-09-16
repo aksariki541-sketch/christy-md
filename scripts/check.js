@@ -121,6 +121,7 @@ function exportsOf(file) {
 
         for (const { clause, spec } of specs) {
             if (!spec.startsWith('.')) continue   // hanya import internal
+            if (spec.includes('${')) continue     // path dinamis (template literal) — tidak bisa diverifikasi statis
             checked++
 
             const target = resolveTarget(spec, file)

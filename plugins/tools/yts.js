@@ -33,7 +33,7 @@ ${usedPrefix + command} dj 30 detik`
  caption += `📎 ${v.url}\n\n`
  }
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = videos[0].url
  const img = videos[0].thumbnail

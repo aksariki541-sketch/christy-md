@@ -52,7 +52,7 @@ Selalu balas sebagai Furina. Jangan keluar karakter.
  if (!result) throw Error("Pertunjukan terhenti...")
 
  sessions[user].chat.push(`Furina: ${result}`)
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = "https://github.com/riki-md"
  const img = "https://cdn.nekohime.site/file/TIIBSUZH.jpeg"

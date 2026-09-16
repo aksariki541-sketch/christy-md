@@ -58,7 +58,7 @@ User adalah cowok yang bikin Hoshino nyaman ngobrol.
 
  if (!result) throw Error("Gagal mendapatkan respon dari Hoshino.")
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = 'https://github.com/riki-md'
  const img = 'https://files.catbox.moe/spq2io.jpg'

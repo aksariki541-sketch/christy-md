@@ -2,9 +2,18 @@
 
 WhatsApp Bot berbasis Node.js ESM + Baileys.
 
-Modern · Clean · Futuristic — bot WhatsApp modular dengan **806 command aktif** yang dibangun dari
+Modern · Clean · Futuristic — bot WhatsApp modular dengan **1.724 command aktif** yang dibangun dari
 sistem plugin berbasis file. Setiap file `.js` di dalam folder `plugins/` otomatis dipindai dan
 dijadikan command. Semua kode memakai ES Modules (`"type": "module"`).
+
+> **v1.1.0 — Penggabungan SEMUA plugin Nakano-Miku-MD (bot kedua dari Drive).** Seluruh 828 file
+> plugin paket tercakup (300 yang sudah diadaptasi sebelumnya + 528 sisanya digabung di rilis ini),
+> plus 4 file bonus yang hanya ada di zip sumber di dalam paket: **1.724 command terdaftar** +
+> 31 plugin listener (antilink dsb.) + 10 pemicu custom prefix. Command yang bentrok tetap dibawa
+> dengan nama baru (`menu`→`menu2`, `tiktok`→`tiktok2`…). Dependensi base lama dipindah ke
+> `lib/nakano/`, variabel global base lama (`global.db`, state game, `fkontak`…) di-shim lewat
+> `lib/compat.js`, dan `m.download()` / `conn.getName()` ditambahkan ke inti.
+> Validasi: `npm run check` lolos, **863/863 plugin termuat**, loader tanpa error.
 
 > Sebagian besar fitur berjalan **tanpa API key pihak ketiga** — pengolahan teks, matematika,
 > tanggal, gambar/sticker, manajemen grup, catatan, todo, dan game semuanya diproses lokal di server.

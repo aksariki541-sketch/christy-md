@@ -57,6 +57,15 @@ async function loadPlugin(file) {
             keys.push(key)
         }
 
+        // Plugin listener murni (hasil konversi handler.before/handler.all dari base
+        // lain) tidak punya command — daftarkan lewat Symbol supaya hook onMessage-nya
+        // ikut terpanggil oleh handleMessage.
+        if (!keys.length && handler.onMessage) {
+            const key = Symbol(file)
+            plugins.set(key, handler)
+            keys.push(key)
+        }
+
         pluginCache.set(file, keys)
     } catch (e) {
         reportPluginError(file, e)
@@ -175,17 +184,38 @@ export default async function handleMessage(conn, m) {
 
         // Hook opsional: plugin boleh mendeklarasikan `handler.onMessage` untuk ikut memproses
         // SETIAP pesan — termasuk yang tanpa teks (stiker, foto, voice note) — bukan hanya saat
-        // command-nya dipanggil. Dipakai fitur AFK: mencabut status saat user kembali dan memberi
-        // tahu orang yang menandai user AFK. Dijalankan sebelum dispatch command, sekali per
-        // plugin per pesan, dan error di dalamnya tidak menghentikan bot.
+        // command-nya dipanggil. Dipakai fitur AFK & listener hasil konversi (antilink dsb.):
+        // mencabut status saat user kembali dan memberi tahu orang yang menandai user AFK.
+        // Dijalankan sebelum dispatch command, sekali per plugin per pesan, dan error di
+        // dalamnya tidak menghentikan bot.
         const pluginHook = new Set()
         for (const plugin of plugins.values()) {
             if (plugin?.onMessage) pluginHook.add(plugin)
         }
         if (pluginHook.size) {
-            // konteks ringan: hook jalan sebelum config/hak akses dibaca (pesan tanpa teks pun
-            // ikut terproses), jadi yang tersedia baru conn, registry, dan isi pesannya.
-            const hookCtx = { conn, plugins, args: [], text: m.text || '', command: '', prefix: '' }
+            // konteks diperkaya ala base lama (conn, peserta grup, status admin, data user)
+            // supaya listener hasil konversi handler.before jalan tanpa diubah lagi.
+            const hookCtx = {
+                conn,
+                sock: conn,
+                plugins,
+                args: [],
+                text: m.text || '',
+                command: '',
+                prefix: '',
+                usedPrefix: '',
+                isOwner: false, isCreator: false, isPremium: false, isPrems: false,
+                isAdmin: false, isBotAdmin: false,
+                participants: [],
+                groupMetadata: null,
+                user: global.db?.data?.users?.[m.sender] || {}
+            }
+            if (m.isGroup) {
+                hookCtx.groupMetadata = await groupMeta(conn, m.chat).catch(() => null)
+                hookCtx.participants = hookCtx.groupMetadata?.participants || []
+                hookCtx.isAdmin = await isAdmin(conn, m).catch(() => false)
+                hookCtx.isBotAdmin = await isBotAdmin(conn, m).catch(() => false)
+            }
             for (const plugin of pluginHook) {
                 try {
                     await plugin.onMessage(m, hookCtx)
@@ -194,6 +224,12 @@ export default async function handleMessage(conn, m) {
                     console.error(`[onMessage] ${nama}:`, e?.message || e)
                 }
             }
+        }
+
+        // Cache pushName — memberi data pada shim conn.getName()
+        if (m.pushName && m.sender) {
+            global.nameCache ??= {}
+            global.nameCache[m.sender] = m.pushName
         }
 
         if (!body) return

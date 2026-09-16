@@ -51,7 +51,7 @@ Gunakan kata-kata dramatis seperti "Waga na wa Megumin!", "Explosion!", atau "Ke
 
  if (!result) throw Error("Gagal mendapatkan respon dari Megumin.")
 
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = 'https://github.com/riki-md'
  const img = 'https://files.catbox.moe/6v7y8y.jpg'

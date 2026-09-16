@@ -1,0 +1,98 @@
+// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
+// Asal       : plugins/game/tebakbola.js (paket plugin Drive)
+// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
+//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
+// Command    : .tebakbola, .whobola
+// Catatan    : handler.before/all -> handler.onMessage
+
+import axios from "axios"
+
+let timeout = 60000
+let poin = 4999
+
+let handler = async (m, { conn, usedPrefix, command }) => {
+  conn.game = conn.game || {}
+  const id = "tebakbola-" + m.chat
+
+  if (command === "tebakbola") {
+    if (id in conn.game)
+      return m.reply("Masih ada soal yang belum terjawab!")
+
+    let data
+    try {
+      const res = await axios.get("https://api.deline.web.id/game/tebakpemainbola")
+      if (!res.data?.result) throw new Error()
+      data = res.data.result
+    } catch {
+      return m.reply("Gagal mengambil data pemain bola, coba lagi.")
+    }
+
+    const answer = data.jawaban.trim().toLowerCase()
+    const clue = data.deskripsi || "Tidak ada deskripsi."
+
+    const caption = `
+⚽ *TEBAK PEMAIN BOLA*
+
+Soal:
+❓ *${data.soal}*
+
+Timeout: *${timeout / 1000} detik*
+Ketik *${usedPrefix}whobola* untuk bantuan
+Bonus: ${poin} XP
+`.trim()
+
+    let msg = await m.reply(caption)
+
+    conn.game[id] = [
+      msg,
+      { answer },
+      poin,
+      setTimeout(() => {
+        if (conn.game[id]) {
+          conn.reply(
+            m.chat,
+            `⏳ *Waktu habis!*\nJawabannya adalah: *${data.jawaban}*`,
+            conn.game[id][0]
+          )
+          delete conn.game[id]
+        }
+      }, timeout)
+    ]
+  }
+
+  if (command === "whobola") {
+    if (!(id in conn.game)) return m.reply("Tidak ada game aktif.")
+
+    let ans = conn.game[id][1].answer
+    let hint = ans[0] + "_".repeat(Math.max(ans.length - 2, 1)) + ans.slice(-1)
+
+    return m.reply(`🧩 *Hint:* ${hint}`)
+  }
+}
+
+handler.onMessage = async function (m) {
+  const id = "tebakbola-" + m.chat
+  if (!(id in this.game)) return
+
+  let text = (m.text || "").trim().toLowerCase()
+  if (!text) return
+
+  let ans = this.game[id][1].answer
+
+  if (text === ans || text.includes(ans)) {
+    clearTimeout(this.game[id][3])
+    this.reply(
+      m.chat,
+      `🎉 *Benar!* Pemain tersebut adalah: *${ans.toUpperCase()}*`,
+      this.game[id][0]
+    )
+    delete this.game[id]
+  }
+}
+
+handler.command = ['tebakbola', 'whobola']
+
+export default handler
+handler.category = 'Fun'
+handler.description = 'Tebakbola'
+

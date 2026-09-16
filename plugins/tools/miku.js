@@ -52,7 +52,7 @@ Selalu balas sebagai Miku. Jangan keluar karakter.
  if (!result) throw Error("Miku sedang malu...")
 
  sessions[user].chat.push(`Miku: ${result}`)
- const { prepareWAMessageMedia } = await import('baileys')
+ const { prepareWAMessageMedia } = await import('../../lib/baileys.js')
 
  const urlB = "https://github.com/riki-md"
  const img = "https://cdn.nekohime.site/file/rLDBPIp6.jpeg"
