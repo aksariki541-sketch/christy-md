@@ -39,9 +39,8 @@ dijadikan command. Semua kode memakai ES Modules (`"type": "module"`).
 
 ### Tampilan Menu
 
-`.menu` memakai gaya **neon glass**: kotak garis, judul **bold**, label small caps, dan ikon per kategori.
-Tampilan utamanya sengaja pendek (bukan tembok teks) — daftar command dibuka lewat tombol atau
-`.menu all`:
+`.menu` memakai gaya **neon glass**: kotak garis, judul **bold**, label small caps, daftar perintah
+**satu baris satu perintah** (lurus ke bawah, tidak dipadatkan menyamping):
 
 ```
 ╭━━━━━━━━━━━━━━━━━━━━━━━╮
@@ -60,16 +59,26 @@ Tampilan utamanya sengaja pendek (bukan tembok teks) — daftar command dibuka l
 ╰━━━━━━━━━━━━━━━━━━━━━━━━
 
 ╭─ ◈ ꜱɪꜱᴛᴇᴍ
-│ ▸ Jam      ✦ 21:11 WITA
+│ ▸ Jam      ✦ 21:56 WITA
 │ ▸ Tanggal  ✦ Rab, 16 Sep 2026
 │ ▸ Kategori ✦ 7
 │ ▸ Perintah ✦ 806
 ╰━━━━━━━━━━━━━━━━━━━━━━━━━
 
+⌁ ᴋᴀᴛᴇɢᴏʀɪ ᴛᴇʀꜱᴇᴅɪᴀ
+   ▸ 🧿 ᴍᴀɪɴ              ✦ 40 perintah
+   ▸ 📡 ꜱʏꜱᴛᴇᴍ            ✦ 4 perintah
+   ▸ 🛰️ ᴍᴇᴅɪᴀ & ɢᴀᴍʙᴀʀ    ✦ 133 perintah
+   ▸ 🔩 ᴛᴏᴏʟꜱ             ✦ 349 perintah
+   ▸ 🛡️ ɢʀᴏᴜᴘ             ✦ 56 perintah
+   ▸ 🕹️ ꜰᴜɴ               ✦ 150 perintah
+   ▸ ♛ ᴏᴡɴᴇʀ             ✦ 74 perintah
+
 ▰ ketik *.menu all* atau pakai tombol di bawah ✦ v1.0.0
 ```
 
-Detail kategori tampil dalam kotak per fitur:
+`.menu <kategori>` menampilkan daftar lengkap, juga satu per baris — `✦` untuk command utama,
+`▸` untuk alias:
 
 ```
 ╭━━━━━━━━━━━━━━━━━━━━━╮
@@ -80,13 +89,20 @@ Detail kategori tampil dalam kotak per fitur:
 ╭── 🔩 ᴛᴏᴏʟꜱ ── 349 perintah
 │ ◈ Kalkulator & matematika
 │   ✦ .calc
-│   ▸ alias: .math · .hitung · .percent
-│            .discount · .prime · .factor +9
+│   ▸ .math
+│   ▸ .hitung
+│   ▸ .percent
+│   ▸ .discount
+│   ▸ .prime
+│   ▸ .factor
+│   ▸ .fib
+│   ▸ .fibonacci
+│   … +7 alias lain
 │
-│ ◈ Encode & decode (Base64, URL, Morse, Hex, Biner, ROT13)
-│   ✦ .b64e
-│   ▸ alias: .base64encode · .b64d
-│            .base64decode · .urlencode +11
+│ ◈ 8 perintah lainnya
+│   ✦ .ht
+│   ✦ .linkgrup
+│   ✦ .opentime
 ╰────────────────────
 
 ▰ prefix *. * ✦ diracik oleh Riki Aksa
@@ -94,20 +110,19 @@ Detail kategori tampil dalam kotak per fitur:
 
 | Perintah | Yang ditampilkan |
 | --- | --- |
-| `.menu` | Kotak brand + sapaan + blok identitas & sistem (**496 karakter / 23 baris**) |
-| `.menu tools` | Kotak direktori berisi seluruh fitur kategori itu + alias |
-| `.menu all` | Semua command + alias sekaligus |
+| `.menu` | Kotak brand + sapaan + blok identitas & sistem + daftar kategori (**801 karakter / 32 baris**) |
+| `.menu tools` | Kotak direktori berisi seluruh fitur kategori itu, command & alias satu per baris |
+| `.menu all` | Semua command + alias sekaligus (satu per baris) |
 | `.menu naga` | Kategori tidak ada → pesan rapi berisi daftar kategori yang valid |
 
 Tombolnya:
 
-- **◈ Lihat Kategori** — single-select: bagian `✦ 7 kategori ✦` (7 kategori + jumlah perintah, memilihnya
-  langsung mengirim `.menu <kategori>`) dan bagian `⌁ ᴀᴋꜱɪ ᴄᴇᴘᴀᴛ ⌁` (Ping, Statistik, Identitas, Script).
+- **◈ Lihat Kategori** — single-select: bagian `✦ 7 kategori ✦` (memilihnya langsung mengirim `.menu <kategori>`)
+  dan bagian `⌁ ᴀᴋꜱɪ ᴄᴇᴘᴀᴛ ⌁` (Ping, Statistik, Identitas, Script).
 - **▰ Semua Perintah** — mengirim `.menu all`.
 - **📡 Ping** — monitor server.
 
-Di dalam `.menu <kategori>` / `.menu all`, label utamanya berubah jadi **◈ Beranda** (balik ke menu utama)
-dan tombol keduanya tetap **▰ Semua Perintah**, jadi tidak pernah mentok.
+Di dalam `.menu <kategori>` / `.menu all`, label utamanya berubah jadi **◈ Beranda** (balik ke menu utama).
 
 Catatan: jam, tanggal, dan sapaan mengikuti **`timezone` di `config.json`** (default `Asia/Makassar`,
 ditampilkan sebagai WITA). Ubah ke `Asia/Jakarta` (WIB) atau `Asia/Jayapura` (WIT) kalau perlu.

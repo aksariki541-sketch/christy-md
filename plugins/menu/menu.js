@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { runtime } from '../../lib/myfunc.js'
 import {
-    brand, divider, wrapList,
+    brand, textWidth,
     GLASS, toBold, toSmall, timezoneLabel, glassHeader, glassBlock, glassRow
 } from '../../lib/ui.js'
 
@@ -25,12 +25,19 @@ const CATEGORY = {
 }
 const ORDER = Object.keys(CATEGORY)
 
-const WIDTH = 32        // lebar maksimum baris daftar command
-const ALIAS_SHOWN = 6   // alias ditampilkan di detail sebelum diringkas
+const ALIAS_SHOWN = 8   // alias yang ditulis satu per satu sebelum diringkas
+const NAME_WIDTH = 17   // lebar kolom nama kategori di menu utama
 const MAX_ROWS = 9      // baris kategori di tombol single-select
 const DEFAULT_TZ = 'Asia/Makassar'
 
 const row = (key, val, pad = 8) => `${GLASS.bullet} ${String(key).padEnd(pad)} ${GLASS.pip} ${val}`
+
+// satu item = satu baris (lurus ke bawah, tidak dipadatkan menyamping)
+const line = (indent, marker, text) => `${GLASS.v}${' '.repeat(indent)}${marker} ${text}`
+
+// padding yang sadar lebar karakter (emoji/CJK dihitung 2 kolom)
+const padName = (text, size = NAME_WIDTH) =>
+    text + ' '.repeat(Math.max(1, size - textWidth(text)))
 
 // --------------------------------------------------------------------------
 // Waktu mengikuti config.timezone (default Asia/Makassar)
@@ -153,6 +160,11 @@ function renderHome({ categories, identity, config, pushname, m, total, prefix }
             row('Perintah', `${total}`)
         ]),
         '',
+        `${GLASS.spark} ${toSmall('kategori tersedia')}`,
+        ...categories.map(category =>
+            `   ${GLASS.bullet} ${category.icon} ${padName(toSmall(category.title))} ${GLASS.pip} ${category.count} perintah${category.restrictedOnly ? ' 🔒' : ''}`
+        ),
+        '',
         `${GLASS.bar} ketik *${prefix}menu all* atau pakai tombol di bawah ${GLASS.pip} v${identity.version}`
     ]
 
@@ -175,21 +187,15 @@ function splitGroups(groups) {
 function groupRows(group, prefix) {
     const rows = [`${GLASS.v} ${GLASS.mark} ${group.description}${group.restricted ? ' 🔒' : ''}`]
 
-    if (group.commands.length) {
-        wrapList(group.commands.map(c => `${prefix}${c}`), { size: WIDTH })
-            .forEach(line => rows.push(`${GLASS.v}   ${GLASS.pip} ${line}`))
-    }
-    if (group.labels.length) rows.push(`${GLASS.v}   ${GLASS.pip} ${group.labels.map(l => `「${l}」`).join('  ')}`)
+    // command utama: satu per baris, lurus ke bawah
+    for (const command of group.commands) rows.push(line(3, GLASS.pip, `${prefix}${command}`))
+    for (const label of group.labels) rows.push(line(3, GLASS.pip, `「${label}」`))
 
-    if (group.aliases.length) {
-        const shown = group.aliases.slice(0, ALIAS_SHOWN)
-        const rest = group.aliases.length - shown.length
-        const aliasRows = wrapList(shown.map(a => `${prefix}${a}`), { size: WIDTH })
-        aliasRows.forEach((line, i) => {
-            const tail = i === aliasRows.length - 1 && rest > 0 ? ` +${rest}` : ''
-            rows.push(`${GLASS.v}   ${i === 0 ? `${GLASS.bullet} alias: ` : '         '}${line}${tail}`)
-        })
-    }
+    // alias: satu per baris juga, pakai penanda bullet
+    const shown = group.aliases.slice(0, ALIAS_SHOWN)
+    const rest = group.aliases.length - shown.length
+    for (const alias of shown) rows.push(line(3, GLASS.bullet, `${prefix}${alias}`))
+    if (rest > 0) rows.push(`${GLASS.v}   … +${rest} alias lain`)
 
     return rows
 }
@@ -203,9 +209,10 @@ function buildCategoryRows(category, prefix) {
     }
 
     if (plain.length) {
-        const tokens = plain.flatMap(g => g.commands.map(c => `${prefix}${c}`))
         rows.push(`${GLASS.v} ${GLASS.mark} ${plain.length} perintah lainnya`)
-        wrapList(tokens, { size: WIDTH }).forEach(line => rows.push(`${GLASS.v}   ${GLASS.pip} ${line}`))
+        for (const group of plain) {
+            for (const command of group.commands) rows.push(line(3, GLASS.pip, `${prefix}${command}`))
+        }
         rows.push(`${GLASS.v}`)
     }
 
