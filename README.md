@@ -222,6 +222,18 @@ Semua konfigurasi utama ada di `config.json`:
 | `ownerName` | Nama creator yang tampil di menu dan credit |
 | `botVersion` / `tagline` | Identitas versi & tagline di tampilan |
 | `timezone` | Zona waktu untuk jam, tanggal, dan sapaan di menu (default `Asia/Makassar`) |
+
+### Environment variable (opsional)
+
+Ada di `.env` atau environment server — **jangan** ditulis langsung di dalam file project:
+
+| Variable | Untuk |
+| --- | --- |
+| `BAILEYS_SHOW_BANNER=1` | Menampilkan banner bawaan paket Baileys yang secara default dibungkam `lib/baileys.js` |
+| `GH_UPLOAD_TOKEN` | Token GitHub untuk command `.uploadgh` (scope `repo`) — tanpa ini commandnya memberi tahu cara mengisinya |
+| `GH_UPLOAD_REPO` | Nama repo tujuan upload |
+| `GH_UPLOAD_USER` | Username GitHub pemilik repo upload (opsional) |
+| `GH_UPLOAD_FOLDER` / `GH_UPLOAD_BRANCH` | Folder & branch tujuan upload (opsional, default branch `main`) |
 | `creator` | Nomor creator (akses penuh, tidak bisa dicabut lewat command) |
 | `prefix` | Daftar prefix command |
 | `botMode` | `public` (semua orang) atau `self` (hanya owner) |
