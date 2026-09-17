@@ -1,10 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/whatmusic.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .whatmusic
-
-import { upload } from '../../lib/nakano/scrape/uploadnekohime.js'
+import { upload } from '../../lib/scrape/uploadnekohime.js'
 
 let handler = async (m, { conn }) => {
   const q = m.quoted || m
@@ -80,9 +74,9 @@ let handler = async (m, { conn }) => {
   }
 }
 
-handler.command = ['whatmusic']
+handler.help = ['whatmusic']
+handler.tags = ['tools']
+handler.command = /^whatmusic$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Whatmusic'
-

@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tools-blur.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: blur→blur2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .blur2
-
 import axios from 'axios'
 import FormData from 'form-data'
 
@@ -45,9 +38,8 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   }
 }
 
-handler.command = ['blur2']
+handler.help = ['blur']
+handler.tags = ['tools']
+handler.command = ['blur']
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Tools-blur'
-

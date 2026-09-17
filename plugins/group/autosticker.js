@@ -1,11 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/autosticker.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .autosticker
-// Catatan    : handler.before/all -> handler.onMessage
-
-import { sticker, addExif } from '../../lib/nakano/sticker.js'
+import { sticker, addExif } from '../../lib/sticker.js'
 
 let handler = async (m, { conn, args, usedPrefix, command, isAdmin }) => {
     if (!m.isGroup) return m.reply('Hanya bisa di grup!')
@@ -25,7 +18,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isAdmin }) => {
     }
 }
 
-handler.onMessage = async function (m, { conn }) {
+handler.before = async function (m, { conn }) {
     if (!m.isGroup || m.fromMe || m.isBaileys) return 
     
     let chat = global.db.data.chats[m.chat]
@@ -58,10 +51,9 @@ handler.onMessage = async function (m, { conn }) {
     }
 }
 
+handler.help = ['autosticker <on/off>']
+handler.tags = ['group']
 handler.command = ['autosticker']
 handler.group = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Autosticker'
-

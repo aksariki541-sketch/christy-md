@@ -1,113 +1,106 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/msgch.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .msgch
-
-import { downloadContentFromMessage } from '../../lib/baileys.js'
+import { downloadContentFromMessage } from 'baileys'
 
 let handler = async (m, { conn, text }) => {
- const idch = '120363403952337689@newsletter'
- const who = m.sender
+    const idch = '120363403952337689@newsletter'
+    const who = m.sender
 
- const q = m.quoted ? m.quoted : m
- const mime = q.mimetype || ''
+    const q = m.quoted ? m.quoted : m
+    const mime = q.mimetype || ''
 
- if (!text && !mime) {
- throw `Contoh:\n.msgch Halo?\natau reply media`
- }
+    if (!text && !mime) {
+        throw `Contoh:\n.msgch Halo?\natau reply media`
+    }
 
- await conn.sendMessage(m.chat, {
- react: { text: "⏳", key: m.key }
- }).catch(() => {})
+    await conn.sendMessage(m.chat, {
+        react: { text: "⏳", key: m.key }
+    }).catch(() => {})
 
- let url
- try {
- url = await conn.profilePictureUrl(who, 'image')
- } catch {
- url = null
- }
+    let url
+    try {
+        url = await conn.profilePictureUrl(who, 'image')
+    } catch {
+        url = null
+    }
 
- let content = {}
+    let content = {}
 
- try {
- const msg = q.msg || q
- const type = Object.keys(msg)[0]
+    try {
+        const msg = q.msg || q
+        const type = Object.keys(msg)[0]
 
- // 🔥 STICKER → IMAGE (ANTI REJECT CHANNEL)
- if (type === 'stickerMessage') {
- let stream = await downloadContentFromMessage(msg.stickerMessage, 'sticker')
- let buffer = Buffer.from([])
+        // 🔥 STICKER → IMAGE (ANTI REJECT CHANNEL)
+        if (type === 'stickerMessage') {
+            let stream = await downloadContentFromMessage(msg.stickerMessage, 'sticker')
+            let buffer = Buffer.from([])
 
- for await (const chunk of stream) {
- buffer = Buffer.concat([buffer, chunk])
- }
+            for await (const chunk of stream) {
+                buffer = Buffer.concat([buffer, chunk])
+            }
 
- content = {
- image: buffer,
- caption: text || ''
- }
+            content = {
+                image: buffer,
+                caption: text || ''
+            }
 
- } else if (type === 'imageMessage') {
- let media = await q.download()
- content = { image: media, caption: text || '' }
+        } else if (type === 'imageMessage') {
+            let media = await q.download()
+            content = { image: media, caption: text || '' }
 
- } else if (type === 'videoMessage') {
- let media = await q.download()
- content = { video: media, caption: text || '' }
+        } else if (type === 'videoMessage') {
+            let media = await q.download()
+            content = { video: media, caption: text || '' }
 
- } else if (type === 'audioMessage') {
- let media = await q.download()
- content = {
- audio: media,
- mimetype: 'audio/mpeg',
- ptt: true
- }
+        } else if (type === 'audioMessage') {
+            let media = await q.download()
+            content = {
+                audio: media,
+                mimetype: 'audio/mpeg',
+                ptt: true
+            }
 
- } else {
- content = { text: text || '' }
- }
+        } else {
+            content = { text: text || '' }
+        }
 
- } catch (e) {
- console.error(e)
- content = { text: text || '[Gagal ambil media]' }
- }
+    } catch (e) {
+        console.error(e)
+        content = { text: text || '[Gagal ambil media]' }
+    }
 
- // clean preview
- content.contextInfo = {
- externalAdReplyOffOffOff: {
- thumbnailUrl: url,
- mediaType: 1,
- renderLargerThumbnail: false,
- showAdAttribution: false
- }
- }
+    // clean preview
+    content.contextInfo = {
+        externalAdReplyOffOffOff: {
+            thumbnailUrl: url,
+            mediaType: 1,
+            renderLargerThumbnail: false,
+            showAdAttribution: false
+        }
+    }
 
- try {
- await conn.sendMessage(idch, content)
+    try {
+        await conn.sendMessage(idch, content)
 
- await conn.sendMessage(m.chat, {
- react: { text: '✅', key: m.key }
- }).catch(() => {})
+        await conn.sendMessage(m.chat, {
+            react: { text: '✅', key: m.key }
+        }).catch(() => {})
 
- await m.reply('✅ Terkirim ke channel!')
+        await m.reply('✅ Terkirim ke channel!')
 
- } catch (err) {
- console.error(err)
+    } catch (err) {
+        console.error(err)
 
- await conn.sendMessage(m.chat, {
- react: { text: '❌', key: m.key }
- }).catch(() => {})
+        await conn.sendMessage(m.chat, {
+            react: { text: '❌', key: m.key }
+        }).catch(() => {})
 
- await m.reply('❌ Gagal kirim ke channel (format tidak didukung)')
- }
+        await m.reply('❌ Gagal kirim ke channel (format tidak didukung)')
+    }
 }
 
-handler.command = ['msgch']
+handler.help = ['msgch']
+handler.tags = ['owner']
+handler.command = /^msgch$/i
 handler.premium = true
 handler.mods = true
-
-handler.category = 'Owner'
-handler.description = 'Msgch'
 
 export default handler

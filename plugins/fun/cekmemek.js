@@ -1,14 +1,8 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/cekmemek.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .cekmemek, .cekmmk
-
 let handler = async (m, { conn, command, text }) => {
 	
- if (!text) return conn.reply(m.chat, '• *Example :* .cekmemek elaina', m)
+    if (!text) return conn.reply(m.chat, '• *Example :* .cekmemek elaina', m)
 	
- conn.reply(m.chat, `
+  conn.reply(m.chat, `
 ╭━━━━°「 *Memeknya ${text}* 」°
 ┃
 ┊• Nama : ${text}
@@ -18,13 +12,12 @@ let handler = async (m, { conn, command, text }) => {
 ╰═┅═━––––––๑
 `.trim(), m)
 }
-handler.command = ['cekmemek', 'cekmmk']
-
-handler.category = 'Fun'
-handler.description = 'Cekmemek'
+handler.help = ['cekmemek *<name>*']
+handler.tags = ['fun']
+handler.command = /^cekmemek|cekmmk/i
 
 export default handler
 
 function pickRandom(list) {
- return list[Math.floor(Math.random() * list.length)]
+  return list[Math.floor(Math.random() * list.length)]
 }

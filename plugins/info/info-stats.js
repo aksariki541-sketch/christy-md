@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/info-stats.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: stats→stats2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .stats2, .stat
-
 let handler = async (m, { conn }) => {
   try {
     // 📊 Ambil data
@@ -75,9 +68,8 @@ Runtime       : ${runtimeText}`)
   }
 }
 
-handler.command = ['stats2', 'stat']
+handler.help = ['stats']
+handler.tags = ['info']
+handler.command = /^(stats|stat)$/i
 
 export default handler
-handler.category = 'Main'
-handler.description = 'Info-stats'
-

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/setbirthday.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .setbirthday
-
 let handler = async (m, { text }) => {
   const db = global.db?.data?.users
   if (!db) return m.reply('❌ DB tidak ditemukan')
@@ -33,8 +27,7 @@ let handler = async (m, { text }) => {
   m.reply(`🎉 Birthday tersimpan!\n📅 ${db[m.sender].birthday}`)
 }
 
-handler.command = ['setbirthday']
+handler.help = ['setbirthday']
+handler.tags = ['info', 'xp']
+handler.command = /^setbirthday$/i
 export default handler
-handler.category = 'Main'
-handler.description = 'Setbirthday'
-

@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/listprem.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: premium→premium2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .prem, .premium2
-
 let handler = async (m, { conn }) => {
 
   let users = global.db.data.users
@@ -44,7 +37,9 @@ let handler = async (m, { conn }) => {
   }, { quoted: m })
 }
 
-handler.command = ['prem', 'premium2']
+handler.help = ['listprem']
+handler.tags = ['owner']
+handler.command = /^list(prem|premium)$/i
 handler.owner = true
 
 export default handler
@@ -55,6 +50,3 @@ function msToDate(ms) {
   let m = Math.floor(ms % 3600000 / 60000)
   return `${d} Hari ${h} Jam ${m} Menit`
 }
-handler.category = 'Owner'
-handler.description = 'Listprem'
-

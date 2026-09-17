@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/ceksewa.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: ceksewa→ceksewa2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .ceksewa2
-
 import moment from 'moment'
 
 const handler = async (m) => {
@@ -35,8 +28,5 @@ const handler = async (m) => {
   )
 }
 
-handler.command = ['ceksewa2']
+handler.command = ['ceksewa']
 export default handler
-handler.category = 'Tools'
-handler.description = 'Ceksewa'
-

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/broadcastgc.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .broadcastgc
-
 const handler = async (m, { conn, text, quoted, mime, prefix, command }) => {
   if (!text) throw `*Penggunaan salah!*\nGunakan: ${prefix + command} teks\n\nBisa reply gambar/video untuk broadcast media.`;
 
@@ -21,7 +15,7 @@ const handler = async (m, { conn, text, quoted, mime, prefix, command }) => {
       remoteJid: "status@broadcast"
     },
     message: {
-      conversation: "Christy MD"
+      conversation: "christy - MD"
     }
   };
 
@@ -42,10 +36,9 @@ const handler = async (m, { conn, text, quoted, mime, prefix, command }) => {
   m.reply('✅ Berhasil broadcast ke semua grup!');
 };
 
-handler.command = ['broadcastgc']
+handler.help = ['bcgc <teks>'];
+handler.tags = ['owner'];
+handler.command = /^bcgc|broadcast$/i;
 handler.owner = true;
 
 export default handler;
-handler.category = 'Owner'
-handler.description = 'Broadcastgc'
-

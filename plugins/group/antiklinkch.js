@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/antiklinkch.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antilinkch
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = async (m, { args, isAdmin, isOwner }) => {
   if (!m.isGroup) return m.reply("Fitur ini hanya bisa dipakai di grup.")
   if (!(isAdmin || isOwner)) return m.reply("Khusus admin.")
@@ -35,7 +28,7 @@ let handler = async (m, { args, isAdmin, isOwner }) => {
   return m.reply("Opsi tidak valid.\nGunakan:\n.antilinkch on / off")
 }
 
-handler.onMessage = async (m, { conn, isBotAdmin, usedPrefix, isAdmin }) => {
+handler.before = async (m, { conn, isBotAdmin, usedPrefix, isAdmin }) => {
   if (!m.isGroup) return
   if (!isBotAdmin) return
 
@@ -76,12 +69,11 @@ handler.onMessage = async (m, { conn, isBotAdmin, usedPrefix, isAdmin }) => {
   })
 }
 
-handler.command = ['antilinkch']
+handler.help = ['antilinkch']
+handler.tags = ['group']
+handler.command = /^antilinkch$/i
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Antiklinkch'
-

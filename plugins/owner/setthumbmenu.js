@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/setthumbmenu.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .setthumbmenu
-
 import fs from 'fs'
 
 let handler = async (m, { usedPrefix, command }) => {
@@ -16,7 +10,7 @@ let handler = async (m, { usedPrefix, command }) => {
     }
 
     const buffer = await quoted.download()
-    fs.writeFileSync('./media/thumb.jpg', buffer) // simpan ke file thumbnail menu (Christy MD)
+    fs.writeFileSync('./media/christy-thumb.jpg', buffer) // simpan ke file thumbnail menu (Christy)
     global.thumb = buffer
 
     m.reply('✅ Thumbnail menu berhasil diupdate!')
@@ -26,10 +20,9 @@ let handler = async (m, { usedPrefix, command }) => {
   }
 }
 
-handler.command = ['setthumbmenu']
+handler.help = ['setthumbmenu']
+handler.tags = ['owner']
+handler.command = /^setthumbmenu$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Setthumbmenu'
-

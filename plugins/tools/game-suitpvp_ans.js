@@ -1,12 +1,5 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/game-suitpvp_ans.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : (listener/customPrefix)
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = m => m
-handler.onMessage = async function (m) {
+handler.before = async function (m) {
   this.suit = this.suit ? this.suit : {}
   if (db.data.users[m.sender].suit < 0) db.data.users[m.sender].suit = 0
   let room = Object.values(this.suit).find(room => room.id && room.status && [room.p, room.p2].includes(m.sender))
@@ -92,6 +85,7 @@ _*Hasil Suit*_${tie ? '\nSERI' : ''}
   }
   return !0
 }
+handler.exp = 0
 export default handler 
 
 const delay = time => new Promise(res => setTimeout(res, time))
@@ -99,6 +93,3 @@ const delay = time => new Promise(res => setTimeout(res, time))
 function random(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
-handler.category = 'Tools'
-handler.description = 'Game-suitpvp_ans'
-

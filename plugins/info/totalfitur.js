@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/totalfitur.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .totalfitur
-
 let handler = async (m, { conn }) => {
   try {
     const totalPlugin = Object.keys(global.plugins).length
@@ -30,9 +24,9 @@ let handler = async (m, { conn }) => {
   }
 }
 
+handler.help = ['totalfitur']
+handler.tags = ['info']
 handler.command = ['totalfitur']
+handler.limit = false
 
 export default handler
-handler.category = 'Main'
-handler.description = 'Totalfitur'
-

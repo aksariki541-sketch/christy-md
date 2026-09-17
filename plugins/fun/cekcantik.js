@@ -1,21 +1,14 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/cekcantik.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .cantikcek, .cekcantik
-
-let handler = async (m, { conn }) => {
- conn.reply(m.chat,`${pickRandom(cantikk)}`, m)
+let handler  = async (m, { conn }) => {
+  conn.reply(m.chat,`${pickRandom(cantikk)}`, m)
 }
-handler.command = ['cantikcek', 'cekcantik']
-
-handler.category = 'Fun'
-handler.description = 'Cekcantik'
+handler.help = ['cantikcek']
+handler.tags = ['fun']
+handler.command = /^(cantikcek|cekcantik)$/i
 
 export default handler
 
 function pickRandom(list) {
- return list[Math.floor(list.length * Math.random())]
+  return list[Math.floor(list.length * Math.random())]
 }
 
 let cantikk = [
@@ -38,5 +31,5 @@ let cantikk = [
 'Cantik Level : 83%\n\nDijamin cowok gak akan kecewa neng',
 'Cantik Level : 89%\n\ncowok2 pasti auto salfok klo ngeliat lo!',
 'Cantik Level : 94%\n\nAARRGGHHH!!!',
-'Cantik Level : 100%\n\nKamu Cantik!, Jadi Pacar Ownerku Aja Nih\nwa.me/6283134600805?text=Hallo+Riki?',
+'Cantik Level : 100%\n\nKamu Cantik!, Jadi Pacar Ownerku Aja Nih\nwa.me/6282320532450?text=Hallo+Riki?',
 ]

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/banchat2.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .banchat2
-
 let handler = async (m, { text }) => {
   if (!text) return m.reply('Masukkan ID grup.\nContoh:\n.banchat2 1203630xxxxx@g.us')
 
@@ -20,10 +14,10 @@ let handler = async (m, { text }) => {
   m.reply(`✅ Grup berhasil dibanned:\n${id}`)
 }
 
-handler.command = ['banchat2']
+handler.help = ['banchat2']
+handler.tags = ['owner']
+handler.command = /^banchat2$/i
 handler.owner = true
+handler.limit = false
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Banchat2'
-

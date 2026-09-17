@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/self-public.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: self→self2, public→public2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .self2, .public2
-
 let handler = async(m, { conn, command }) => {
   let isPublic = command === "public";
   let self = global.opts["self"]
@@ -16,12 +9,11 @@ let handler = async(m, { conn, command }) => {
   m.reply(`Berhasil ${!isPublic ? "Self" : "Public"} bot!`)
 }
 
+handler.help = ["self", "public"]
+handler.tags = ["owner"]
 
-handler.owner = true
+handler.rowner = true
 
-handler.command = ['self2', 'public2']
+handler.command = /^(self|public)/i
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Self-public'
-

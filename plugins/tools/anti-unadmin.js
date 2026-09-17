@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/anti-unadmin.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : (listener/customPrefix)
-// Catatan    : handler.before/all -> handler.onMessage
-
 // plugins/anti-unadmin.mjs
 /*
 📌 Nama Fitur: Anti Unadmin GC
@@ -17,7 +10,7 @@
 
 let handler = m => m
 
-handler.onMessage = async function (m, { conn }) {
+handler.before = async function (m, { conn }) {
   try {
     if (!m.isGroup) return true
 
@@ -111,6 +104,3 @@ handler.onMessage = async function (m, { conn }) {
 }
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Anti-unadmin'
-

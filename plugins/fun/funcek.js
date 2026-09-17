@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/funcek.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: cantikcek→cantikcek2, cekcantik→cekcantik2, cekganteng→cekganteng2, gantengcek→gantengcek2, rate→rate2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .alimcek, .anjingcek, .babicek, .baikcek, .bapercek, .bebancek, .begocek, .cantikcek2, .cekalim, .cekanjing, .cekbabi, .cekbaik, .cekbaper, .cekbeban, .cekbego, .cekcantik2, .cekfakboy, .cekfakgirl, .cekganteng2, .cekgay, .cekgoblok, .cekharam, .cekjago, .cekjahat, .cekjelek, .cekkeren, .cekkul, .ceklesbi, .ceknolep, .cekpakboy, .cekpakgirl, .cekpasarkas, .cekpinter, .ceksange, .ceksuhu, .cekwibu, .fakboycek, .fakgirlcek, .gantengcek2, .gaycek, .goblokcek, .haramcek, .jagocek, .jahatcek, .jelekcek, .kerencek, .kulcek, .lesbicek, .nolepcek, .pakboycek, .pakgirlcek, .pasarkascek, .pintercek, .rate2, .sangecek, .suhucek, .wibucek
-
 import PhoneNumber from 'awesome-phonenumber'
 import fetch from 'node-fetch'
 let handler = async (m, { conn, text, command }) => {
@@ -76,9 +69,61 @@ conn.sendMessage(m.chat, { text: 'Pertanyaan : *' + command + '*\nNama : ' + `@$
     }
   }
 };
-handler.command = ['alimcek', 'anjingcek', 'babicek', 'baikcek', 'bapercek', 'bebancek', 'begocek', 'cantikcek2', 'cekalim', 'cekanjing', 'cekbabi', 'cekbaik', 'cekbaper', 'cekbeban', 'cekbego', 'cekcantik2', 'cekfakboy', 'cekfakgirl', 'cekganteng2', 'cekgay', 'cekgoblok', 'cekharam', 'cekjago', 'cekjahat', 'cekjelek', 'cekkeren', 'cekkul', 'ceklesbi', 'ceknolep', 'cekpakboy', 'cekpakgirl', 'cekpasarkas', 'cekpinter', 'ceksange', 'ceksuhu', 'cekwibu', 'fakboycek', 'fakgirlcek', 'gantengcek2', 'gaycek', 'goblokcek', 'haramcek', 'jagocek', 'jahatcek', 'jelekcek', 'kerencek', 'kulcek', 'lesbicek', 'nolepcek', 'pakboycek', 'pakgirlcek', 'pasarkascek', 'pintercek', 'rate2', 'sangecek', 'suhucek', 'wibucek']
+handler.tags = ['fun']
+handler.help = handler.command = ['goblokcek', 'jelekcek', 'gaycek', 'rate', 'lesbicek', 'gantengcek',
+'cantikcek',
+'begocek',
+'suhucek',
+'pintercek',
+'jagocek',
+'nolepcek',
+'babicek',
+'bebancek',
+'baikcek',
+'jahatcek',
+'anjingcek',
+'haramcek',
+'pakboycek',
+'pakgirlcek',
+'sangecek',
+'bapercek',
+'fakboycek',
+'alimcek',
+'suhucek',
+'fakgirlcek',
+'kerencek',
+'wibucek',
+'pasarkascek',
+'kulcek',                
+'cekgoblok',
+'cekjelek',
+'cekgay',                
+'ceklesbi',
+'cekganteng',
+'cekcantik',
+'cekbego',
+'ceksuhu',
+'cekpinter',
+'cekjago',
+'ceknolep',
+'cekbabi',
+'cekbeban',
+'cekbaik',
+'cekjahat',
+'cekanjing',
+'cekharam',
+'cekpakboy',
+'cekpakgirl',
+'ceksange',
+'cekbaper',
+'cekfakboy',
+'cekalim',
+'ceksuhu',
+'cekfakgirl',
+'cekkeren',
+'cekwibu',
+'cekpasarkas',
+'cekkul']
+handler.limit = true
 export default handler
 global.cek1 = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
-handler.category = 'Fun'
-handler.description = 'Funcek'
-

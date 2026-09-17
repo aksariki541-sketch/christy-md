@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/tagsw.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .swgc, .upswgc
-
 let handler = async (m, { conn, text, usedPrefix, command }) => {
 if (!m.isGroup) return m.reply('Khusus grup.')
 
@@ -14,20 +8,20 @@ const mediaType = Object.keys(m.quoted.mediaMessage)[0]
 const media = m.quoted.mediaMessage[mediaType]
 
 media.contextInfo = {
- ...(media.contextInfo || {}),
- statusSourceType: 4,
- statusAttributions: [
- {
- type: 10
- }
- ],
- statusAudienceMetadata: {
- audienceType: 1
- }
+  ...(media.contextInfo || {}),
+  statusSourceType: 4,
+  statusAttributions: [
+    {
+      type: 10
+    }
+  ],
+  statusAudienceMetadata: {
+    audienceType: 1
+  }
 }
 
 message = {
- [mediaType]: media
+  [mediaType]: media
 }
 
 } else if (m.quoted) {
@@ -113,10 +107,11 @@ m.reply("❌ Gagal mengirim status grup\n\n${e.message || e}")
 }
 }
 
-handler.command = ['swgc', 'upswgc']
+handler.help = ['swgc']
+handler.tags = ['group']
+handler.command = /^(swgc|upswgc)$/i
 handler.group = true
 handler.admin = true
-handler.category = 'Group'
-handler.description = 'Tagsw'
+handler.register = true
 
 export default handler

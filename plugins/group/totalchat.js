@@ -1,19 +1,10 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/totalchat.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .totalchat
-
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
-
 
 const chatDbPath = './lib/chat.json'
 
-if (!fs.existsSync(ROOT + '/lib')) {
-fs.mkdirSync(ROOT + '/lib')
+if (!fs.existsSync('./lib')) {
+fs.mkdirSync('./lib')
 }
 
 if (!fs.existsSync(chatDbPath)) {
@@ -90,10 +81,9 @@ mentionedJid: sortedData.map(([jid]) => jid)
 
 }
 
-handler.command = ['totalchat']
+handler.help = ['totalchat']
+handler.tags = ['group']
+handler.command = /^(totalchat)$/i
 handler.group = true
-
-handler.category = 'Group'
-handler.description = 'Totalchat'
 
 export default handler

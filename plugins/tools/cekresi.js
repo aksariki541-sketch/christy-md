@@ -1,11 +1,5 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/cekresi.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .cekresi
-
 import axios from 'axios'
-import * as cheerio from 'cheerio'
+import cheerio from 'cheerio'
 import FormData from 'form-data'
 import CryptoJS from 'crypto-js'
 
@@ -180,9 +174,9 @@ ${result.data.history.map(h => `- ${h.tanggal}: ${h.keterangan}`).join('\n')}
   await conn.reply(m.chat, hasil, m)
 }
 
-handler.command = ['cekresi']
+handler.help = ['cekresi'].map(v => v + ' <no resi>|<ekspedisi>')
+handler.tags = ['tools']
+handler.command = /^cekresi$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Cekresi'
-

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/q.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .q
-
 let handler = async (m, { conn }) => {
   try {
     if (!m.quoted) {
@@ -30,11 +24,11 @@ let handler = async (m, { conn }) => {
   }
 }
 
-handler.command = ['q']
+handler.help = ['q']
+handler.tags = ['owner']
+handler.command = /^q$/i
 
 handler.owner = true
+handler.limit = false
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Q'
-

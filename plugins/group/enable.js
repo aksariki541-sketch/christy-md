@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/enable.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .enable, .disable, .on, .off
-
 let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {
   let isEnable = /^(enable|on)$/i.test(command)
 
@@ -202,9 +196,8 @@ ${usedPrefix}disable antilink
   m.reply(`✅ Berhasil ${isEnable ? 'mengaktifkan' : 'menonaktifkan'} *${type}* ${target}`)
 }
 
-handler.command = ['enable', 'disable', 'on', 'off']
+handler.help = ['enable', 'disable']
+handler.tags = ['group', 'owner']
+handler.command = /^(enable|disable|on|off)$/i
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Enable'
-

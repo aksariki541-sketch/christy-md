@@ -1,16 +1,9 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/_didyoumen.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : (listener/customPrefix)
-// Catatan    : handler.before/all -> handler.onMessage
-
 import didyoumean from 'didyoumean'
 import similarity from 'similarity'
 
 let handler = m => m
 
-handler.onMessage = async function (m, { match, usedPrefix }) {
+handler.before = async function (m, { match, usedPrefix }) {
   if (!m.text) return
 
   if ((usedPrefix = (match[0] || '')[0])) {
@@ -58,6 +51,3 @@ Mungkin maksud kamu:
 }
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Didyoumen'
-

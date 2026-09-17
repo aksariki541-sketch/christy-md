@@ -1,11 +1,5 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tourl.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .tourl
-
-import { generateWAMessageFromContent, proto } from '../../lib/baileys.js'
-import { upload } from '../../lib/nakano/scrape/uploadnekohime.js'
+import { generateWAMessageFromContent, proto } from 'baileys'
+import { upload } from '../../lib/scrape/uploadnekohime.js'
 
 let handler = async (m, { conn }) => {
   const q = m.quoted || m
@@ -34,7 +28,7 @@ let handler = async (m, { conn }) => {
               text: `✨ *Upload Berhasil!*\n\n${url}`
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
-              text: 'ʀʏᴏ ʏᴀᴍᴀᴅᴀ - ᴍᴅ'
+              text: 'ᴄʜʀɪsᴛʏ - ᴍᴅ'
             }),
             nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
               buttons: [
@@ -66,9 +60,10 @@ let handler = async (m, { conn }) => {
   }
 }
 
-handler.command = ['tourl']
+handler.help = ['tourl']
+handler.tags = ['tools']
+handler.command = /^tourl$/i
+handler.limit = true
+handler.register = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Tourl'
-

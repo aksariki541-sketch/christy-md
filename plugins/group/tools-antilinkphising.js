@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/tools-antilinkphising.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antiphising
-// Catatan    : handler.before/all -> handler.onMessage
-
 /** 
 Fitur : Anti Link Phising dengan Custom Add 
 Admin bisa menambahkan link phising baru yang beredar ke dalam database grup.
@@ -80,7 +73,7 @@ let handler = async (m, { args, isAdmin, isOwner, usedPrefix, command }) => {
   }
 }
 
-handler.onMessage = async (m, { conn, isBotAdmin }) => {
+handler.before = async (m, { conn, isBotAdmin }) => {
   if (!m.isGroup) return
   if (!isBotAdmin) return // Bot harus jadi admin untuk bisa hapus pesan
   if (!m.text) return // Abaikan jika bukan pesan teks
@@ -136,12 +129,11 @@ handler.onMessage = async (m, { conn, isBotAdmin }) => {
   })
 }
 
-handler.command = ['antiphising']
+handler.command = /^antiphising$/i
+handler.help = ["antiphising"]
+handler.tags = ["group"]
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Tools-antilinkphising'
-

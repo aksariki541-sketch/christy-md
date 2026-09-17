@@ -1,12 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/translate.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .translate
-
 /*
-wa.me/6283134600805
-github: https://github.com/sadxzyq
+wa.me/6282285357346
+github: 
 Instagram: https://instagram.com/tulisan.ku.id
 ini wm gw cok jan di hapus
 */
@@ -51,17 +45,16 @@ let handler = async (m, { args, usedPrefix, command }) => {
 			m.mentionedJid
 				? {
 						mentions: conn.parseMention(caption),
-				 }
+				  }
 				: {},
 		);
 	} catch (e) {
 		await m.reply(eror);
 	}
 };
-handler.command = ['translate']
-
-handler.category = 'Tools'
-handler.description = 'Translate'
+handler.help = ["translate"].map((v) => v + " *ᴛᴇxᴛ*");
+handler.tags = ['tools'];
+handler.command = /^(tran(slate)|tr?)$/i
 
 export default handler;
 

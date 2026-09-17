@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/group-autogpt.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .autogpt, .autoanya
-
 let handler = async (m, { conn, args, isAdmin, isOwner }) => {
   if (!m.isGroup) return m.reply('Khusus grup.')
 
@@ -12,12 +6,13 @@ let handler = async (m, { conn, args, isAdmin, isOwner }) => {
     return m.reply('Fitur ini khusus admin grup atau owner bot.')
   }
 
-  global.db.data.chats[m.chat] ??= {}
+  if (!global.db.data.chats) global.db.data.chats = {}
+  if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {}
   let chat = global.db.data.chats[m.chat]
 
   if (!args[0]) {
     return m.reply(
-`*AUTO ANYA*
+`*AUTO CHRISTY* 🌙
 
 Contoh:
 .autogpt on
@@ -30,31 +25,30 @@ Contoh:
   if (type === 'on') {
     chat.autogpt = true
     return m.reply(
-`Waku waku~ 🤗
+`AUTO CHRISTY 🌙
 
-Auto Anya berhasil diaktifkan.`
+Aktif. Silakan bertanya, siap-siap kena roasting. 🙄`
     )
   }
 
   if (type === 'off') {
     chat.autogpt = false
     return m.reply(
-`Hweh... 🥹
+`AUTO CHRISTY 🌙
 
-Auto Anya dimatikan dulu yaa.`
+Dimatikan. Syukurlah, aku juga malah balesin kalian. 😒`
     )
   }
 
   return m.reply('Pilih on / off')
 }
 
-handler.command = ['autogpt', 'autoanya']
+handler.help = ['autogpt']
+handler.tags = ['group']
+handler.command = /^(autogpt|autoanya)$/i
 
 handler.group = true
 // Jangan pakai handler.admin = true
 // Biar owner bot tetap bisa akses walaupun bukan admin grup
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Group-autogpt'
-

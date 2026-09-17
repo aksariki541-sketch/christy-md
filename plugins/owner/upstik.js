@@ -1,78 +1,71 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/upstik.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .upstik, .stickch
-
-import { downloadContentFromMessage } from '../../lib/baileys.js'
+import { downloadContentFromMessage } from 'baileys'
 
 const CH_ID = '120363403952337689@newsletter'
 
 async function streamToBuffer(stream) {
- let buffer = Buffer.from([])
+  let buffer = Buffer.from([])
 
- for await (const chunk of stream) {
- buffer = Buffer.concat([buffer, chunk])
- }
+  for await (const chunk of stream) {
+    buffer = Buffer.concat([buffer, chunk])
+  }
 
- return buffer
+  return buffer
 }
 
 let handler = async (m, { conn }) => {
 
- const quoted =
- m.message?.extendedTextMessage
- ?.contextInfo
- ?.quotedMessage
+  const quoted =
+    m.message?.extendedTextMessage
+    ?.contextInfo
+    ?.quotedMessage
 
- if (!quoted?.stickerMessage) {
- return m.reply('❌ Reply sticker!')
- }
+  if (!quoted?.stickerMessage) {
+    return m.reply('❌ Reply sticker!')
+  }
 
- try {
+  try {
 
- const stream = await downloadContentFromMessage(
- quoted.stickerMessage,
- 'sticker'
- )
+    const stream = await downloadContentFromMessage(
+      quoted.stickerMessage,
+      'sticker'
+    )
 
- const buffer = await streamToBuffer(stream)
+    const buffer = await streamToBuffer(stream)
 
- await conn.sendMessage(
- CH_ID,
- {
- sticker: buffer
- },
- {
- quoted: {
- key: {
- remoteJid: 'status@broadcast',
- fromMe: false,
- id: 'Halo'
- },
- message: {
- conversation: '\u200e'
- }
- }
- }
- )
+    await conn.sendMessage(
+      CH_ID,
+      {
+        sticker: buffer
+      },
+      {
+        quoted: {
+          key: {
+            remoteJid: 'status@broadcast',
+            fromMe: false,
+            id: 'Halo'
+          },
+          message: {
+            conversation: '\u200e'
+          }
+        }
+      }
+    )
 
- m.reply('✅ Sticker berhasil dikirim ke channel!')
+    m.reply('✅ Sticker berhasil dikirim ke channel!')
 
- } catch (e) {
+  } catch (e) {
 
- console.error(e)
+    console.error(e)
 
- m.reply(
- `❌ Error\n\n${e.message || e}`
- )
- }
+    m.reply(
+      `❌ Error\n\n${e.message || e}`
+    )
+  }
 }
 
-handler.command = ['upstik', 'stickch']
+handler.help = ['upstik']
+handler.tags = ['owner']
+handler.command = /^(upstik|stickch)$/i
 handler.owner = true
-
-handler.category = 'Owner'
-handler.description = 'Upstik'
 
 export default handler

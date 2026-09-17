@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/sewa-join.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: sewa→sewa2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .addsewa, .sewa2
-
 import moment from 'moment'
 
 if (!global.db) global.db = {}
@@ -60,8 +53,5 @@ const handler = async (m, { conn, text, isOwner }) => {
   }
 }
 
-handler.command = ['addsewa', 'sewa2']
+handler.command = ['sewa','addsewa']
 export default handler
-handler.category = 'Tools'
-handler.description = 'Sewa-join'
-

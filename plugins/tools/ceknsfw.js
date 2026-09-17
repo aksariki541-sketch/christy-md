@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/ceknsfw.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .ns
-
 import axios from 'axios'
 import FormData from 'form-data'
 
@@ -44,9 +38,9 @@ let handler = async (m, { conn }) => {
   await conn.reply(m.chat, teks, m)
 }
 
-handler.command = ['ns']
+handler.help = ['nsfwcheck']
+handler.tags = ['tools']
+handler.command = /^(nsfwcheck|cek(ns)?fw)$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Ceknsfw'
-

@@ -1,10 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/tutorialbot.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .tutorialbot, .tutorbot
-
-let handler = async (m, { conn }) => {
+let hlmn = async (m, { conn }) => {
 
 let hlmn = `
 ╭╾• 〔 T U T O R I A L   B O T 〕
@@ -46,16 +40,15 @@ let hlmn = `
 ├  Gunakan fitur dengan benar dan seperlunya
 ├  Beri jeda agar bot tetap stabil
 │
-└─「 Christy MD 」
+└─「 christy md 」
 `
 
 conn.reply(m.chat, hlmn.trim(), global.fkontak)
 }
 
-handler.command = ['tutorialbot', 'tutorbot']
-handler.group = false
+hlmn.help = ["tutorialbot", "tutorbot"]
+hlmn.tags = ["info"]
+hlmn.command = /^(tutorialbot|tutorbot)$/i
+hlmn.group = false
 
-export default handler;
-handler.category = 'Main'
-handler.description = 'Tutorialbot'
-
+export default hlmn

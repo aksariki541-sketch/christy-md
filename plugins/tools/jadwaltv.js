@@ -1,16 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/jadwaltv.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .jadwaltv
-
 import fs from 'fs'
 import axios from 'axios'
 import * as cheerio from 'cheerio'
-import path from 'path'
-import { fileURLToPath } from 'url'
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
-
 
 let handler = async (m, { text }) => {
 	if (!text) throw 'Input Query'
@@ -18,15 +8,14 @@ let handler = async (m, { text }) => {
 	let txt = res.result.map((v) => `[${v.jam.replace('WIB', ' WIB')}] ${v.acara}`).join`\n`
 	m.reply(`Jadwal TV ${res.channel}\n\n${txt}`)
 }
-handler.command = ['jadwaltv']
-
-handler.category = 'Tools'
-handler.description = 'Jadwaltv'
+handler.help = ['jadwaltv']
+handler.tags = ['tools']
+handler.command = /^jadwaltv$/i
 
 export default handler
 
 async function jadwalTV(name) {
-	let list = JSON.parse(fs.readFileSync(ROOT + '/json/jadwaltv.json', 'utf-8'))
+	let list = JSON.parse(fs.readFileSync('./src/jadwaltv.json', 'utf-8'))
 	let data = list.find((v) => (new RegExp(name, 'gi')).test(v.channel)), result = []
 	if (!data) throw 'List Channel Yg Tersedia:\n\n' + list.map(v => v.channel).sort().join('\n')
 	let html = (await axios.get(`https://www.jadwaltv.net/${data.isPay ? 'jadwal-pay-tv/' : ''}${data.value}`)).data

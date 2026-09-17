@@ -1,17 +1,10 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/fun-gantengcek.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .cekganteng, .gantengcek
-
 let handler = async (m, { conn }) => {
 	conn.reply(m.chat, pickRandom(ganteng), m);
 };
 
-handler.command = ['cekganteng', 'gantengcek'];
-
-handler.category = 'Fun'
-handler.description = 'Gantengcek'
+handler.help = ['gantengcek'];
+handler.tags = ['fun'];
+handler.command = /^(cekganteng|gantengcek)$/i;
 
 export default handler;
 

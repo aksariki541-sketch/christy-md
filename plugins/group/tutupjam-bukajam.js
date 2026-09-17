@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/tutupjam-bukajam.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: bukajam→bukajam2, tutupjam→tutupjam2, jadwal→jadwal2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .bukajam2, .tutupjam2, .jadwal2
-
 const schedules = global.groupSchedules || (global.groupSchedules = {})
 
 setInterval(async () => {
@@ -113,14 +106,17 @@ let handler = async (m, { text, command }) => {
   }
 }
 
+handler.help = [
+  'bukajam <jam:menit>',
+  'tutupjam <jam:menit>',
+  'jadwal'
+]
 
-handler.command = ['bukajam2', 'tutupjam2', 'jadwal2']
+handler.tags = ['group']
+handler.command = /^(bukajam|tutupjam|jadwal)$/i
 
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Tutupjam-bukajam'
-

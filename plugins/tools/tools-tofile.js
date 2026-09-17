@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tools-tofile.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: tofile→tofile2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .tofile2
-
 /**
  *
  * Convert text to file
@@ -104,9 +97,9 @@ let handler = async (m, { conn, text, usedPrefix, command, isBan }) => {
   }
 }
 
-handler.command = ['tofile2']
+handler.help = ["tofile <namafile.ext>"]
+handler.tags = ["tools"]
+handler.command = /^tofile$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Tools-tofile'
-

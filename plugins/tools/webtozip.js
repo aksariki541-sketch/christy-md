@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/webtozip.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .webtozip, .wzip
-
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
     return m.reply(`Contoh:
@@ -52,9 +46,10 @@ ${usedPrefix + command} https://example.com`)
   }
 }
 
-handler.command = ['webtozip', 'wzip']
+handler.help = ['webtozip <url>']
+handler.tags = ['tools']
+handler.command = /^(webtozip|wzip)$/i
+handler.register = true
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Webtozip'
-

@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/script.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: sc→sc2, script→script2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .sc2, .script2
-
 import fs from 'fs'
 
 let handler = async (m, { conn }) => {
@@ -13,7 +6,7 @@ let handler = async (m, { conn }) => {
     {
       orderText: `Hai kak! 👋
 
-❏ Script *Christy MD* tersedia di channel berikut.
+❏ Script *christy md* tersedia di channel berikut.
 
 ✿ *\`Channel\`* :
 https://whatsapp.com/channel/0029VbClbR4AInPdUfdBQ53I`,
@@ -23,9 +16,8 @@ https://whatsapp.com/channel/0029VbClbR4AInPdUfdBQ53I`,
   )
 }
 
-handler.command = ['sc2', 'script2']
+handler.help = ['sc', 'script']
+handler.tags = ['info']
+handler.command = /^(sc|script)$/i
 
 export default handler
-handler.category = 'Main'
-handler.description = 'Script'
-

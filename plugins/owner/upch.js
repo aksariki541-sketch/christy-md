@@ -1,191 +1,184 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/upch.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .sendch
-
 import fs from 'fs'
 import path from 'path'
 import ffmpeg from 'fluent-ffmpeg'
 import { tmpdir } from 'os'
-import { downloadContentFromMessage } from '../../lib/baileys.js'
+import { downloadContentFromMessage } from 'baileys'
 
 const CH_ID = '120363395114168746@newsletter'
 
 async function streamToBuffer(stream) {
- let buffer = Buffer.from([])
+  let buffer = Buffer.from([])
 
- for await (const chunk of stream) {
- buffer = Buffer.concat([buffer, chunk])
- }
+  for await (const chunk of stream) {
+    buffer = Buffer.concat([buffer, chunk])
+  }
 
- return buffer
+  return buffer
 }
 
 function convertToOpus(input, output) {
- return new Promise((resolve, reject) => {
- ffmpeg(input)
- .audioCodec('libopus')
- .audioBitrate('')
- .format('opus')
- .on('end', resolve)
- .on('error', reject)
- .save(output)
- })
+  return new Promise((resolve, reject) => {
+    ffmpeg(input)
+      .audioCodec('libopus')
+      .audioBitrate('')
+      .format('opus')
+      .on('end', resolve)
+      .on('error', reject)
+      .save(output)
+  })
 }
 
 let handler = async (m, { conn, usedPrefix, command }) => {
- const quoted =
- m.message?.extendedTextMessage
- ?.contextInfo
- ?.quotedMessage
+  const quoted =
+    m.message?.extendedTextMessage
+      ?.contextInfo
+      ?.quotedMessage
 
- if (!quoted) {
- return m.reply(
- `❌ Reply media terlebih dahulu!\n\n` +
- `Contoh:\n${usedPrefix + command}`
- )
- }
+  if (!quoted) {
+    return m.reply(
+      `❌ Reply media terlebih dahulu!\n\n` +
+      `Contoh:\n${usedPrefix + command}`
+    )
+  }
 
- let media = null
- let type = ''
- let mimetype = ''
+  let media = null
+  let type = ''
+  let mimetype = ''
 
- const caption =
- quoted.imageMessage?.caption ||
- quoted.videoMessage?.caption ||
- m.quoted?.text ||
- ''
+  const caption =
+    quoted.imageMessage?.caption ||
+    quoted.videoMessage?.caption ||
+    m.quoted?.text ||
+    ''
 
- if (quoted.imageMessage) {
- media = quoted.imageMessage
- type = 'image'
- mimetype = media.mimetype
+  if (quoted.imageMessage) {
+    media = quoted.imageMessage
+    type = 'image'
+    mimetype = media.mimetype
 
- } else if (quoted.videoMessage) {
- media = quoted.videoMessage
- type = media.ptv ? 'ptv' : 'video'
- mimetype = media.mimetype
+  } else if (quoted.videoMessage) {
+    media = quoted.videoMessage
+    type = media.ptv ? 'ptv' : 'video'
+    mimetype = media.mimetype
 
- } else if (quoted.audioMessage) {
- media = quoted.audioMessage
- type = 'audio'
- mimetype = media.mimetype
+  } else if (quoted.audioMessage) {
+    media = quoted.audioMessage
+    type = 'audio'
+    mimetype = media.mimetype
 
- } else if (quoted.stickerMessage) {
- media = quoted.stickerMessage
- type = 'sticker'
- mimetype = 'image/webp'
- }
+  } else if (quoted.stickerMessage) {
+    media = quoted.stickerMessage
+    type = 'sticker'
+    mimetype = 'image/webp'
+  }
 
- if (!media) {
- return m.reply('❌ Media tidak didukung!')
- }
+  if (!media) {
+    return m.reply('❌ Media tidak didukung!')
+  }
 
- const ext =
- mimetype?.split('/')[1]?.split(';')[0] ||
- 'bin'
+  const ext =
+    mimetype?.split('/')[1]?.split(';')[0] ||
+    'bin'
 
- const filename = `${Date.now()}`
+  const filename = `${Date.now()}`
 
- const inputPath = path.join(tmpdir(), `${filename}.${ext}`)
- const opusPath = path.join(tmpdir(), `${filename}.opus`)
+  const inputPath = path.join(tmpdir(), `${filename}.${ext}`)
+  const opusPath = path.join(tmpdir(), `${filename}.opus`)
 
- try {
- await m.reply(`🔄 Sedang memproses ${type}...`)
+  try {
+    await m.reply(`🔄 Sedang memproses ${type}...`)
 
- const stream = await downloadContentFromMessage(
- media,
- type === 'image'
- ? 'image'
- : type === 'video' || type === 'ptv'
- ? 'video'
- : type === 'audio'
- ? 'audio'
- : 'sticker'
- )
+    const stream = await downloadContentFromMessage(
+      media,
+      type === 'image'
+        ? 'image'
+        : type === 'video' || type === 'ptv'
+        ? 'video'
+        : type === 'audio'
+        ? 'audio'
+        : 'sticker'
+    )
 
- const buffer = await streamToBuffer(stream)
+    const buffer = await streamToBuffer(stream)
 
- fs.writeFileSync(inputPath, buffer)
+    fs.writeFileSync(inputPath, buffer)
 
- switch (type) {
- case 'image':
- await conn.sendMessage(CH_ID, {
- image: fs.readFileSync(inputPath),
- caption
- })
- break
+    switch (type) {
+      case 'image':
+        await conn.sendMessage(CH_ID, {
+          image: fs.readFileSync(inputPath),
+          caption
+        })
+      break
 
- case 'video':
- await conn.sendMessage(CH_ID, {
- video: fs.readFileSync(inputPath),
- caption
- })
- break
+      case 'video':
+        await conn.sendMessage(CH_ID, {
+          video: fs.readFileSync(inputPath),
+          caption
+        })
+      break
 
- case 'ptv':
- await conn.sendMessage(CH_ID, {
- video: fs.readFileSync(inputPath),
- ptv: true,
- caption
- })
- break
+      case 'ptv':
+        await conn.sendMessage(CH_ID, {
+          video: fs.readFileSync(inputPath),
+          ptv: true,
+          caption
+        })
+      break
 
- case 'sticker':
- await conn.sendMessage(CH_ID, {
- sticker: fs.readFileSync(inputPath)
- })
- break
+      case 'sticker':
+        await conn.sendMessage(CH_ID, {
+          sticker: fs.readFileSync(inputPath)
+        })
+      break
 
- case 'audio': {
- const isOpus =
- mimetype.includes('opus') ||
- mimetype.includes('ogg')
+      case 'audio': {
+        const isOpus =
+          mimetype.includes('opus') ||
+          mimetype.includes('ogg')
 
- if (isOpus) {
- fs.copyFileSync(inputPath, opusPath)
- } else {
- await convertToOpus(inputPath, opusPath)
- }
+        if (isOpus) {
+          fs.copyFileSync(inputPath, opusPath)
+        } else {
+          await convertToOpus(inputPath, opusPath)
+        }
 
- await conn.sendMessage(CH_ID, {
- audio: fs.readFileSync(opusPath),
- mimetype: 'audio/ogg; codecs=opus',
- ptt: true
- })
- }
- break
- }
+        await conn.sendMessage(CH_ID, {
+          audio: fs.readFileSync(opusPath),
+          mimetype: 'audio/ogg; codecs=opus',
+          ptt: true
+        })
+      }
+      break
+    }
 
- await m.reply(`✅ ${type} berhasil diupload ke channel!`)
+    await m.reply(`✅ ${type} berhasil diupload ke channel!`)
 
- } catch (e) {
- console.error(e)
+  } catch (e) {
+    console.error(e)
 
- m.reply(
- `❌ Error\n\n${e.message || e}`
- )
+    m.reply(
+      `❌ Error\n\n${e.message || e}`
+    )
 
- } finally {
- try {
- if (fs.existsSync(inputPath)) {
- fs.unlinkSync(inputPath)
- }
- } catch {}
+  } finally {
+    try {
+      if (fs.existsSync(inputPath)) {
+        fs.unlinkSync(inputPath)
+      }
+    } catch {}
 
- try {
- if (fs.existsSync(opusPath)) {
- fs.unlinkSync(opusPath)
- }
- } catch {}
- }
+    try {
+      if (fs.existsSync(opusPath)) {
+        fs.unlinkSync(opusPath)
+      }
+    } catch {}
+  }
 }
 
-handler.command = ['sendch']
+handler.help = ['upch']
+handler.tags = ['owner']
+handler.command = /^(upch|sendch)$/i
 handler.owner = true
-
-handler.category = 'Owner'
-handler.description = 'Upch'
 
 export default handler

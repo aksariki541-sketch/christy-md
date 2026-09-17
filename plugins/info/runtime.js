@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/runtime.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: runtime→runtime2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .runtime2
-
 import os from 'os'
 import fs from 'fs'
 
@@ -24,7 +17,7 @@ await conn.sendMessage(m.chat, {
 ❏ Arch : ${os.arch()}
 ❏ RAM : ${(os.totalmem() / 1024 / 1024).toFixed(0)} MB
 
-✨ Christy MD`,
+✨ christy md`,
 thumbnail: fs.readFileSync('./media/thumbnail.jpg')
 }, {
 quoted: m
@@ -35,9 +28,8 @@ m.reply('🌷 Terjadi kesalahan saat mengambil data runtime.')
 }
 }
 
-handler.command = ['runtime2']
+handler.help = ['runtime']
+handler.tags = ['info']
+handler.command = ['runtime']
 
 export default handler
-handler.category = 'Main'
-handler.description = 'Runtime'
-

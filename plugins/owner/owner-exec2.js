@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/owner-exec2.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Catatan    : trigger customPrefix diubah → '$$ ' (dobel persis dengan exec.js)
-// Command    : (listener/customPrefix)
-
 import cp, { exec as _exec } from 'child_process';
 import { promisify } from 'util';
 let exec = promisify(_exec).bind(cp);
@@ -22,10 +15,9 @@ let handler = async (m, { conn, command, text }) => {
 		if (stderr.trim()) m.reply(stderr);
 	}
 };
-handler.customPrefix = /^\$\$ /;
-
+handler.help = ['$'];
+handler.tags = ['owner'];
+handler.customPrefix = /^[$] /;
+handler.command = new RegExp();
 handler.owner = true;
 export default handler;
-handler.category = 'Owner'
-handler.description = 'Owner-exec2'
-

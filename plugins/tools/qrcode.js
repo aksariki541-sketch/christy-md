@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/qrcode.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .code
-
 import { toDataURL } from 'qrcode'
 
 let handler = async (m, { conn, text }) => {
@@ -12,10 +6,9 @@ let handler = async (m, { conn, text }) => {
     conn.sendFile(m.chat, await toDataURL(text.slice(0, 2048), { scale: 8 }), 'qrcode.png', '¯\\_(ツ)_/¯', m)
 }
 
-handler.command = ['code']
+handler.help = [''].map(v => 'qr' + v + ' <teks>')
+handler.tags = ['tools']
+handler.command = /^qr(code)?$/i
 
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Qrcode'
-

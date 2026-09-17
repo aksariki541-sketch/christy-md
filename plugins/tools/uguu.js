@@ -1,10 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/uguu.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .uguu
-
-import { uguu } from '../../lib/nakano/scrape/uguu.js'
+import { uguu } from '../../lib/scrape/uguu.js'
 
 let handler = async (m) => {
   const q = m.quoted || m
@@ -31,9 +25,9 @@ let handler = async (m) => {
   }
 }
 
-handler.command = ['uguu']
+handler.help = ['uguu']
+handler.tags = ['tools']
+handler.command = /^uguu$/i
+handler.limit = false
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Uguu'
-

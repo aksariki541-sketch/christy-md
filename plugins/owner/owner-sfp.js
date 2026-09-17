@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/owner-sfp.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .sfp
-
 import fs from 'fs';
 import syntaxError from 'syntax-error';
 
@@ -31,10 +25,9 @@ Annotated : ${err.annotated}`;
 	m.reply(`✅ tersimpan di ${path}`);
 };
 
-handler.command = ['sfp'];
+handler.help = ['sfp <text>'];
+handler.tags = ['owner'];
+handler.command = /^sfp$/i;
 handler.owner = true;
-
-handler.category = 'Owner'
-handler.description = 'Sfp'
 
 export default handler;

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/owner-dfp.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .dfp
-
 import path from 'path';
 import { unlinkSync } from 'fs';
 let handler = async (m, { usedPrefix, __dirname, args }) => {
@@ -15,10 +9,9 @@ let handler = async (m, { usedPrefix, __dirname, args }) => {
 	unlinkSync(file);
 	conn.reply(m.chat, `Succes deleted "plugins/${args[0]}.js"`, m);
 };
-handler.command = ['dfp'];
+handler.help = ['dfp'];
+handler.tags = ['owner'];
+handler.command = /^(dfp)$/i;
 handler.owner = true;
-
-handler.category = 'Owner'
-handler.description = 'Dfp'
 
 export default handler;

@@ -1,12 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/rf.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .file
-
 /*
 wa.me/6282285357346
-github: https://github.com/sadxzyq
+github: 
 Instagram: https://instagram.com/tulisan.ku.id
 ini wm gw cok jan di hapus
 */
@@ -48,9 +42,8 @@ await renameSync(`./plugins/${from}.js`, `./plugins/${to}.js`)
 conn.reply(m.chat, `Succes changes "plugins/${from}.js" to "plugins/${to}.js"`, m)
     
 }
-handler.command = ['file']
+handler.help = ['rf','renamefile'].map(_=> _ + " <old name> | <new name>")
+handler.tags = ['owner']
+handler.command = /^(r(ename(file)?|f))$/i
 handler.owner = true
 export default handler
-handler.category = 'Owner'
-handler.description = 'Rf'
-

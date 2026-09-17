@@ -1,18 +1,11 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/tebakumur.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .tebakumur
-
 let handler = async(m, { conn, text }) => {
- if (!text) return conn.reply(m.chat, 'Masukan Namamu', m)
- let age = umur.getRandom()
- m.reply(`Nama Kamu: ${text}\nUmur ${age}`)
+    if (!text) return conn.reply(m.chat, 'Masukan Namamu', m)
+    let age = umur.getRandom()
+    m.reply(`Nama Kamu: ${text}\nUmur ${age}`)
 }
-handler.command = ['tebakumur']
-handler.category = 'Fun'
-handler.description = 'Tebakumur'
-
+handler.help = ['tebakumur'].map(v => v + ' <name>')
+handler.tags = ['fun']
+handler.command = /^(tebakumur)$/i
 export default handler
 
 const umur = [

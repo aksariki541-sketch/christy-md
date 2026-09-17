@@ -1,10 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/upvidey.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .upvidey
-
-import { uploadVidey } from '../../lib/nakano/scrape/videy.js'
+import { uploadVidey } from '../../lib/scrape/videy.js'
 import fs from 'fs'
 
 let handler = async (m, { conn }) => {
@@ -35,9 +29,9 @@ let handler = async (m, { conn }) => {
 🔗 ${res.link}`)
 }
 
-handler.command = ['upvidey']
+handler.help = ['upvidey']
+handler.tags = ['tools']
+handler.command = /^upvidey$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Upvidey'
-

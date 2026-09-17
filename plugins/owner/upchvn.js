@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/upchvn.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .upchvn
-
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
@@ -54,10 +48,9 @@ let handler = async (m, { conn, isOwner }) => {
   }
 }
 
-handler.command = ['upchvn']
+handler.help = ['upchvn']
+handler.tags = ['owner']
+handler.command = /^upchvn$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Upchvn'
-

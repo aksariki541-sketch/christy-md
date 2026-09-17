@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/rch2.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .rch2, .reactch2, .reactchannel2
-
 /**
  * ✧ Name   : React Channel V2
  * ✧ Version: 2.0
@@ -106,9 +100,8 @@ let handler = async (m, { text, usedPrefix, command }) => {
   }
 }
 
-handler.command = ['rch2', 'reactch2', 'reactchannel2']
+handler.help = ['rch2']
+handler.tags = ['tools']
+handler.command = ['rch2', 'reactchannel2', 'reactch2']
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Rch2'
-

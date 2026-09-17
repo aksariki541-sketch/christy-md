@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/exec3.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Catatan    : trigger customPrefix diubah → '>> ' (menaungi eval bawaan ('=>'))
-// Command    : .exec3
-
 import syntaxerror from 'syntax-error'
 import { format } from 'util'
 import { fileURLToPath } from 'url'
@@ -44,10 +37,12 @@ let handler = async (m, _2) => {
     m.exp = old
   }
 }
-handler.customPrefix = /^>> /
-handler.command = ['exec3']
+handler.help = ['> ', '=> ']
+handler.tags = ['owner']
+handler.customPrefix = /^=?> /
+handler.command = /(?:)/i
 
-handler.owner = true
+handler.rowner = true
 
 export default handler
 
@@ -57,6 +52,3 @@ class CustomArray extends Array {
     else return super(...args)
   }
 }
-handler.category = 'Owner'
-handler.description = 'Exec3'
-

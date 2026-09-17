@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/owner-resetlimit.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .resetlimit
-
 let handler = async (m, { text }) => {
   let jumlah = parseInt(text)
 
@@ -30,10 +24,9 @@ let handler = async (m, { text }) => {
   )
 }
 
-handler.command = ['resetlimit']
+handler.help = ['resetlimit <jumlah>']
+handler.tags = ['owner']
+handler.command = /^resetlimit$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Owner-resetlimit'
-

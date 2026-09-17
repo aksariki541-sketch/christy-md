@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/skiplink.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .skiplink
-
 import axios from 'axios'
 
 const handler = async (m, { text }) => {
@@ -42,9 +36,8 @@ ${hasil}`
   }
 }
 
+handler.help = ['skiplink <url>']
+handler.tags = ['tools']
 handler.command = ['skiplink']
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Skiplink'
-

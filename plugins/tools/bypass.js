@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/bypass.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .bypass
-
 import scraper from '@zenaveline/scraper'
 
 let handler = async (m, { text }) => {
@@ -24,9 +18,8 @@ let handler = async (m, { text }) => {
   }
 }
 
+handler.help = ['bypass <url>']
+handler.tags = ['tools']
 handler.command = ['bypass']
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Bypass'
-

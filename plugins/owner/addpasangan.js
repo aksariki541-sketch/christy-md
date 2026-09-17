@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/addpasangan.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .addpasangan
-
 const createUser = (jid) => {
   const users = global.db.data.users
 
@@ -139,10 +133,9 @@ Mereka kini resmi menjadi pasangan.`,
   )
 }
 
-handler.command = ['addpasangan']
+handler.help = ['addpasangan']
+handler.tags = ['owner']
+handler.command = /^addpasangan$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Addpasangan'
-

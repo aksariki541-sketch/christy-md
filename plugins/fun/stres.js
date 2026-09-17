@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/stres.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .genjot
-
 let handler = async (m, { text, command }) => {
 	if (!text) throw 'Namanya siapa?';
 	let awikwok;
@@ -24,9 +18,7 @@ let handler = async (m, { text, command }) => {
 	}
 	m.reply(awikwok);
 };
-handler.command = ['genjot']
+handler.command = handler.help = ['genjot', 'nenen', 'wangy', 'curhat', 'perkosa'];
+handler.tags = ['fun'];
 
 export default handler;
-handler.category = 'Fun'
-handler.description = 'Stres'
-

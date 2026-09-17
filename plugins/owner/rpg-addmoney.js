@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/rpg-addmoney.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .addrpg
-
 let handler = async (m, { conn, args }) => {
     let who = m.mentionedJid?.[0]
 
@@ -103,10 +97,10 @@ Contoh penggunaan:
     )
 }
 
-handler.command = ['addrpg']
-handler.owner = true
+handler.help = ['addrpg <field> @user <jumlah>']
+handler.tags = ['owner', 'rpg']
+handler.command = /^addrpg$/i
+handler.rowner = true
+handler.rpg = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Rpg-addmoney'
-

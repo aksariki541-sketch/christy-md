@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/tafsirmimpi.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .mimpi2
-
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
@@ -33,9 +27,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 }
 
-handler.command = ['mimpi2']
+handler.help = ['mimpi2 <kata>']
+handler.tags = ['fun']
+handler.command = /^mimpi2$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Fun'
-handler.description = 'Tafsirmimpi'
-

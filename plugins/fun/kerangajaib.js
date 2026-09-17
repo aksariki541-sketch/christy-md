@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/kerangajaib.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .kulit
-
 let handler = async (m, { text, command, usedPrefix }) => {
     if (!text) throw `Use example ${usedPrefix}${command} i'm alien?`
     m.reply(`"${[
@@ -16,10 +10,9 @@ let handler = async (m, { text, command, usedPrefix }) => {
         'Tidak ada'
     ].getRandom()}."`)
 }
+handler.help = ['kerang', 'kerangajaib'].map(v => v + ' <teks>')
+handler.tags = ['fun']
 
-handler.command = ['kulit']
+handler.command = /^(kulit)?kerang(ajaib)?$/i
 
 export default handler
-handler.category = 'Fun'
-handler.description = 'Kerangajaib'
-

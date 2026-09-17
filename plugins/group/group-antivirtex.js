@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/group-antivirtex.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antivirtex
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = async (m, { args }) => {
   let o = args[0] || ""
 
@@ -28,7 +21,7 @@ let handler = async (m, { args }) => {
   }
 }
 
-handler.onMessage = async (m, { conn, isAdmin, isBotAdmin }) => {
+handler.before = async (m, { conn, isAdmin, isBotAdmin }) => {
   if (!m.isGroup) return
   if (!m.text) return
   if (!isBotAdmin) return
@@ -66,12 +59,11 @@ handler.onMessage = async (m, { conn, isAdmin, isBotAdmin }) => {
   }
 }
 
-handler.command = ['antivirtex']
+handler.help = ["antivirtex --on", "antivirtex --off"]
+handler.tags = ["group"]
+handler.command = /^antivirtex$/i
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Group-antivirtex'
-

@@ -1,13 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/gp.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: getplugin→getplugin2, gp→gp2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .getplugin2, .gp2
-
 import cp, { exec as _exec } from 'child_process'
 import { promisify } from 'util'
-import { generateWAMessageFromContent, proto } from '../../lib/baileys.js'
+import { generateWAMessageFromContent, proto } from 'baileys'
 
 const exec = promisify(_exec).bind(cp)
 
@@ -43,7 +36,7 @@ let handler = async (m, { conn, isROwner, usedPrefix, command, text }) => {
               text: `📄 *Plugin:* ${text}.js\n\nTekan tombol di bawah untuk menyalin source code.`
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
-              text: 'ʀʏᴏ ʏᴀᴍᴀᴅᴀ - ᴍᴅ'
+              text: 'ᴄʜʀɪsᴛʏ - ᴍᴅ'
             }),
             nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
               buttons: [
@@ -75,10 +68,9 @@ let handler = async (m, { conn, isROwner, usedPrefix, command, text }) => {
   }
 }
 
-handler.command = ['getplugin2', 'gp2']
-handler.owner = true
+handler.help = ['getplugin']
+handler.tags = ['owner']
+handler.command = /^(getplugin|gp)$/i
+handler.rowner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Gp'
-

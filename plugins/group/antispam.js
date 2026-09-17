@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/antispam.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antispam
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = async (m, { conn, args, usedPrefix, command, isAdmin }) => {
     if (!isAdmin) return m.reply('Hanya admin yang bisa pakai!')
     let chat = global.db.data.chats[m.chat]
@@ -13,7 +6,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isAdmin }) => {
     m.reply(`✅ Anti-Spam berhasil di${chat.antiSpam ? 'aktifkan' : 'matikan'}`)
 }
 
-handler.onMessage = async function (m, { conn }) {
+handler.before = async function (m, { conn }) {
     if (m.fromMe || m.isBaileys || !m.isGroup) return 
     let chat = global.db.data.chats[m.chat]
     if (!chat?.antiSpam) return 
@@ -41,10 +34,9 @@ handler.onMessage = async function (m, { conn }) {
     this.spam[m.sender] = user
 }
 
+handler.help = ['antispam <on/off>']
+handler.tags = ['group']
 handler.command = ['antispam']
 handler.group = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Antispam'
-

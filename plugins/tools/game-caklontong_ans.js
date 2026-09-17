@@ -1,13 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/game-caklontong_ans.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : (listener/customPrefix)
-// Catatan    : listener murni -> handler.onMessage
-
 import similarity from 'similarity'
 const threshold = 0.72
-async function before(m) {
+export async function before(m) {
     let id = m.chat
     if (!m.quoted || !m.quoted.fromMe  || !m.text || !/Ketik.*calo/i.test(m.quoted.text) || /.*(calo|bantuan)/i.test(m.text))
         return !0
@@ -29,20 +22,3 @@ async function before(m) {
     return !0
 }
 export const exp = 0
-
-// Dibungkus jadi plugin Christy MD: hook asli "handler.before" (dipanggil untuk
-// setiap pesan di base lama) dipetakan ke hook "handler.onMessage".
-const handler = async (m, ctx) => before(m, {
-    conn: ctx.conn, sock: ctx.sock, plugins: ctx.plugins,
-    args: ctx.args, text: ctx.text, usedPrefix: ctx.usedPrefix,
-    isAdmin: ctx.isAdmin, isBotAdmin: ctx.isBotAdmin,
-    isOwner: ctx.isOwner, isCreator: ctx.isCreator, isPremium: ctx.isPremium, isPrems: ctx.isPrems,
-    participants: ctx.participants, groupMetadata: ctx.groupMetadata,
-    user: ctx.user
-})
-handler.onMessage = handler
-
-export default handler
-handler.category = 'Tools'
-handler.description = 'Game-caklontong_ans'
-

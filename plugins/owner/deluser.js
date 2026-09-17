@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/deluser.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .el
-
 let handler = async (m, { conn, text }) => {
     function no(number) {
         return number.replace(/\s/g, '').replace(/([@+-])/g, '');
@@ -47,10 +41,9 @@ let handler = async (m, { conn, text }) => {
     }
 }
 
-handler.command = ['el']
+handler.help = ['deleteuser']
+handler.tags = ['owner']
+handler.command = /^(d(el)?(ete)?u(ser)?|ha?pu?su(ser)?)$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Deluser'
-

@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/addlist.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .addlist, .list, .dellist
-// Catatan    : handler.before/all -> handler.onMessage
-
 // pake ini aja
 let handler = async (m, { text, command, usedPrefix }) => {
   if (!m.isGroup) throw 'Fitur ini hanya untuk grup!'
@@ -47,7 +40,7 @@ let handler = async (m, { text, command, usedPrefix }) => {
   }
 }
 
-handler.onMessage = async function (m) {
+handler.before = async function (m) {
   if (!m.isGroup) return
   if (!m.text) return
 
@@ -74,11 +67,10 @@ handler.onMessage = async function (m) {
   }
 }
 
-handler.command = ['addlist', 'list', 'dellist']
+handler.help = ['addlist', 'list', 'dellist']
+handler.tags = ['group']
+handler.command = /^(addlist|list|dellist)$/i
 handler.group = true
 handler.admin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Addlist'
-

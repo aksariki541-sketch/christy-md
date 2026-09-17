@@ -1,11 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/owner-broadcast.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: broadcast→broadcast2, bc→bc2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .broadcast2, .bc2
-
-import { delay } from '../../lib/baileys.js';
+import { delay } from 'baileys';
 
 let handler = async (m, { text }) => {
 	if (!text) return m.reply('Kirim: .broadcast <pesan>\nMode: .broadcast group/user/owner <pesan>');
@@ -38,10 +31,9 @@ let handler = async (m, { text }) => {
 	return m.reply(`✅ Broadcast selesai.\nMode: ${mode}\nDikirim: ${ok}\nGagal: ${fail}`);
 };
 
-handler.command = ['broadcast2', 'bc2']
+handler.help = ['broadcast'];
+handler.tags = ['owner'];
+handler.command = /^(broadcast|bc)$/i;
 handler.owner = true;
 
 export default handler;
-handler.category = 'Owner'
-handler.description = 'Owner-broadcast'
-

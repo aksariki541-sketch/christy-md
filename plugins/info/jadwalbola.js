@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/jadwalbola.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .jadwalbola, .bola
-
 let handler = async (m) => {
   await m.react('🕒')
 
@@ -31,9 +25,10 @@ ${data.result.map((v, i) => `${i + 1}. ${v}`).join('\n')}`
   }
 }
 
-handler.command = ['jadwalbola', 'bola']
+handler.help = ['jadwalbola']
+handler.tags = ['info']
+handler.command = /^(jadwalbola|bola)$/i
+handler.register = true
+handler.limit = true
 
 export default handler
-handler.category = 'Main'
-handler.description = 'Jadwalbola'
-

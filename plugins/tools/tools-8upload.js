@@ -1,21 +1,15 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tools-8upload.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .8upload
-
 /**
  ╔══════════════════════
- ⧉ [8upload] — [tool]
+      ⧉  [8upload] — [tool]
 ╚══════════════════════
 
- ✺ Type : Plugin ESM
- ✺ Source : https://
- ✺ Creator : SXZnightmare
- ✺ Scrape :
- [ https:///1097 ]
- ✺ Scrape Maker : [ Alfi ]
- ✺ Note : waspada iseng.
+  ✺ Type     : Plugin ESM
+  ✺ Source   : https://whatsapp.com/channel/0029VbAXhS26WaKugBLx4E05
+  ✺ Creator  : SXZnightmare
+  ✺ Scrape      :
+  [ https://whatsapp.com/channel/0029Vb4jDY82ER6beeXLOp0k/1097 ]
+  ✺ Scrape Maker : [ Alfi ]
+  ✺ Note    : waspada iseng.
 */
 
 import fs from "fs";
@@ -25,84 +19,84 @@ import * as cheerio from "cheerio";
 const COOKIE = "PHPSESSID=l0pkhh77ohv96iockf2me4ttg9";
 
 let handler = async (m, { conn }) => {
- try {
- let q = m.quoted && (m.quoted.mimetype || m.quoted.mediaType) ? m.quoted : m;
- let mime = (q.msg || q).mimetype || q.mediaType || "";
+    try {
+        let q = m.quoted && (m.quoted.mimetype || m.quoted.mediaType) ? m.quoted : m;
+        let mime = (q.msg || q).mimetype || q.mediaType || "";
 
- if (!mime) {
- return m.reply("*Kirim atau reply gambar / file dengan caption .8upload* 🍂");
- }
+        if (!mime) {
+            return m.reply("*Kirim atau reply gambar / file dengan caption .8upload* 🍂");
+        }
 
- await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+        await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 
- const buffer = await q.download();
- if (!buffer) {
- return m.reply("*File tidak bisa diambil.* 🍂");
- }
+        const buffer = await q.download();
+        if (!buffer) {
+            return m.reply("*File tidak bisa diambil.* 🍂");
+        }
 
- const ext = mime.split("/")[1] || "bin";
- const fileName = `8upload-${Date.now()}.${ext}`;
- const filePath = path.join("/tmp", fileName);
+        const ext = mime.split("/")[1] || "bin";
+        const fileName = `8upload-${Date.now()}.${ext}`;
+        const filePath = path.join("/tmp", fileName);
 
- fs.writeFileSync(filePath, buffer);
+        fs.writeFileSync(filePath, buffer);
 
- const form = new FormData();
- form.append("upload[]", new Blob([buffer]), fileName);
+        const form = new FormData();
+        form.append("upload[]", new Blob([buffer]), fileName);
 
- const uploadRes = await fetch("https://8upload.com/upload/mt/", {
- method: "POST",
- headers: {
- "User-Agent": "Mozilla/5.0",
- "Accept": "application/json, text/javascript, */*; q=0.01",
- "X-Requested-With": "XMLHttpRequest",
- "Origin": "https://8upload.com",
- "Referer": "https://8upload.com/",
- "Cookie": COOKIE
- },
- body: form
- });
+        const uploadRes = await fetch("https://8upload.com/upload/mt/", {
+            method: "POST",
+            headers: {
+                "User-Agent": "Mozilla/5.0",
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "X-Requested-With": "XMLHttpRequest",
+                "Origin": "https://8upload.com",
+                "Referer": "https://8upload.com/",
+                "Cookie": COOKIE
+            },
+            body: form
+        });
 
- const uploadText = await uploadRes.text();
- if (!uploadText || !uploadText.includes("/")) {
- return m.reply("*Upload ditolak server 8upload.* 🍂");
- }
+        const uploadText = await uploadRes.text();
+        if (!uploadText || !uploadText.includes("/")) {
+            return m.reply("*Upload ditolak server 8upload.* 🍂");
+        }
 
- const pageUrl = "https://8upload.com" + uploadText.replace(/"/g, "");
+        const pageUrl = "https://8upload.com" + uploadText.replace(/"/g, "");
 
- const pageRes = await fetch(pageUrl, {
- headers: {
- "User-Agent": "Mozilla/5.0",
- "Accept": "text/html",
- "Referer": "https://8upload.com/",
- "Cookie": COOKIE
- }
- });
+        const pageRes = await fetch(pageUrl, {
+            headers: {
+                "User-Agent": "Mozilla/5.0",
+                "Accept": "text/html",
+                "Referer": "https://8upload.com/",
+                "Cookie": COOKIE
+            }
+        });
 
- const html = await pageRes.text();
- const $ = cheerio.load(html);
+        const html = await pageRes.text();
+        const $ = cheerio.load(html);
 
- let display;
- let direct;
- let del;
+        let display;
+        let direct;
+        let del;
 
- $("input#lname").each((_, el) => {
- const raw = $(el).val();
- if (typeof raw !== "string") return;
+        $("input#lname").each((_, el) => {
+            const raw = $(el).val();
+            if (typeof raw !== "string") return;
 
- if (raw.includes("/display/")) {
- const $$ = cheerio.load(raw);
- display = $$("a").attr("href");
- }
+            if (raw.includes("/display/")) {
+                const $$ = cheerio.load(raw);
+                display = $$("a").attr("href");
+            }
 
- if (raw.includes("/image/")) direct = raw;
- if (raw.includes("/delete/")) del = raw;
- });
+            if (raw.includes("/image/")) direct = raw;
+            if (raw.includes("/delete/")) del = raw;
+        });
 
- if (!direct) {
- return m.reply("*Link hasil upload tidak ditemukan.* 🍂");
- }
+        if (!direct) {
+            return m.reply("*Link hasil upload tidak ditemukan.* 🍂");
+        }
 
- await m.reply(`
+        await m.reply(`
 *📤 Upload Berhasil*
 
 *🖼️ Display:* ${display || "-"}
@@ -110,18 +104,20 @@ let handler = async (m, { conn }) => {
 *🗑️ Delete:* ${del || "-"}
 
 _Simpan link delete baik-baik._
- `.trim());
+        `.trim());
 
- fs.unlinkSync(filePath);
- } catch {
- await m.reply("*Terjadi kesalahan saat upload.* 🍂");
- } finally {
- await conn.sendMessage(m.chat, { react: { text: "", key: m.key } });
- }
+        fs.unlinkSync(filePath);
+    } catch {
+        await m.reply("*Terjadi kesalahan saat upload.* 🍂");
+    } finally {
+        await conn.sendMessage(m.chat, { react: { text: "", key: m.key } });
+    }
 };
 
-handler.command = ['8upload'];
-handler.category = 'Tools'
-handler.description = '8upload'
+handler.help = ["8upload"];
+handler.tags = ["tool"];
+handler.command = /^(8upload)$/i;
+handler.limit = true;
+handler.register = false; // true kan jika ada fitur register atau daftar di bot mu.
 
 export default handler;

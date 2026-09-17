@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/listsewa.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: listsewa→listsewa2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .listsewa2
-
 import moment from 'moment'
 
 const handler = async (m) => {
@@ -40,8 +33,5 @@ const handler = async (m) => {
   m.reply(text)
 }
 
-handler.command = ['listsewa2']
+handler.command = ['listsewa']
 export default handler
-handler.category = 'Tools'
-handler.description = 'Listsewa'
-

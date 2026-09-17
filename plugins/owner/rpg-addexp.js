@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/rpg-addexp.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .addexp
-
 let handler = async (m, { conn, args }) => {
     const who = m.mentionedJid && m.mentionedJid[0]
         ? m.mentionedJid[0]
@@ -29,10 +23,10 @@ let handler = async (m, { conn, args }) => {
     )
 }
 
-handler.command = ['addexp']
-handler.owner = true
+handler.help = ['addexp @user/nomor jumlah']
+handler.tags = ['owner','rpg']
+handler.command = /^addexp$/i
+handler.rowner = true
+handler.rpg = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Rpg-addexp'
-

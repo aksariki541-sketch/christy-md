@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/group-jadwalbukatutup.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .bukajam, .tutupjam, .jadwal, .hapusbukajam, .hapustutupjam, .hapusjadwal
-
 const schedules = global.groupSchedules || (global.groupSchedules = {})
 
 setInterval(async () => {
@@ -135,15 +129,22 @@ let handler = async (m, { text, command }) => {
   }
 }
 
+handler.help = [
+  'bukajam',
+  'tutupjam',
+  'jadwal',
+  'hapusbukajam',
+  'hapustutupjam',
+  'hapusjadwal'
+]
 
+handler.tags = ['group']
 
-handler.command = ['bukajam', 'tutupjam', 'jadwal', 'hapusbukajam', 'hapustutupjam', 'hapusjadwal']
+handler.command =
+  /^(bukajam|tutupjam|jadwal|hapusbukajam|hapustutupjam|hapusjadwal)$/i
 
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Group-jadwalbukatutup'
-

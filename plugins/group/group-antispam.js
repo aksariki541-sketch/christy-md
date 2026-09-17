@@ -1,11 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/group-antispam.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: antispam→antispam2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antispam2
-// Catatan    : handler.before/all -> handler.onMessage
-
 const spamData = new Map()
 
 let handler = async (m, { args }) => {
@@ -31,7 +23,7 @@ let handler = async (m, { args }) => {
   }
 }
 
-handler.onMessage = async (m, { conn, isAdmin, isBotAdmin }) => {
+handler.before = async (m, { conn, isAdmin, isBotAdmin }) => {
   if (!m.isGroup) return
   if (!isBotAdmin) return
 
@@ -78,12 +70,11 @@ handler.onMessage = async (m, { conn, isAdmin, isBotAdmin }) => {
   }
 }
 
-handler.command = ['antispam2']
+handler.help = ["antispam --on", "antispam --off"]
+handler.tags = ["group"]
+handler.command = /^antispam$/i
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Group-antispam'
-

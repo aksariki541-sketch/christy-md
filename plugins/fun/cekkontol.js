@@ -1,14 +1,8 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/cekkontol.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .cekkontol
-
 let handler = async (m, { conn, command, text }) => {
 	
- if (!text) return conn.reply(m.chat, '• *Example :* .cekkontol Bapak Komintod', m)
+    if (!text) return conn.reply(m.chat, '• *Example :* .cekkontol Bapak Komintod', m)
 	
- conn.reply(m.chat, `
+  conn.reply(m.chat, `
 ╭━━━━°「 *kontolnya ${text}* 」°
 ┃
 ┊• Nama : ${text}
@@ -18,13 +12,12 @@ let handler = async (m, { conn, command, text }) => {
 ╰═┅═━––––––๑
 `.trim(), m)
 }
-handler.command = ['cekkontol']
-
-handler.category = 'Fun'
-handler.description = 'Cekkontol'
+handler.help = ['cekkontol *<name>*']
+handler.tags = ['fun']
+handler.command = /^cekkontol/i
 
 export default handler
 
 function pickRandom(list) {
- return list[Math.floor(Math.random() * list.length)]
+  return list[Math.floor(Math.random() * list.length)]
 }

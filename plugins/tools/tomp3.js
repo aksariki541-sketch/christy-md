@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tomp3.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: tomp3→tomp32
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .tomp32
-
 import axios from 'axios'
 import FormData from 'form-data'
 
@@ -104,9 +97,9 @@ let handler = async (m, { conn }) => {
  }, { quoted: m })
 }
 
-handler.command = ['tomp32']
+handler.help = ['tomp3']
+handler.command = ['tomp3']
+handler.tags = ['tools']
+handler.limit = true 
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Tomp3'
-

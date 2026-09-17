@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/_autogempa.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .gempa
-// Catatan    : handler.before/all -> handler.onMessage
-
 import fetch from "node-fetch";
 
 const API_GEMPA = "https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json";
@@ -145,7 +138,7 @@ Contoh:
 };
 
 // 🔥 AUTO LOOP (ANTI DOUBLE + AMAN)
-handler.onMessage = async function (m, { conn }) {
+handler.before = async function (m, { conn }) {
   if (global.gempaLoop) return;
 
   console.log("🌍 Monitor gempa aktif...");
@@ -155,9 +148,8 @@ handler.onMessage = async function (m, { conn }) {
   }, 60 * 1000); // 1 menit
 };
 
-handler.command = ['gempa']
+handler.help = ["gempa"];
+handler.tags = ["tools"];
+handler.command = /^gempa$/i;
 
 export default handler;
-handler.category = 'Tools'
-handler.description = 'Autogempa'
-

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tthastag.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .tthashtag, .tiktokhashtag
-
 let handler = async (m, { text, usedPrefix, command }) => {
   if (!text) {
     return m.reply(`Contoh:
@@ -62,9 +56,10 @@ ${trending.map(v => `• ${v}`).join('\n')}`
   }
 }
 
-handler.command = ['tthashtag', 'tiktokhashtag']
+handler.help = ['tthashtag <hashtag>']
+handler.tags = ['tools']
+handler.command = /^(tthashtag|tiktokhashtag)$/i
+handler.register = true
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Tthastag'
-

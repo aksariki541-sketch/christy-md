@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/putuspasangan.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .putuspasangan, .delpasangan
-
 const createUser = (jid) => {
   const users = global.db.data.users
 
@@ -96,10 +90,9 @@ Hubungan mereka telah diputuskan oleh Owner.`,
   )
 }
 
-handler.command = ['putuspasangan', 'delpasangan']
+handler.help = ['putuspasangan']
+handler.tags = ['owner']
+handler.command = /^(putuspasangan|delpasangan)$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Putuspasangan'
-

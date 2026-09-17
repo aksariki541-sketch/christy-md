@@ -1,12 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/rcweb.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .rcweb, .recordweb
-
 /*
 creator : riki 
-Christy MD
+christy md
 follow my channel https://whatsapp.com/channel/0029VbClbR4AInPdUfdBQ53I
 */
 
@@ -89,9 +83,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }, { quoted: m })
 }
 
-handler.command = ['rcweb', 'recordweb']
+handler.help = ["rcweb <url>", "recordweb <url>"]
+handler.tags = ["tools"]
+handler.command = /^(rcweb|recordweb)$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Rcweb'
-

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/setmenu.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .setmenu
-
 let handler = async (m, { text }) => {
   const n = parseInt(text?.trim())
 
@@ -15,10 +9,9 @@ let handler = async (m, { text }) => {
   m.reply(`✅ Menu style diubah ke *Style ${n}*`)
 }
 
-handler.command = ['setmenu']
+handler.help = ['setmenu <1/2>']
+handler.tags = ['owner']
+handler.command = /^setmenu$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Setmenu'
-

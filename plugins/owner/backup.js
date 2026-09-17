@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/backup.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .backup
-
 import fs from 'fs'
 import archiver from 'archiver'
 import path from 'path'
@@ -11,7 +5,7 @@ import path from 'path'
 const handler = async (m, { conn }) => {
   try {
     const tmpDir = './tmp'
-    const tmpFile = path.join(tmpDir, 'Christy.tmp')
+    const tmpFile = path.join(tmpDir, 'christy.tmp')
 
     if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true })
     if (!fs.existsSync(tmpFile)) fs.writeFileSync(tmpFile, '')
@@ -25,7 +19,7 @@ const handler = async (m, { conn }) => {
       timeZone: 'Asia/Jakarta'
     })
 
-    const backupName = `Christy MD - ${date}.zip`
+    const backupName = `christy-md - ${date}.zip`
     const output = fs.createWriteStream(backupName)
     const archive = archiver('zip', { zlib: { level: 1 } })
 
@@ -78,10 +72,9 @@ const handler = async (m, { conn }) => {
   }
 }
 
-handler.command = ['backup']
+handler.help = ['backup']
+handler.tags = ['owner']
+handler.command = /^backup$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Backup'
-

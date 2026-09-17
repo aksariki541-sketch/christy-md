@@ -1,13 +1,7 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/brat2.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: brat2→brat22
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .brat22
-
-import canvasLib from '@napi-rs/canvas'
-const { createCanvas,
-  GlobalFonts } = canvasLib
+import {
+  createCanvas,
+  GlobalFonts
+} from '@napi-rs/canvas'
 import { spawn } from 'child_process'
 import fs from 'fs'
 import path from 'path'
@@ -915,12 +909,18 @@ const handler = async (
   }
 }
 
+handler.help = [
+  'brat2 <teks>'
+]
 
+handler.tags = [
+  'maker'
+]
 
-handler.command = ['brat22']
+handler.command = [
+  'brat2'
+]
 
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Brat2'
-

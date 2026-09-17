@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/unbanuser.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: user→user3
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .user3
-
 let handler = async (m, { conn, text }) => {
     if (!text) throw 'Who wants to be unbanned? Provide the user\'s phone number.'
     let who
@@ -25,10 +18,9 @@ let handler = async (m, { conn, text }) => {
         throw 'User not found.'
     }
 }
-handler.command = ['user3']
-handler.owner = true
+handler.help = ['unban']
+handler.tags = ['owner']
+handler.command = /^unban(user)?$/i
+handler.rowner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Unbanuser'
-

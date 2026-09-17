@@ -1,10 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/ssweb.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .ssweb
-
-//Sumber Kode https:///1265
+//Sumber Kode https://whatsapp.com/channel/0029Vb6D8o67YSd1UzflqU1d/1265
 
 let handler = async (m, { conn, args }) => {
 	try {
@@ -16,9 +10,9 @@ let handler = async (m, { conn, args }) => {
 	}
 };
 
+handler.help = ['ssweb'];
 handler.command = ['ssweb'];
-handler.category = 'Tools'
-handler.description = 'Ssweb'
+handler.tags = ['tools'];
 
 export default handler;
 

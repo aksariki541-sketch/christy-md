@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/pasanganku.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .pasanganku, .pacarku
-
 const createUser = (jid) => {
   const users = global.db.data.users
 
@@ -88,10 +82,9 @@ let handler = async (m, { conn }) => {
   )
 }
 
-handler.command = ['pasanganku', 'pacarku']
+handler.help = ['pasanganku', 'pacarku']
+handler.tags = ['fun']
+handler.command = /^(pasanganku|pacarku)$/i
 handler.group = true
 
 export default handler
-handler.category = 'Fun'
-handler.description = 'Pasanganku'
-

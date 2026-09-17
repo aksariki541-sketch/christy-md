@@ -1,13 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/_all.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : (listener/customPrefix)
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = m => m
 
-handler.onMessage = async function (m) {
+handler.all = async function (m) {
   let chat = global.db.data.chats[m.chat]
   if (!chat) return
 
@@ -60,6 +53,3 @@ handler.onMessage = async function (m) {
 }
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'All'
-

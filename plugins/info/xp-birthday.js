@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/xp-birthday.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .xpbirthday
-
 let handler = async (m) => {
   const db = global.db?.data?.users
   if (!db) return m.reply('❌ DB tidak ditemukan')
@@ -72,8 +66,7 @@ let handler = async (m) => {
   m.reply(text, { mentions: [target] })
 }
 
-handler.command = ['xpbirthday']
+handler.help = ['birthday']
+handler.tags = ['info', 'xp']
+handler.command = /^birthday|bday|ultah$/i
 export default handler
-handler.category = 'Main'
-handler.description = 'Xp-birthday'
-

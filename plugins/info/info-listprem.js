@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/info-listprem.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .ium, .iums
-
 let handler = async (m) => {
 	let response = '• *PREMIUM SUBSCRIPTION*\n\n';
 	let totalPremium = 0;
@@ -32,9 +26,8 @@ let handler = async (m) => {
 	});
 };
 
-handler.command = ['ium', 'iums']
+handler.help = ['listpremium'];
+handler.command = /^(listprem(ium|iums)?)$/i;
+handler.tags = ['info'];
 
 export default handler;
-handler.category = 'Main'
-handler.description = 'Info-listprem'
-

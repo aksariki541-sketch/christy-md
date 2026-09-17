@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/setcmd.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .setcmd, .delcmd, .listcmd, .lockcmd, .unlockcmd
-
 let handler = async (m, { conn, text, usedPrefix, command }) => {
 	if (!db.data.sticker) db.data.sticker = {}
 	let sticker = db.data.sticker
@@ -81,9 +75,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 	}
 }
 
-handler.command = ['setcmd', 'delcmd', 'listcmd', 'lockcmd', 'unlockcmd']
+handler.help = [
+	'setcmd <teks>',
+	'delcmd',
+	'listcmd',
+	'lockcmd',
+	'unlockcmd'
+]
+handler.tags = ['owner']
+handler.command = /^(setcmd|delcmd|listcmd|lockcmd|unlockcmd)$/i
 handler.owner = true 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Setcmd'
-

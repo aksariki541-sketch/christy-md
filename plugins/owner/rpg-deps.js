@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/rpg-deps.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .deps
-
 import fs from 'fs'
 import path from 'path'
 import { performance } from 'perf_hooks'
@@ -146,10 +140,9 @@ let handler = async (m) => {
     await m.reply(txt)
 }
 
-handler.command = ['deps']
+handler.help = ['deps']
+handler.tags = ['owner']
+handler.command = /^deps$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Rpg-deps'
-

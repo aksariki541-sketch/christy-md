@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/antitagsw.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antitagsw
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = async (m, { args, isAdmin, isOwner }) => {
   if (!m.isGroup) return m.reply("Fitur ini hanya dapat digunakan dalam grup.")
   if (!(isAdmin || isOwner)) return m.reply("Maaf, fitur ini hanya dapat digunakan oleh admin grup.")
@@ -37,7 +30,7 @@ let handler = async (m, { args, isAdmin, isOwner }) => {
   return m.reply("Opsi tidak valid.\nGunakan:\n.antitagsw on / off")
 }
 
-handler.onMessage = async (m, { conn, isBotAdmin, usedPrefix }) => {
+handler.before = async (m, { conn, isBotAdmin, usedPrefix }) => {
   if (!m.isGroup) return
   if (!isBotAdmin) return
 
@@ -78,12 +71,11 @@ handler.onMessage = async (m, { conn, isBotAdmin, usedPrefix }) => {
   })
 }
 
-handler.command = ['antitagsw']
+handler.command = /^antitagsw$/i
+handler.help = ["antitagsw"]
+handler.tags = ["group"]
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Antitagsw'
-

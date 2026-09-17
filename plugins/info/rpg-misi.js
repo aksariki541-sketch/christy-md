@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/rpg-misi.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .misirpg
-
 let handler = async (m, { conn, usedPrefix }) => {
 	let caption = `
 🚨 Silahkan Pilih Misi Kamu:
@@ -20,9 +14,10 @@ ${usedPrefix}ojek
 `.trim()
 	m.reply(caption)
 }
-handler.command = ['misirpg']
+handler.help = ['misi', 'misirpg']
+handler.tags = ['info']
+handler.command = /^(misi(rpg)?|misirpg)$/i
+handler.register = true
 handler.group = true
-handler.category = 'Main'
-handler.description = 'Misi'
-
+handler.rpg = true
 export default handler

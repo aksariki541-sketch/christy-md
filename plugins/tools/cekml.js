@@ -1,47 +1,40 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/cekml.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .mlbb, .cekml
-
 let handler = async (m, { args, usedPrefix, command }) => {
- if (args.length < 2) {
- return m.reply(`Example:
+  if (args.length < 2) {
+    return m.reply(`Example:
 ${usedPrefix + command} id zone`)
- }
+  }
 
- let userId = args[0]
- let zoneId = args[1]
+  let userId = args[0]
+  let zoneId = args[1]
 
- await m.reply('✨ wait..')
+  await m.reply('✨ wait..')
 
- try {
- let url = `https://api.nexray.web.id/stalker/mlbb?id=${userId}&zone=${zoneId}`
- let res = await fetch(url)
- let data = await res.json()
+  try {
+    let url = `https://api.nexray.web.id/stalker/mlbb?id=${userId}&zone=${zoneId}`
+    let res = await fetch(url)
+    let data = await res.json()
 
- if (!data.status) throw 'Data tidak ditemukan'
+    if (!data.status) throw 'Data tidak ditemukan'
 
- let result = data.result
+    let result = data.result
 
- let teks = ` *CEK AKUN MLBB*
+    let teks = ` *CEK AKUN MLBB*
 
 👤 *Nickname:* ${result.username}
 🌍 *Region:* ${result.region}
 
 🆔 *ID:* ${result.id} (${result.zone})`
 
- m.reply(teks)
+    m.reply(teks)
 
- } catch (e) {
- console.error(e)
- m.reply('❌ Error')
- }
+  } catch (e) {
+    console.error(e)
+    m.reply('❌ Error')
+  }
 }
 
-handler.command = ['mlbb', 'cekml']
-
-handler.category = 'Tools'
-handler.description = 'Cekml'
+handler.help = ['cekml']
+handler.tags = ['tools']
+handler.command = /^(mlbb|cekml|mlstalk)$/i
 
 export default handler

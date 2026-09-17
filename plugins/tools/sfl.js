@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/sfl.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .sfl, .bypasssfl
-
 let handler = async (m, { text, usedPrefix, command }) => {
 	if (!text) {
 		return m.reply(
@@ -42,9 +36,9 @@ ${d.destinationUrl}`)
 	}
 }
 
-handler.command = ['sfl', 'bypasssfl']
+handler.help = ["sfl <url>"]
+handler.tags = ["tools"]
+handler.command = /^(sfl|bypasssfl)$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Sfl'
-

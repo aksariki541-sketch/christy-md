@@ -1,90 +1,84 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/kalkulator-mbg.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .kalkulatormbg, .kkmbg
-
 function hitungMBG(uang) {
- const pengeluaranPerHari = 319600000000
- const hargaPorsi = 15000
+  const pengeluaranPerHari = 319600000000
+  const hargaPorsi = 15000
 
- const hariFloat = uang / pengeluaranPerHari
+  const hariFloat = uang / pengeluaranPerHari
 
- const tahun = Math.floor(hariFloat / 365)
- const bulan = Math.floor((hariFloat % 365) / 30)
- const hari = Math.floor(hariFloat % 30)
+  const tahun = Math.floor(hariFloat / 365)
+  const bulan = Math.floor((hariFloat % 365) / 30)
+  const hari = Math.floor(hariFloat % 30)
 
- const jam = Math.floor((hariFloat % 1) * 24)
- const menit = Math.floor(((hariFloat * 24) % 1) * 60)
- const detik = (((hariFloat * 24 * 60) % 1) * 60)
+  const jam = Math.floor((hariFloat % 1) * 24)
+  const menit = Math.floor(((hariFloat * 24) % 1) * 60)
+  const detik = (((hariFloat * 24 * 60) % 1) * 60)
 
- const porsi = Math.floor(uang / hargaPorsi)
+  const porsi = Math.floor(uang / hargaPorsi)
 
- const umrDKI = 5400000
- const umrJateng = 2040000
- const guruHonorer = 300000
+  const umrDKI = 5400000
+  const umrJateng = 2040000
+  const guruHonorer = 300000
 
- const persenDKI = ((uang / umrDKI) * 100).toFixed(1)
- const persenJateng = ((uang / umrJateng) * 100).toFixed(1)
- const kaliGuru = (uang / guruHonorer).toFixed(1)
+  const persenDKI = ((uang / umrDKI) * 100).toFixed(1)
+  const persenJateng = ((uang / umrJateng) * 100).toFixed(1)
+  const kaliGuru = (uang / guruHonorer).toFixed(1)
 
- const pemain = [
- { nama: "Cristiano Ronaldo (Al Nassr)", gaji: 4500000000000 },
- { nama: "Lionel Messi (Inter Miami)", gaji: 2100000000000 },
- { nama: "Karim Benzema (Al-Ittihad)", gaji: 1700000000000 },
- { nama: "Kylian Mbappé (Real Madrid)", gaji: 1500000000000 },
- { nama: "Erling Haaland (Man City)", gaji: 1300000000000 },
- { nama: "Vinícius Jr. (Real Madrid)", gaji: 960000000000 },
- { nama: "Mohamed Salah (Liverpool)", gaji: 880000000000 },
- { nama: "Sadio Mané (Al Nassr)", gaji: 864000000000 },
- { nama: "Jude Bellingham (Real Madrid)", gaji: 704000000000 },
- { nama: "Lamine Yamal (Barcelona)", gaji: 688000000000 }
- ]
+  const pemain = [
+    { nama: "Cristiano Ronaldo (Al Nassr)", gaji: 4500000000000 },
+    { nama: "Lionel Messi (Inter Miami)", gaji: 2100000000000 },
+    { nama: "Karim Benzema (Al-Ittihad)", gaji: 1700000000000 },
+    { nama: "Kylian Mbappé (Real Madrid)", gaji: 1500000000000 },
+    { nama: "Erling Haaland (Man City)", gaji: 1300000000000 },
+    { nama: "Vinícius Jr. (Real Madrid)", gaji: 960000000000 },
+    { nama: "Mohamed Salah (Liverpool)", gaji: 880000000000 },
+    { nama: "Sadio Mané (Al Nassr)", gaji: 864000000000 },
+    { nama: "Jude Bellingham (Real Madrid)", gaji: 704000000000 },
+    { nama: "Lamine Yamal (Barcelona)", gaji: 688000000000 }
+  ]
 
- const perbandinganPemain = pemain.map(p => {
- const persen = ((uang / p.gaji) * 100)
- return {
- nama: p.nama,
- gaji: p.gaji,
- persen: persen < 0.0001 ? "0%" : persen.toFixed(4) + "%"
- }
- })
+  const perbandinganPemain = pemain.map(p => {
+    const persen = ((uang / p.gaji) * 100)
+    return {
+      nama: p.nama,
+      gaji: p.gaji,
+      persen: persen < 0.0001 ? "0%" : persen.toFixed(4) + "%"
+    }
+  })
 
- return {
- durasi: {
- tahun,
- bulan,
- hari,
- jam,
- menit,
- detik: detik.toFixed(2)
- },
- pengeluaran: pengeluaranPerHari,
- porsi,
- gajiIndonesia: {
- dki: persenDKI + "%",
- jateng: persenJateng + "%",
- guru: kaliGuru + "x"
- },
- pemain: perbandinganPemain
- }
+  return {
+    durasi: {
+      tahun,
+      bulan,
+      hari,
+      jam,
+      menit,
+      detik: detik.toFixed(2)
+    },
+    pengeluaran: pengeluaranPerHari,
+    porsi,
+    gajiIndonesia: {
+      dki: persenDKI + "%",
+      jateng: persenJateng + "%",
+      guru: kaliGuru + "x"
+    },
+    pemain: perbandinganPemain
+  }
 }
 
 function formatRupiah(angka) {
- const formatted = angka.toLocaleString('id-ID')
- return angka < 1000 ? `${formatted} Perak` : formatted
+  const formatted = angka.toLocaleString('id-ID')
+  return angka < 1000 ? `${formatted} Perak` : formatted
 }
 
 let handler = async (m, { conn, args, command }) => {
- try {
- if (!args[0]) return m.reply(`Example : .${command} 1000000`)
+  try {
+    if (!args[0]) return m.reply(`Example : .${command} 1000000`)
 
- m.reply(global.wait)
+    m.reply(global.wait)
 
- const uang = Number(args[0].replace(/[^0-9]/g, ''))
- const data = hitungMBG(uang)
+    const uang = Number(args[0].replace(/[^0-9]/g, ''))
+    const data = hitungMBG(uang)
 
- let teks = `*Dana :* ${formatRupiah(uang)}
+    let teks = `*Dana :* ${formatRupiah(uang)}
 
 *Durasi MBG*
 ${data.durasi.tahun} TAHUN
@@ -112,22 +106,22 @@ ${data.gajiIndonesia.guru}
 
 *Perbandingan Gaji Pesepakbola*`
 
- for (let p of data.pemain) {
- teks += `
+    for (let p of data.pemain) {
+      teks += `
 
 ${p.nama}
 Rp ${p.gaji.toLocaleString('id-ID')}/tahun
 ${p.persen}`
- }
+    }
 
- m.reply(teks)
- } catch (e) {
- m.reply(e.message)
- }
+    m.reply(teks)
+  } catch (e) {
+    m.reply(e.message)
+  }
 }
 
+handler.help = ['kalkulatormbg <jumlah_uang>', 'kkmbg <jumlah_uang>']
 handler.command = ['kalkulatormbg', 'kkmbg']
-handler.category = 'Tools'
-handler.description = 'Mbg'
+handler.tags = ['tools']
 
 export default handler

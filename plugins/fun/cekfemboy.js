@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/cekfemboy.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .cek
-
 const handler = async (m, { conn, text, args, usedPrefix, command }) => {
   let target = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : null;
   let nama = '';
@@ -47,9 +41,10 @@ const handler = async (m, { conn, text, args, usedPrefix, command }) => {
   }, { quoted: m });
 };
 
-handler.command = ['cek']
+handler.help = ['cekfemboy'];
+handler.tags = ['fun'];
+handler.command = /^(cek)?femboy$/i;
+handler.limit = true;
+handler.register = true;
 
 export default handler;
-handler.category = 'Fun'
-handler.description = 'Cekfemboy'
-

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/addmoney.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .addmoney
-
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!global.db) global.db = {}
   if (!global.db.data) global.db.data = {}
@@ -26,10 +20,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   })
 }
 
-handler.command = ['addmoney']
+handler.command = /^addmoney$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Addmoney'
-

@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/ppjsewa.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .extendsewa, .perpanjangsewa
-
 const handler = async (m, { text, isOwner }) => {
   if (!isOwner) return m.reply('Owner only.')
   if (!m.isGroup) return m.reply('Harus di grup.')
@@ -24,8 +18,5 @@ const handler = async (m, { text, isOwner }) => {
   m.reply(`🔁 Sewa diperpanjang ${days} hari`)
 }
 
-handler.command = ['extendsewa', 'perpanjangsewa']
+handler.command = ['perpanjangsewa', 'extendsewa']
 export default handler
-handler.category = 'Tools'
-handler.description = 'Ppjsewa'
-

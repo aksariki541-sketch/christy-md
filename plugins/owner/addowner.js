@@ -1,31 +1,23 @@
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+let handler = async (m, { conn, args, isOwner }) => {
+  if (!isOwner) throw '❌ Hanya owner utama yang bisa pakai perintah ini!'
+  if (!args[0]) throw 'Contoh: .addowner 628xxxxx'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const ownerPath = path.join(__dirname, '../../database/owner.json')
+  let number = args[0].replace(/[^0-9]/g, '')
+  let jid = number + '@s.whatsapp.net'
 
-let handler = async (m, { args, conn, notifReply }) => {
-    if (!args[0]) return notifReply('Contoh:\n.addowner 628xxx', 'Add Owner')
+  if (global.owner.find(([id]) => id === number)) {
+    throw '✅ Nomor sudah jadi owner!'
+  }
 
-    const number = args[0].replace(/[^0-9]/g, '')
-    const target = number + '@s.whatsapp.net'
-
-    const cek = await conn.onWhatsApp(target).catch(() => [])
-    if (!cek.length) return notifReply('Nomor tidak valid / tidak terdaftar di WhatsApp.', 'Add Owner')
-
-    const owner = JSON.parse(fs.readFileSync(ownerPath, 'utf8'))
-    if (owner.includes(target)) return notifReply(`${target} sudah menjadi Owner.`, 'Add Owner')
-
-    owner.push(target)
-    fs.writeFileSync(ownerPath, JSON.stringify(owner, null, 2))
-    await notifReply(`✅ ${target} telah menjadi Owner.`, 'Add Owner')
+  global.owner.push([number, ''])
+  conn.reply(m.chat, `✅ @${number} sekarang adalah owner sementara`, m, {
+    mentions: [jid]
+  })
 }
 
-handler.command = ['addowner', 'addown']
-handler.creator = true
-
-handler.category = 'Owner'
-handler.description = 'Menambah owner baru'
+handler.help = ['addowner <nomor>']
+handler.tags = ['owner']
+handler.command = /^addowner$/i
+handler.owner = true
 
 export default handler

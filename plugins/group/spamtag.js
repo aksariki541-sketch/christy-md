@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/spamtag.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .spamtag
-
 /*
 
 # Fitur : spamtag
@@ -45,6 +39,8 @@ const handler = async (m, { conn, text, args, participants }) => {
 }
 
 handler.command = ['spamtag']
+handler.help = ['spamtag @user']
+handler.tags = ['group']
 handler.group = true
 handler.admin = true
 handler.botAdmin = false
@@ -54,6 +50,3 @@ export default handler
 function delay(ms) {
   return new Promise(res => setTimeout(res, ms))
 }
-handler.category = 'Group'
-handler.description = 'Spamtag'
-

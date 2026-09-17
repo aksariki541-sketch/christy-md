@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/owner-plugin.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .plugin
-
 let handler = async (m, { args }) => {
 	const sub = (args[0] || '').toLowerCase();
 	if (sub === 'list') {
@@ -25,10 +19,9 @@ let handler = async (m, { args }) => {
 	return m.reply('Sub-perintah: list/enable/disable');
 };
 
-handler.command = ['plugin']
+handler.help = ['plugin'];
+handler.tags = ['owner'];
+handler.command = ['plugin'];
 handler.owner = true;
 
 export default handler;
-handler.category = 'Owner'
-handler.description = 'Owner-plugin'
-

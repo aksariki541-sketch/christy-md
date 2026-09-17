@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/ai-upscaler.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .upscale, .remini
-
 import axios from 'axios'
 import crypto from 'node:crypto'
 import FormData from 'form-data'
@@ -151,9 +145,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   }
 }
 
-handler.command = ['upscale', 'remini']
+handler.help = ['upscale']
+handler.tags = ['tools']
+handler.command = /^(upscale|remini)$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Ai-upscaler'
-

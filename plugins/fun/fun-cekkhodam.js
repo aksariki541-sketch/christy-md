@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/fun-cekkhodam.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .kodam, .khodam
-
 let handler = async (m, { conn, usedPrefix, command, text }) => {
 	conn.khodam = conn.khodam || {};
 
@@ -18,15 +12,14 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
 
 📖 Penjelasan:
 ${data.deskripsi}
- `.trim();
+  `.trim();
 
 	await m.reply(result);
 };
 
-handler.command = ['kodam', 'khodam'];
-
-handler.category = 'Fun'
-handler.description = 'Cekkhodam'
+handler.help = ['cekkhodam'];
+handler.tags = ['fun'];
+handler.command = /^(cek(khodam|kodam)|kodam|khodam)$/i;
 
 export default handler;
 

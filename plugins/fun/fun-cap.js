@@ -1,11 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/fun-cap.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: cap→cap2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .cap2, .delcap
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = async (m, { conn, text, command }) => {
   if (!m.isGroup) return m.reply('Khusus grup')
 
@@ -44,7 +36,7 @@ let handler = async (m, { conn, text, command }) => {
   m.reply(`Berhasil set cap ${capText}`)
 }
 
-handler.onMessage = async function (m, { conn }) {
+handler.before = async function (m, { conn }) {
   if (!m.isGroup || m.fromMe) return
 
   if (!global.db.data.cap) return
@@ -85,11 +77,10 @@ handler.onMessage = async function (m, { conn }) {
   })
 }
 
-handler.command = ['cap2', 'delcap']
+handler.help = ['cap', 'delcap']
+handler.tags = ['fun']
+handler.command = /^(cap|delcap)$/i
 handler.group = true
 handler.admin = true
 
 export default handler
-handler.category = 'Fun'
-handler.description = 'Fun-cap'
-

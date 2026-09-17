@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/antihidetag.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antihidetag
-// Catatan    : handler.before/all -> handler.onMessage
-
 let handler = async (m, { conn, args, usedPrefix, command, isAdmin }) => {
     if (!m.isGroup) return m.reply('Hanya bisa di grup!')
     if (!isAdmin) return m.reply('Hanya admin yang bisa pakai!')
@@ -23,7 +16,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isAdmin }) => {
     }
 }
 
-handler.onMessage = async function (m, { conn, isBotAdmin, participants }) {
+handler.before = async function (m, { conn, isBotAdmin, participants }) {
     if (!m.isGroup || !isBotAdmin || m.fromMe) return 
     
     let chat = global.db.data.chats[m.chat]
@@ -48,11 +41,10 @@ handler.onMessage = async function (m, { conn, isBotAdmin, participants }) {
     }
 }
 
+handler.help = ['antihidetag <on/off>']
+handler.tags = ['group']
 handler.command = ['antihidetag']
 handler.group = true
 handler.admin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Antihidetag'
-

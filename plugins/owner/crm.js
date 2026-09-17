@@ -1,14 +1,8 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/crm.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .crm
-
 // plugins/crm.js
 // Command: .crm
 // Type: ESM Plugin
 
-const handler = async (m, { conn, usedPrefix, command, isOwner, isPemilik }) => {
+const plugin = async (m, { conn, usedPrefix, command, isOwner, isPemilik }) => {
     const from = m.chat
 
     // =========================
@@ -130,10 +124,9 @@ const handler = async (m, { conn, usedPrefix, command, isOwner, isPemilik }) => 
     }
 }
 
-handler.command = ['crm']
-handler.owner = true
+plugin.help = ['crm']
+plugin.tags = ['owner']
+plugin.command = /^(crm)$/i
+plugin.owner = true
 
-export default handler;
-handler.category = 'Owner'
-handler.description = 'Crm'
-
+export default plugin

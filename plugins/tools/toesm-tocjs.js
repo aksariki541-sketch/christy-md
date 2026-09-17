@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/toesm-tocjs.js ("$2" di file ini hanya teks di dalam string — file aslinya valid)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .toesm, .tocjs
-
 /*
 fitur : to esm to cjs 
 creator : riki
@@ -48,9 +42,9 @@ let handler = async (m, { command }) => {
   m.reply(output)
 }
 
-handler.command = ['toesm', 'tocjs']
+handler.help = ['toesm', 'tocjs']
+handler.tags = ['tools']
+handler.command = /^(toesm|tocjs)$/i
+handler.limit = false
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Toesm-tocjs'
-

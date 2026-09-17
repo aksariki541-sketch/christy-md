@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/addlimit.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .user
-
 let handler = async (m, { conn, text }) => {
   if (!text) throw 'Format:\n.addlimit @user 1000\n.addlimit 628xxxx 1000'
 
@@ -33,10 +27,9 @@ let handler = async (m, { conn, text }) => {
   )
 }
 
-handler.command = ['user']
-handler.owner = true
+handler.help = ['addlimit @user <jumlah>', 'addlimit nomor <jumlah>']
+handler.tags = ['owner']
+handler.command = /^addlimit(user)?$/i
+handler.rowner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Addlimit'
-

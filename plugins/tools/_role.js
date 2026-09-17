@@ -1,15 +1,8 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/_role.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : (listener/customPrefix)
-// Catatan    : handler.before/all -> handler.onMessage
-
-import { canLevelUp } from '../../lib/nakano/levelling.js';
+import { canLevelUp } from '../../lib/levelling.js';
 
 let handler = (m) => m;
 
-handler.onMessage = function (m) {
+handler.before = function (m) {
 	let user = global.db.data.users[m.sender];
 	let before = user?.level * 1;
 	if (user?.autolevelup) {
@@ -198,6 +191,3 @@ handler.onMessage = function (m) {
 };
 
 export default handler;
-handler.category = 'Tools'
-handler.description = 'Role'
-

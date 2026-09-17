@@ -1,13 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/antinsfw.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .antinsfw
-// Catatan    : handler.before/all -> handler.onMessage
-
 /*
 creator : riki 
-Christy MD
+christy md
 follow my channel https://whatsapp.com/channel/0029VbClbR4AInPdUfdBQ53I
 note : klo masi kurang sesuain lagi aja ya 
 */
@@ -54,7 +47,7 @@ let handler = async (m, { args, isAdmin, isOwner }) => {
   m.reply("Opsi salah")
 }
 
-handler.onMessage = async (m, { conn, isBotAdmin, usedPrefix }) => {
+handler.before = async (m, { conn, isBotAdmin, usedPrefix }) => {
   if (!m.isGroup) return
   if (!isBotAdmin) return
 
@@ -107,12 +100,11 @@ handler.onMessage = async (m, { conn, isBotAdmin, usedPrefix }) => {
   }
 }
 
-handler.command = ['antinsfw']
+handler.command = /^antinsfw$/i
+handler.help = ['antinsfw']
+handler.tags = ['group']
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Antinsfw'
-

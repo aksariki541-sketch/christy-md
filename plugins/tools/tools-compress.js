@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tools-compress.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: compress→compress2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .compress2
-
 import sharp from "sharp";
 
 let handler = async (m, { conn }) => {
@@ -54,9 +47,8 @@ let handler = async (m, { conn }) => {
     );
 };
 
-handler.command = ['compress2']
+handler.command = /^compress$/i;
+handler.tags = ["tools"];
+handler.help = ["compress"];
 
 export default handler;
-handler.category = 'Tools'
-handler.description = 'Tools-compress'
-

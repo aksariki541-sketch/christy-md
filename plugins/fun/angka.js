@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/angka.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .angka
-
 let bonus = `${Math.floor(Math.random() * 300)}`.trim()
 
 let handler = async (m, { conn, command, text, args }) => {
@@ -27,14 +21,15 @@ Apakah Angkamu Dengan Aku Sama?
       conn.reply(m.chat, `Pilih Angka 0 sampai 9 sayang!`, m)
     }
 }
-handler.command = ['angka']
+handler.help = ['angka <0-9>']
+handler.tags = ['fun']
+handler.command = /^angka/i
 
+handler.tigame = true
+handler.fail = null
 
 export default handler 
 
 function pickRandom(list) {
   return list[Math.floor(Math.random() * list.length)]
 }
-handler.category = 'Fun'
-handler.description = 'Angka'
-

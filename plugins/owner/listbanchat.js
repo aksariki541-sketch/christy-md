@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/listbanchat.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .listbanchat
-
 let handler = async (m, { conn }) => {
   await m.react('✨')
 
@@ -42,10 +36,10 @@ let handler = async (m, { conn }) => {
   }, { quoted: m })
 }
 
-handler.command = ['listbanchat']
+handler.help = ['listbanchat']
+handler.tags = ['owner']
+handler.command = /^listbanchat$/i
 handler.owner = true
+handler.limit = false
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Listbanchat'
-

@@ -1,11 +1,5 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/tools-resize.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .resize
-
-import Jimp from "jimp";
-import uploadImage from "../../lib/nakano/uploadImage.js";
+import { Jimp } from "jimp";
+import uploadImage from "../../lib/uploadImage.js";
 
 let handler = async (m, { conn, usedPrefix, args }) => {
   let towidth = parseInt(args[0]);
@@ -59,9 +53,10 @@ let handler = async (m, { conn, usedPrefix, args }) => {
 > ʀᴇsɪᴢᴇᴅ : ${linkResized}`, m);
 };
 
-handler.command = ['resize']
+handler.help = ['resize <width> <height>'];
+handler.tags = ['tools'];
+handler.command = /^(resize)$/i;
+handler.limit = true;
+handler.register = true;
 
 export default handler;
-handler.category = 'Tools'
-handler.description = 'Tools-resize'
-

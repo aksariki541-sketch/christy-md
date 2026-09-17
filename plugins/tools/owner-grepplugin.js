@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/owner-grepplugin.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: grepplugin→grepplugin2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .grepplugin2
-
 import fs from 'fs'
 import path from 'path'
 
@@ -47,10 +40,10 @@ const handler = async (m, { text }) => {
   m.reply(res)
 }
 
-handler.command = ['grepplugin2']
+handler.help = ['grepplugin <keyword>']
+handler.tags = ['tools']
+handler.command = /^grepplugin$/i
 handler.owner = true
+handler.limit = false
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Owner-grepplugin'
-

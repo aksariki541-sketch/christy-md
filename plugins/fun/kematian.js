@@ -1,40 +1,35 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/fun/kematian.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .kematian
-
 function getRandomDate() {
- const now = new Date()
- const future = new Date(now.getFullYear() + 70, 0, 1)
- const deathTime = new Date(now.getTime() + Math.random() * (future.getTime() - now.getTime()))
- return deathTime.toDateString()
+  const now = new Date()
+  const future = new Date(now.getFullYear() + 70, 0, 1)
+  const deathTime = new Date(now.getTime() + Math.random() * (future.getTime() - now.getTime()))
+  return deathTime.toDateString()
 }
 
 let handler = async (m, { text }) => {
- const nama = text || m.pushName || 'Kamu'
+  const nama = text || m.pushName || 'Kamu'
 
- const sebab = [
- 'keracunan cilok expired 😵',
- 'ditabrak mobil odading 😩',
- 'terpeleset di kamar mandi pas nyanyi dangdut 🚿🎤',
- 'kecanduan scrolling TikTok 48 jam nonstop 📱💀',
- 'ngambek sama bot sendiri terus putus asa 😭',
- 'kelamaan jomblo sampe badan menghilang 🫥',
- 'makan mie pakai kopi dan susu 🤢',
- 'diculik alien terus dikira bahan eksperimen 👽🔬',
- 'dipukul karma karena suka nyolong meme 🙃',
- 'ketawa ngakak sampai lupa napas 😂'
- ]
+  const sebab = [
+    'keracunan cilok expired 😵',
+    'ditabrak mobil odading 😩',
+    'terpeleset di kamar mandi pas nyanyi dangdut 🚿🎤',
+    'kecanduan scrolling TikTok 48 jam nonstop 📱💀',
+    'ngambek sama bot sendiri terus putus asa 😭',
+    'kelamaan jomblo sampe badan menghilang 🫥',
+    'makan mie pakai kopi dan susu 🤢',
+    'diculik alien terus dikira bahan eksperimen 👽🔬',
+    'dipukul karma karena suka nyolong meme 🙃',
+    'ketawa ngakak sampai lupa napas 😂'
+  ]
 
- let tanggal = getRandomDate()
- let penyebab = sebab[Math.floor(Math.random() * sebab.length)]
+  let tanggal = getRandomDate()
+  let penyebab = sebab[Math.floor(Math.random() * sebab.length)]
 
- m.reply(`💀 *Ramalan Kematian*\n\n📛 Nama: *${nama}*\n🗓️ Tanggal: *${tanggal}*\n⚰️ Penyebab: *${penyebab}*`)
+  m.reply(`💀 *Ramalan Kematian*\n\n📛 Nama: *${nama}*\n🗓️ Tanggal: *${tanggal}*\n⚰️ Penyebab: *${penyebab}*`)
 }
 
-handler.command = ['kematian']
-handler.category = 'Fun'
-handler.description = 'Kematian'
+handler.help = ['kematian <nama opsional>']
+handler.tags = ['fun']
+handler.command = /^kematian$/i
+handler.limit = false
 
 export default handler

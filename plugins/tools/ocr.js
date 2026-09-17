@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/ocr.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .ocr
-
 /**
  * OCR Image (Optical Character Recognition)
  * -----------------------------
@@ -60,9 +54,10 @@ ${text.trim()}
   }
 }
 
-handler.command = ['ocr']
+handler.help = ['ocr']
+handler.tags = ['tools']
+handler.command = /^ocr$/i
+handler.limit = true
+handler.register = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Ocr'
-

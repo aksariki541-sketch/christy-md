@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/sewa.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .setsewa, .listsewa, .ceksewa, .delsewa
-
 // nih buat kmren yang nanyain fitur sewa bot auto out
 // klo ga work sesuaiin aja sama sc nya
 
@@ -75,7 +69,9 @@ let handler = async (m, { conn, args, usedPrefix, command, isROwner }) => {
     }
 }
 
-handler.command = ['setsewa', 'listsewa', 'ceksewa', 'delsewa']
+handler.help = ['ceksewa', 'delsewa', 'listsewa', 'setsewa <durasi> [idgc/link]']
+handler.tags = ['owner']
+handler.command = /^(setsewa|listsewa|ceksewa|delsewa)$/i
 
 export default handler
 
@@ -146,6 +142,3 @@ function msToDate(ms) {
     let minutes = Math.floor(hoursms / 60000)
     return `${days} hari ${hours} jam ${minutes} menit`
 }
-handler.category = 'Owner'
-handler.description = 'Sewa'
-

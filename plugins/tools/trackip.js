@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/trackip.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .trackip, .iptrack
-
 let handler = async (m, { text, usedPrefix, command }) => {
   if (!text) {
     return m.reply(`Contoh:
@@ -49,9 +43,10 @@ ${usedPrefix + command} openai.com`)
   }
 }
 
-handler.command = ['trackip', 'iptrack']
+handler.help = ['trackip <domain/ip>']
+handler.tags = ['tools']
+handler.command = /^(trackip|iptrack)$/i
+handler.register = true
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Trackip'
-

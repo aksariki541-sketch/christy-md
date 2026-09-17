@@ -1,10 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/group-sider.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .sider, .ceksider, .kicksider, .resetsider
-
-import { generateWAMessageFromContent, proto } from '../../lib/baileys.js'
+import { generateWAMessageFromContent, proto } from 'baileys'
 
 const INACTIVE_TIME = 3 * 24 * 60 * 60 * 1000 // 3 hari
 
@@ -194,13 +188,12 @@ ${siderList.join('\n')}`
   await sendForceMention(conn, m, teks, mentions)
 }
 
-handler.command = ['sider', 'ceksider', 'kicksider', 'resetsider']
+handler.help = ['sider', 'kicksider', 'resetsider']
+handler.tags = ['group']
+handler.command = /^(sider|ceksider|kicksider|resetsider)$/i
 
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Group-sider'
-

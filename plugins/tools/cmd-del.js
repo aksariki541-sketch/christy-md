@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/cmd-del.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: delcmd→delcmd2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .delcmd2
-
 let handler = async (m) => {
 	let hash;
 	if (m.quoted && m.quoted.fileSha256) hash = m.quoted.fileSha256;
@@ -15,9 +8,8 @@ let handler = async (m) => {
 	m.reply(`Berhasil!`);
 };
 
-handler.command = ['delcmd2']
+handler.help = ['delcmd'];
+handler.tags = ['database'];
+handler.command = ['delcmd'];
 
 export default handler;
-handler.category = 'Tools'
-handler.description = 'Cmd-del'
-

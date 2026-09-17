@@ -1,13 +1,7 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/autosholat.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .autosholat, .setkota
-
 import fetch from 'node-fetch'
 import { spawn } from 'child_process'
 import sharp from 'sharp'
-import { prepareWAMessageMedia } from '../../lib/baileys.js'
+import { prepareWAMessageMedia } from 'baileys'
 
 /* ================= ANTI LOAD DOBEL ================= */
 if (!global.autosholatLoaded) {
@@ -551,12 +545,9 @@ Contoh:
   }
 }
 
-handler.command = ['autosholat', 'setkota']
+handler.command = /^(autosholat|setkota)$/i
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Autosholat'
-

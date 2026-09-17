@@ -1,12 +1,6 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/listown.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .er, .ers
-
 /*
 wa.me/6282285357346
-github: https://github.com/sadxzyq
+github: 
 Instagram: https://instagram.com/tulisan.ku.id
 ini wm gw cok jan di hapus
 */
@@ -43,10 +37,9 @@ let handler = async (m, {
 	});
 }
 
-handler.command = ['er', 'ers']
+handler.help =  ['listowner']
+handler.command = /^(listown(er|ers)?)$/i
+handler.tags = ['owner']
 
 handler.owner = true
 export default handler
-handler.category = 'Owner'
-handler.description = 'Listown'
-

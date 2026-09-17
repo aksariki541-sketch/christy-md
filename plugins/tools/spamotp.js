@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/spamotp.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .spamotp
-
 import axios from 'axios'
 
 const API = 'https://api.theresav.biz.id/tools/otp'
@@ -55,10 +49,9 @@ ${hasil.join('\n')}`,
   )
 }
 
+handler.help = ['spamotp <nomor> [jumlah]']
+handler.tags = ['tools']
 handler.premium = true
-handler.command = ['spamotp']
+handler.command = /^spamotp$/i
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Spamotp'
-

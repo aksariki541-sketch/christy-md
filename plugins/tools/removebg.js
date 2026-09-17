@@ -1,10 +1,4 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/removebg.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .bg
-
-import { pixelcutRemove, removalAi } from '../../lib/nakano/scrape/removebg.js'
+import { pixelcutRemove, removalAi } from '../../lib/scrape/removebg.js'
 
 let handler = async (m, { conn, usedPrefix, command }) => {
   let q = m.quoted || m
@@ -46,9 +40,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   await m.react('✅')
 }
 
-handler.command = ['bg']
+handler.help = ['removebg']
+handler.tags = ['tools']
+handler.command = /^remove(bg)?$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Removebg'
-

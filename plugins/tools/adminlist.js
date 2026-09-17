@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/tools/adminlist.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: adminlist→adminlist2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .adminlist2
-
 let handler = async (m, { conn }) => {
   if (!m.isGroup) return m.reply('❌ Fitur ini hanya bisa digunakan di grup.')
 
@@ -37,10 +30,7 @@ let handler = async (m, { conn }) => {
   }, { quoted: m })
 }
 
-handler.command = ['adminlist2']
+handler.command = ['adminlist']
 handler.group = true
 
 export default handler
-handler.category = 'Tools'
-handler.description = 'Adminlist'
-

@@ -1,10 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/kick.js (paket plugin Drive)
-// Catatan    : command bentrok dengan yang sudah ada, diganti: kick→kick2
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .kick2
-
 let handler = async (m, { conn, reply, participants }) => {
   const send = reply || ((txt) => m.reply(txt))
 
@@ -40,12 +33,11 @@ let handler = async (m, { conn, reply, participants }) => {
     return send('❌ Gagal mengeluarkan anggota.')
 }
 
-handler.command = ['kick2']
+handler.help = ['kick @user', 'kick (reply pesan)']
+handler.tags = ['group']
+handler.command = ['kick']
 
 handler.admin = true
 handler.botAdmin = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Kick'
-

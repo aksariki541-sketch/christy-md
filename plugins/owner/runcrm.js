@@ -1,14 +1,8 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/runcrm.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .runcrm
-
 // plugins/runcrm.js
 // Command: .runcrm
 // Type: ESM Plugin
 
-import { generateWAMessageFromContent } from '../../lib/baileys.js'
+import { generateWAMessageFromContent } from 'baileys'
 
 const handler = async (m, {
     conn,
@@ -348,10 +342,9 @@ const handler = async (m, {
 // PLUGIN CONFIG
 // =========================
 
-handler.command = ['runcrm']
+handler.help = ['runcrm']
+handler.tags = ['owner']
+handler.command = /^runcrm$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Runcrm'
-

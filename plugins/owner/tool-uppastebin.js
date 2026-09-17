@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/tool-uppastebin.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .up-pb, .uppastebin
-
 import axios from 'axios';
 const PASTEBIN_API_KEY = 'PXckLHLn4g-XTbETtJ6uRH0dQh6khXRB'; // API Key Dev Pastebin
 
@@ -33,10 +27,10 @@ const handler = async (m, { conn, text }) => {
     await conn.sendMessage(m.chat, { text: `❗ Gagal mengunggah ke Pastebin: ${error.message}` }, { quoted: m });
   }
 };
-handler.command = ['up-pb', 'uppastebin']
+handler.help = ['up-pb'];
+handler.tags = ['owner'];
+handler.command = /^(up-pb|uppastebin)$/i;
 handler.owner = true;
+handler.limit = false
 
 export default handler;
-handler.category = 'Owner'
-handler.description = 'Tool-uppastebin'
-

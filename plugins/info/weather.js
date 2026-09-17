@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/weather.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .weather
-
 /*
 ✦ Nama Plugin: weather canvas
 ✦ Tipe: Plugin Esm
@@ -14,8 +8,7 @@
 ✦ Note: jangan hapus wm
 */
 import axios from 'axios'
-import canvasLib from '@napi-rs/canvas'
-const { createCanvas, loadImage, GlobalFonts } = canvasLib
+import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas'
 import { writeFile, readFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -396,9 +389,9 @@ ${usedPrefix}weather New York`)
     }
 }
 
-handler.command = ['weather']
+handler.help = ['weather <city>']
+handler.tags = ['info']
+handler.command = /^weather$/i
+handler.limit = true
 
 export default handler
-handler.category = 'Main'
-handler.description = 'Weather'
-

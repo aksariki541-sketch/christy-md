@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/owner/delplugin.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .deleteplugin, .delplugin, .df
-
 import fs from 'fs'
 import path from 'path'
 
@@ -42,10 +36,9 @@ let handler = async (m, { conn, text, usedPrefix, command, isOwner }) => {
   }
 }
 
-handler.command = ['deleteplugin', 'delplugin', 'df']
+handler.help = ['deleteplugin <namafile>']
+handler.tags = ['owner']
+handler.command = /^(deleteplugin|delplugin|df)$/i
 handler.owner = true
 
 export default handler
-handler.category = 'Owner'
-handler.description = 'Delplugin'
-

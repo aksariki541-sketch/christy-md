@@ -1,9 +1,3 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/info/lapor.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .lapor, .report
-
 let handler = async (m, { conn, text }) => {
 if (!text) {
 return m.reply(`❏ Contoh Penggunaan
@@ -25,7 +19,7 @@ let laporan = `🌷 Laporan Pengguna
 ❏ Laporan : ${text}
 ❏ Waktu : ${new Date().toLocaleString('id-ID')}
 
-✨ Christy MD`
+✨ christy md`
 
 await conn.sendMessage(owner + '@s.whatsapp.net', {
 text: laporan
@@ -37,9 +31,8 @@ await m.reply(`🌷 Laporan berhasil dikirim
 ❏ Owner akan meninjau laporan yang dikirim.`)
 }
 
-handler.command = ['lapor', 'report']
-
-handler.category = 'Main'
-handler.description = 'Lapor'
+handler.help = ['lapor <pesan>']
+handler.tags = ['info']
+handler.command = /^(lapor|report)$/i
 
 export default handler

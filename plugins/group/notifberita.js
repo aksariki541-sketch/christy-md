@@ -1,12 +1,5 @@
-// Plugin adaptasi dari paket plugin Nakano-Miku-MD (GPL-3.0) yang dikirim pengguna.
-// Asal       : plugins/group/notifberita.js (paket plugin Drive)
-// Penyesuaian: handler.command jadi array, properti handler.* yang tidak didukung dibuang,
-//              kategori/deskripsi ditambahkan, branding base lama dibersihkan.
-// Command    : .notifberita, .setberita, .intervalberita
-// Catatan    : handler.before/all -> handler.onMessage
-
 import axios from 'axios'
-import * as cheerio from 'cheerio'
+import cheerio from 'cheerio'
 
 const delay = ms => new Promise(r => setTimeout(r, ms))
 if (!global.beritaInterval) global.beritaInterval = new Map()
@@ -195,7 +188,7 @@ Interval: ${chat.notifberita.interval} menit`)
   }
 }
 
-handler.onMessage = async function () {
+handler.all = async function () {
   const conn = this
   if (!global.db?.data?.chats) return
 
@@ -208,10 +201,9 @@ handler.onMessage = async function () {
   }
 }
 
-handler.command = ['notifberita', 'setberita', 'intervalberita']
+handler.help = ['notifberita', 'setberita', 'intervalberita']
+handler.tags = ['group']
+handler.command = /^(notifberita|setberita|intervalberita)$/i
 handler.group = true
 
 export default handler
-handler.category = 'Group'
-handler.description = 'Notifberita'
-
