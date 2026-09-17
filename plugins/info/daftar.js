@@ -55,7 +55,7 @@ let handler = async (m, { text, usedPrefix, command, conn }) => {
 
 ✿ *\`Status\`* : Data berhasil disimpan`
 
-  const thumbnail = fs.readFileSync('./media/ryo1.jpg')
+  const thumbnail = fs.readFileSync('./media/thumb.jpg')
 
   await conn.sendMessage(
     m.chat,

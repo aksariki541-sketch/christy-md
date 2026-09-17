@@ -16,7 +16,7 @@ let handler = async (m, { usedPrefix, command }) => {
     }
 
     const buffer = await quoted.download()
-    fs.writeFileSync('./media/ryo.jpg', buffer) // simpan ke file thumbnail menu (Christy MD)
+    fs.writeFileSync('./media/thumb.jpg', buffer) // simpan ke file thumbnail menu (Christy MD)
     global.thumb = buffer
 
     m.reply('✅ Thumbnail menu berhasil diupdate!')

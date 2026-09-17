@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const THUMB = fs.readFileSync(path.join(__dirname, '../../media/ryo1.jpg'))
+const THUMB = fs.readFileSync(path.join(__dirname, '../../media/thumb.jpg'))
 
 const tfinventory = {
   others: { money: true },
