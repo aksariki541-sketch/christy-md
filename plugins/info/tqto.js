@@ -30,15 +30,9 @@ let handler = async (m, { conn }) => {
 
  const teks = `
 
- ❏ *RIKI*
-
-❏ Owner Christy MD
-❏ Developer Christy MD
-❏ Creator Script Christy MD
-
-❏ *CHRISTY MD*
-
-❏ Bot WhatsApp Multi Device
+ ❏ *Owner* : Riki
+❏ *Developer* : Riki
+❏ *Nama Bot* : Christy MD
 
 `.trim()
 
