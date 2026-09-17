@@ -30,44 +30,16 @@ let handler = async (m, { conn }) => {
 
  const teks = `
 
- ❏ *PEMBUAT SC YANG GANTENG HILMAN*
+ ❏ *RIKI*
 
-❏ Al 
-❏ irsan
-❏ sanur 
-❏ via 
-❏ nesta
-❏ rachel
-❏ Nana
-❏ mommy Kyu
-❏ Ham
-❏ han
-❏ Renz 
-❏ Rin
-❏ Kano
-❏ kaizen
-❏ fahri
-❏ gara
-❏ hilman
-❏ raynold
-❏ Zynn
-❏ Lynx
-❏ Fikri 
-❏ Ryu 
+❏ Owner Christy MD
+❏ Developer Christy MD
+❏ Creator Script Christy MD
 
-❏ ShirokamiRyzen (Penyedia Base Nao MD)
-❏ ItsLiaaa (Penyedia Baileys)
+❏ *CHRISTY MD*
 
-❏ Penyedia Layanan API
-❏ Penyedia Server/VPS
+❏ Bot WhatsApp Multi Device
 
-❏ Contributor
-❏ Tester
-
-❏ Riki (owenr Christy MD)
-
-❏ Semua Supporter
-❏ Semua User Christy MD
 `.trim()
 
  await conn.sendMessage(m.chat, {
